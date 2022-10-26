@@ -18,9 +18,9 @@ const SearchTermSection = () => {
         </div>
         <div className='px-32 flex gap-4 flex-wrap mt-5'>
             {
-                chipsData.map((chip)=>{
+                chipsData.map((chip,i)=>{
                     return(
-                        <SearchChip text={chip}/>
+                        <SearchChip key={i} text={chip}/>
                     )
                 })
             }

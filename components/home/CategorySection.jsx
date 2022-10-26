@@ -15,7 +15,7 @@ const CategorySection = () => {
             {
                 categories.map((category)=>{
                     return(
-                        <SingleCategory name={category.name} primSvg={category.primSvg} secSvg={category.secSvg}/>
+                        <SingleCategory key={category.name} name={category.name} primSvg={category.primSvg} secSvg={category.secSvg}/>
                     )
                 })
             }

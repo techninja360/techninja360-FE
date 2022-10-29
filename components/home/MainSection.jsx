@@ -3,6 +3,7 @@ import GPSLocation from '../svg/home/GPSLocation'
 import GPSRight from '../svg/home/GPSRight'
 import SearchIcon from '../svg/home/SearchIcon'
 import SearchLocation from '../svg/home/SearchLocation'
+import Link from 'next/link'
 
 const MainSection = () => {
   return (
@@ -17,7 +18,7 @@ const MainSection = () => {
         </div>
         <div className='w-full text-white relative'>
           <div className='absolute right-32 top-11'>
-            <a href="">List your Business</a> | <a href="">Sign Up</a> | <a href="">Sign In</a>
+            <a href="">List your Business</a> | <Link href="/SignUp">Sign Up</Link> | <a href="">Sign In</a>
           </div>
         </div>
         <div className='flex justify-center flex-wrap pt-56'>

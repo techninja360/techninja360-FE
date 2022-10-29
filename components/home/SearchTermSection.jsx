@@ -12,7 +12,7 @@ const SearchChip = ({text})=>{
 
 const SearchTermSection = () => {
   return (
-    <section className='bg-orange-50 py-14'>
+    <section className='bg-[#f6f6f6] py-14'>
         <div>
             <h1 className='text-center font-bold text-3xl'>Popular Search Terms</h1>
         </div>

@@ -34,7 +34,7 @@ const Footer = () => {
         </div>
 
         <div className='text-white w-1/2 flex justify-between'>
-            <div>
+            <div className='w-[60%]'>
                 <ul>
                     <li className='mb-3'><a href="">Home</a></li>
                     <li className='mb-3'><a href="">FAQ’s</a></li>
@@ -42,7 +42,7 @@ const Footer = () => {
                     <li className='mb-3'><a href="">Privacy Policy</a></li>
                 </ul>
             </div>
-            <div>
+            <div  className='w-[30%]'>
                 <ul>
                     <li className='mb-3'><a href="">Carriers</a></li>
                     <li className='mb-3'><a href="">Advertise with Us</a></li>
@@ -50,6 +50,7 @@ const Footer = () => {
                     <li className='mb-3'><a href="">FAQ’s</a></li>
                 </ul>
             </div>
+            <div className='w-[30%]'></div>
         </div>
     </footer>
   )

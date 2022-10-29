@@ -28,9 +28,9 @@ const MainSection = () => {
           
           <div className='w-full flex justify-center'>
             <div className='w-[758px] flex items-center bg-white rounded-sm px-3 h-11 mt-5'>
-              <div className='flex'>
+              <div className='flex w-1/3'>
                 <SearchLocation/>
-                <input type="text" placeholder='Find My Location' className='text-lg px-3 border-r-gray-300 border-r-2'/>
+                <input type="text" placeholder='Find My Location' className='text-lg px-3 w-full border-r-gray-300 border-r-2'/>
               </div>
               <div className='flex pl-3 flex-1 items-center'>
                 <SearchIcon/>
@@ -40,14 +40,14 @@ const MainSection = () => {
           </div>
 
           <div className='w-[758px] flex mt-2'>
-            <div className='w-[412px] h-[125px] p-3 rounded-sm bg-white'>
-              <div className='w-full flex justify-between border-b pb-5'>
+            <div className='w-[412px] p-3 py-4 rounded-sm bg-white'>
+              <div className='w-full flex justify-between border-b pb-3'>
                 <div className='flex'>
                   <GPSLocation/>
                   <p className='text-gray-400 text-base font-medium pl-3'>Current Location</p>
                 </div>
-                <div className='flex items-center pr-7'>
-                  <p className='text-blue-500 text-base font-semibold pr-8'>Detect using GPS</p>
+                <div className='flex items-center pr-1'>
+                  <p className='text-blue-500 text-base font-semibold pr-6'>Detect using GPS</p>
                   <GPSRight/>
                 </div>
                 

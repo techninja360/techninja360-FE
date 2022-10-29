@@ -7,9 +7,9 @@ import StarFill from '../svg/home/StarFill'
 
 const ReviewsSection = () => {
   return (
-    <section className='flex h-[593px]'>
+    <section className='flex h-[620px]'>
         
-        <div className='bg-[rgba(253, 253, 253, 1)] w-1/2 relative'>
+        <div className='bg-[#fdfdfd] w-1/2 relative'>
             <div className='pt-14'>
                 <h1 className='text-center font-bold text-3xl'>Reviews By Clients</h1>
             </div>
@@ -27,8 +27,8 @@ const ReviewsSection = () => {
                         <div className='absolute w-[445px] h-[287px] bg-white rounded-xl border drop-shadow-md text-center'>
                             <div className='mt-14'>
                                 <h1 className='font-regular text-xl'>Hannah Schmitt</h1>
-                                <h3 className='italic font-normal text-base text-gray-500 mt-2'>Lead Designer</h3>
-                                <p className='font-light text-base p-4'>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi et fugiat laudantium quam reprehenderit, odit possimus quidem id est soluta molestias explicabo. Minima culpa nesciunt molestias reiciendis, natus quas.</p>
+                                <h3 className='italic font-normal text-base text-gray-500 mt-1'>Lead Designer</h3>
+                                <p className='font-light text-base p-4 pt-0 mt-1'>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi et fugiat laudantium quam reprehenderit, odit possimus quidem id est soluta molestias explicabo. Minima culpa nesciunt molestias reiciendis, natus quas.</p>
                             </div>
                             <div className='flex gap-1 justify-center'>
                                 <StarFill/><StarFill/><StarFill/><StarFill/><StarEmpty/>
@@ -37,15 +37,19 @@ const ReviewsSection = () => {
                     </div>
                 </div>
             </div>
+            <div className='flex justify-center -mt-16 gap-x-3'>
+                    <button className='w-11 h-11 flex justify-center items-center rounded-full bg-white drop-shadow-sm'><ReviewLeft/></button>
+                    <button className='w-11 h-11 flex justify-center items-center rounded-full bg-white drop-shadow-sm'><ReviewRight/></button>
+                </div>
 
         </div>
 
         <div className=' relative w-1/2 businessReviewBG'>
             <div className='absolute w-full h-full'>
-                <img className='w-full h-full object-cover ' src="./assets/images/home/reviewBg.png" alt="" />
+                <img className='w-full h-full object-cover' src="./assets/images/home/reviewBg.png" alt="" />
             </div>
             <div className='pt-14'>
-                <h1 className='text-center font-bold text-3xl'>Reviews By Businesses</h1>
+                <h1 className='relative text-center font-bold text-3xl'>Reviews By Businesses</h1>
             </div>
             <div className='absolute top-28 right-11'>
                 <ReviewBlob/>
@@ -61,8 +65,8 @@ const ReviewsSection = () => {
                         <div className='absolute w-[445px] h-[287px] bg-white rounded-xl border drop-shadow-md text-center'>
                             <div className='mt-14'>
                                 <h1 className='font-regular text-xl'>24 7 PC Repair</h1>
-                                <h3 className='italic font-normal text-base text-gray-500 mt-2'>California, USA</h3>
-                                <p className='font-light text-base  p-4'>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi et fugiat laudantium quam reprehenderit, odit possimus quidem id est soluta molestias explicabo. Minima culpa nesciunt molestias reiciendis, natus quas.</p>
+                                <h3 className='italic font-normal text-base text-gray-500 mt-1'>California, USA</h3>
+                                <p className='font-light text-base  p-4 pt-0 mt-1'>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi et fugiat laudantium quam reprehenderit, odit possimus quidem id est soluta molestias explicabo. Minima culpa nesciunt molestias reiciendis, natus quas.</p>
                             </div>
                             <div className='flex gap-1 justify-center'>
                                 <StarFill/><StarFill/><StarFill/><StarFill/><StarEmpty/>

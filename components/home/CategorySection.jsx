@@ -6,6 +6,12 @@ const CategorySection = () => {
   return (
     
     <section className='flex flex-wrap justify-center p-16 pb-28'>
+
+        <div className='flex w-full justify-center mb-5'>
+            <h1 className='font-bold text-3xl'>
+                Categories
+            </h1>
+        </div>
         <div>
             <p className='text-gray-600'>Lorem ipsum dolor sit amet consectetur adipisicing elit. At fugit provident dolorem corporis molestiae id nulla cum voluptas quidem aut?</p>
         </div>
@@ -15,7 +21,7 @@ const CategorySection = () => {
             {
                 categories.map((category)=>{
                     return(
-                        <SingleCategory key={category.name} name={category.name} primSvg={category.primSvg} secSvg={category.secSvg}/>
+                        <SingleCategory key={category.name} name={category.name} primSvg={category.primSvg} secSvg={category.secSvg} hoverSvg={category.hoverSvg}/>
                     )
                 })
             }

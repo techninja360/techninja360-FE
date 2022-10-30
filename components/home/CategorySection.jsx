@@ -5,7 +5,7 @@ import {categories} from '../../data/category'
 const CategorySection = () => {
   return (
     
-    <section className='flex flex-wrap justify-center p-16 pb-28'>
+    <section className='flex flex-wrap justify-center p-16 pb-28 sm:p-10 sm:pb-16'>
 
         <div className='flex w-full justify-center mb-5'>
             <h1 className='font-bold text-3xl'>
@@ -17,7 +17,7 @@ const CategorySection = () => {
         </div>
         
         <div className='flex justify-center w-full mt-10'>
-            <div className='flex flex-wrap gap-9 w-[1101px]'>
+            <div className='flex flex-wrap gap-9 max-w-[1101px] w-full lg:justify-center md:gap-5'>
             {
                 categories.map((category)=>{
                     return(

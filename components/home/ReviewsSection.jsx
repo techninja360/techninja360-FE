@@ -7,9 +7,9 @@ import StarFill from '../svg/home/StarFill'
 
 const ReviewsSection = () => {
   return (
-    <section className='flex h-[620px]'>
+    <section className='flex relative h-auto flex-wrap'>
         
-        <div className='bg-[#fdfdfd] w-1/2 relative'>
+        <div className='bg-[#fdfdfd] w-1/2 pb-12 relative lg:w-full'>
             <div className='pt-14'>
                 <h1 className='text-center font-bold text-3xl'>Reviews By Clients</h1>
             </div>
@@ -17,14 +17,14 @@ const ReviewsSection = () => {
                 <ReviewBlob/>
             </div>
             <div className='relative h-[500px] flex justify-center items-center'>
-                <div className='absolute w-[496px] h-[248px] bg-white rounded-xl border drop-shadow-md'></div>
-                <div className='absolute w-[474px] h-[271px] bg-white rounded-xl border drop-shadow-md'></div>
+                <div className='absolute w-[496px] h-[248px] bg-white rounded-xl border drop-shadow-md sm:w-[95%] sm:h-[268px]'></div>
+                <div className='absolute w-[474px] h-[271px] bg-white rounded-xl border drop-shadow-md sm:w-[90%] sm:h-[291px]'></div>
                 <div className='z-40 -mt-24'>
                     <div className='w-full flex justify-center z-50'>
                         <img src="./assets/images/home/reviewClient.png" alt="" />
                     </div>
-                    <div className='relative h-44 flex justify-center -z-10 items-center' >
-                        <div className='absolute w-[445px] h-[287px] bg-white rounded-xl border drop-shadow-md text-center'>
+                    <div className='relative h-44 flex justify-center -z-10 items-center sm:h-52 sm:w-[85vw]' >
+                        <div className='absolute w-[445px] h-[287px] bg-white rounded-xl border drop-shadow-md text-center sm:py-5 sm:w-[100%] sm:h-[auto] sm:min-h-[310px]'>
                             <div className='mt-14'>
                                 <h1 className='font-regular text-xl'>Hannah Schmitt</h1>
                                 <h3 className='italic font-normal text-base text-gray-500 mt-1'>Lead Designer</h3>
@@ -37,14 +37,14 @@ const ReviewsSection = () => {
                     </div>
                 </div>
             </div>
-            <div className='flex justify-center -mt-16 gap-x-3'>
+            <div className='flex justify-center -mt-16 gap-x-3 sm:mt-2'>
                     <button className='w-11 h-11 flex justify-center items-center rounded-full bg-white drop-shadow-sm'><ReviewLeft/></button>
                     <button className='w-11 h-11 flex justify-center items-center rounded-full bg-white drop-shadow-sm'><ReviewRight/></button>
                 </div>
 
         </div>
 
-        <div className=' relative w-1/2 businessReviewBG'>
+        <div className=' relative w-1/2 pb-12 lg:w-full businessReviewBG'>
             <div className='absolute w-full h-full'>
                 <img className='w-full h-full object-cover' src="./assets/images/home/reviewBg.png" alt="" />
             </div>
@@ -55,14 +55,14 @@ const ReviewsSection = () => {
                 <ReviewBlob/>
             </div>
             <div className='relative h-[500px] flex justify-center items-center'>
-                <div className='absolute w-[496px] h-[248px] bg-white rounded-xl border drop-shadow-md'></div>
-                <div className='absolute w-[474px] h-[271px] bg-white rounded-xl border drop-shadow-md'></div>
+                <div className='absolute w-[496px] h-[248px] bg-white rounded-xl border drop-shadow-md sm:w-[95%] sm:h-[268px]'></div>
+                <div className='absolute w-[474px] h-[271px] bg-white rounded-xl border drop-shadow-md sm:w-[90%] sm:h-[291px]'></div>
                 <div className='z-40 -mt-14'>
                     <div className='w-full flex justify-center z-50'>
                         <img src="./assets/images/home/reviewBusiness.png" alt="" />
                     </div>
-                    <div className='relative h-56 flex justify-center -z-10 items-center' >
-                        <div className='absolute w-[445px] h-[287px] bg-white rounded-xl border drop-shadow-md text-center'>
+                    <div className='relative h-56 flex justify-center -z-10 items-center sm:h-64 sm:w-[85vw]' >
+                        <div className='absolute w-[445px] h-[287px] bg-white rounded-xl border drop-shadow-md text-center sm:py-5 sm:w-[100%] sm:h-[auto] sm:min-h-[310px]'>
                             <div className='mt-14'>
                                 <h1 className='font-regular text-xl'>24 7 PC Repair</h1>
                                 <h3 className='italic font-normal text-base text-gray-500 mt-1'>California, USA</h3>
@@ -75,7 +75,7 @@ const ReviewsSection = () => {
                     </div>
                 </div>
             </div>
-                <div className='flex justify-center -mt-16 gap-x-3'>
+                <div className='flex justify-center -mt-16 gap-x-3 sm:mt-2'>
                     <button className='w-11 h-11 flex justify-center items-center rounded-full bg-white drop-shadow-sm'><ReviewLeft/></button>
                     <button className='w-11 h-11 flex justify-center items-center rounded-full bg-white drop-shadow-sm'><ReviewRight/></button>
                 </div>

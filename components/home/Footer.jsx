@@ -7,11 +7,11 @@ import IG from '../svg/home/IG'
 
 const Footer = () => {
   return (
-    <footer className=' bg-[rgb(30,30,30,1)] p-20 flex'>
-        <div className='w-1/2'>
+    <footer className='relative bg-[rgb(30,30,30,1)] w-full p-20 flex flex-wrap'>
+        <div className='w-1/2 md:w-full'>
             <div className='flex flex-wrap justify-center gap-y-8'>
                 <div className='h-14 w-full flex justify-center'>
-                    <img className='h-14' src="./assets/images/home/baldgenie.png" alt="" />
+                    <img className='h-14 sm:h-10 md:h-12' src="./assets/images/home/baldgenie.png" alt="" />
                 </div>
                 <div className='flex gap-x-3'>
                     <div  className='flex justify-center items-center h-7 w-7 rounded-full bg-white'>
@@ -33,7 +33,7 @@ const Footer = () => {
             </div>
         </div>
 
-        <div className='text-white w-1/2 flex justify-between'>
+        <div className='text-white w-1/2 flex justify-between md:w-full md:mt-12'>
             <div className='w-[60%]'>
                 <ul>
                     <li className='mb-3'><a href="">Home</a></li>
@@ -50,7 +50,7 @@ const Footer = () => {
                     <li className='mb-3'><a href="">FAQ’s</a></li>
                 </ul>
             </div>
-            <div className='w-[30%]'></div>
+            <div className='w-[30%] md:hidden'></div>
         </div>
     </footer>
   )

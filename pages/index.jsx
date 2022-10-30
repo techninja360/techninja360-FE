@@ -6,7 +6,7 @@ import SearchTermSection from '../components/home/SearchTermSection'
 
 export default function Home() {
   return (
-    <div>
+    <div className='relative'>
       <MainSection/>
       <CategorySection/>
       <SearchTermSection/>

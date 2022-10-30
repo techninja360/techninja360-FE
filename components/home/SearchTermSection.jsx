@@ -16,7 +16,7 @@ const SearchTermSection = () => {
         <div>
             <h1 className='text-center font-bold text-3xl'>Popular Search Terms</h1>
         </div>
-        <div className='px-32 flex gap-4 flex-wrap mt-5'>
+        <div className='px-32 flex gap-4 flex-wrap mt-5 md:px-16 sm:px-5'>
             {
                 chipsData.map((chip,i)=>{
                     return(

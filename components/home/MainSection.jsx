@@ -4,10 +4,13 @@ import GPSRight from '../svg/home/GPSRight'
 import SearchIcon from '../svg/home/SearchIcon'
 import SearchLocation from '../svg/home/SearchLocation'
 import Link from 'next/link'
+import { useSignUpContext } from '../../context/signUp_context'
 
 const MainSection = () => {
+  const {signUpOpen, setSignUpOpen} = useSignUpContext()
+
   return (
-    <section className='relativeh-[520px] md:h-[600px]'>
+    <section className='relative h-[520px] md:h-[600px]'>
 
         <div className='absolute w-full -z-10 md:h-[600px]'>
           <img 
@@ -18,10 +21,10 @@ const MainSection = () => {
         </div>
         <div className='w-full text-white relative sm:flex sm:justify-center'>
           <div className='absolute right-32 top-11 md:right-10 sm:relative sm:right-0'>
-            <a href="">List your Business</a> | <Link href="/SignUp">Sign Up</Link> | <a href="">Sign In</a>
+            <a href="">List your Business</a> | <button onClick={()=>setSignUpOpen(true)}>Sign Up</button> | <a href="">Sign In</a>
           </div>
         </div>
-        <div className='relative flex justify-center flex-wrap pt-56'>
+        <div className='flex justify-center flex-wrap pt-56'>
           
           <div className='w-full flex justify-center'>
             <img src="./assets/images/home/TechNinja360.png" alt="" className='md:w-[80%] max-w-[550px] object-cover' />

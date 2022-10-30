@@ -12,20 +12,22 @@ const SearchChip = ({text})=>{
 
 const SearchTermSection = () => {
   return (
-    <section className='bg-[#f6f6f6] py-14'>
-        <div>
-            <h1 className='text-center font-bold text-3xl'>Popular Search Terms</h1>
-        </div>
-        <div className='px-32 flex gap-4 flex-wrap mt-5 md:px-16 sm:px-5'>
-            {
-                chipsData.map((chip,i)=>{
-                    return(
-                        <SearchChip key={i} text={chip}/>
-                    )
-                })
-            }
-        </div>
-    </section>
+    <div className='flex justify-center bg-[#f6f6f6] '>
+        <section className='max-w-[1100px] py-14'>
+            <div>
+                <h1 className='text-center font-bold text-3xl'>Popular Search Terms</h1>
+            </div>
+            <div className='flex gap-4 flex-wrap mt-5 md:px-16 sm:px-5'>
+                {
+                    chipsData.map((chip,i)=>{
+                        return(
+                            <SearchChip key={i} text={chip}/>
+                        )
+                    })
+                }
+            </div>
+        </section>
+    </div>
   )
 }
 

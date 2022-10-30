@@ -7,13 +7,14 @@ import IG from '../svg/home/IG'
 
 const Footer = () => {
   return (
-    <footer className='relative bg-[rgb(30,30,30,1)] w-full p-20 flex flex-wrap'>
+    <div className='flex bg-[rgb(30,30,30,1)]  justify-center'>
+    <footer className='relative max-w-[1100px] w-full py-20 flex flex-wrap justify-between'>
         <div className='w-1/2 md:w-full'>
-            <div className='flex flex-wrap justify-center gap-y-8'>
-                <div className='h-14 w-full flex justify-center'>
+            <div className='flex flex-wrap justify-start gap-y-8'>
+                <div className='h-14 w-full flex justify-start'>
                     <img className='h-14 sm:h-10 md:h-12' src="./assets/images/home/baldgenie.png" alt="" />
                 </div>
-                <div className='flex gap-x-3'>
+                <div className='flex gap-x-3 ml-12'>
                     <div  className='flex justify-center items-center h-7 w-7 rounded-full bg-white'>
                         <FB/>
                     </div>
@@ -50,9 +51,10 @@ const Footer = () => {
                     <li className='mb-3'><a href="">FAQ’s</a></li>
                 </ul>
             </div>
-            <div className='w-[30%] md:hidden'></div>
+            {/* <div className='w-[30%] md:hidden'></div> */}
         </div>
     </footer>
+    </div>
   )
 }
 

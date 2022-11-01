@@ -1,12 +1,8 @@
 import React from 'react'
 import Footer from '../components/Footer'
-import MerchantSteps from '../components/merchantSignUp/merchantSteps'
+import MerchantSteps from '../components/merchantSignUp/MerchantSteps'
 import StepOne from '../components/merchantSignUp/StepOne'
 import NavbarMerchant from '../components/NavbarMerchant'
-import Step1Active from '../components/svg/merchantSignUp/Step1Active'
-import Step2 from '../components/svg/merchantSignUp/Step2'
-import Step3 from '../components/svg/merchantSignUp/step3'
-
 
 const MerchantSignUp = () => {
   return (

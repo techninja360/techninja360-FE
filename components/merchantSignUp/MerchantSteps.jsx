@@ -1,7 +1,7 @@
 import React from 'react'
 import Step1Active from '../svg/merchantSignUp/Step1Active'
 import Step2 from '../svg/merchantSignUp/Step2'
-import Step3 from '../svg/merchantSignUp/step3'
+import Step3 from '../svg/merchantSignUp/Step3'
 
 const MerchantSteps = () => {
   return (

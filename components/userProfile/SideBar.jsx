@@ -7,7 +7,7 @@ const SideBar = () => {
     <div className='flex h-fit bg-[#F6F6F6] w-full border border-[#DFDFDF] rounded-sm flex-wrap'>
         {
             tabs.map((tab)=>{
-                return <SingleTab name={tab.name} primSvg={tab.primSvg} hoverSvg={tab.hoverSvg}/>
+                return <SingleTab key={tab.name} name={tab.name} primSvg={tab.primSvg} hoverSvg={tab.hoverSvg}/>
             })
         }
     </div>

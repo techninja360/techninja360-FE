@@ -4,6 +4,43 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+
+  .merchant-step-1-outside {
+    clip-path: polygon(100% 50%, 0 0, 0 100%);
+    position: relative;
+    width: 7vmin;
+    height: auto;
+  }
+  .merchant-step-1-inside {
+    clip-path: polygon(100% 50%, 0 0, 0 100%);
+    position: absolute;
+    top: 2px;
+    left: 0px;
+    right: 2px;
+    bottom: 2px;
+    background: white;
+  }
+
+  .merchent-step-3-outside{
+    clip-path: polygon(0% 0%, 75% 0%, 80% 50%, 75% 100%, 0% 100%);
+    position: relative;
+    height: 80px;
+    width: 300px;
+  }
+  .merchent-step-3-inside{
+    clip-path: polygon(0% 0%, 75% 0%, 80% 50%, 75% 100%, 0% 100%);
+    position: absolute;
+    /* display: flex;
+    flex-direction: column;
+     */
+    top: 2px;
+    left: 2px;
+    right: 2px;
+    bottom: 2px;
+    background: white;
+  }
+}
 
 *{
   padding: 0;

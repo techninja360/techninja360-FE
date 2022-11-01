@@ -21,7 +21,7 @@ const MainSection = () => {
         </div>
         <div className='w-full text-white relative sm:flex sm:justify-center'>
           <div className='absolute right-32 top-11 md:right-10 sm:relative sm:right-0'>
-            <a href="">List your Business</a> | <button onClick={()=>setSignUpOpen(true)}>Sign Up</button> | <a href="">Sign In</a>
+            <Link href="/MerchantSignUp">List your Business</Link> | <button onClick={()=>setSignUpOpen(true)}>Sign Up</button> | <a href="">Sign In</a>
           </div>
         </div>
         <div className='flex justify-center flex-wrap pt-56'>

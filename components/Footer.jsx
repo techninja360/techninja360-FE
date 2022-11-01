@@ -1,9 +1,9 @@
 import React from 'react'
-import FB from '../svg/home/FB'
-import IN from '../svg/home/IN'
-import TW from '../svg/home/TW'
-import YT from '../svg/home/YT'
-import IG from '../svg/home/IG'
+import FB from './svg/home/FB'
+import IN from './svg/home/IN'
+import TW from './svg/home/TW'
+import YT from './svg/home/YT'
+import IG from './svg/home/IG'
 
 const Footer = () => {
   return (

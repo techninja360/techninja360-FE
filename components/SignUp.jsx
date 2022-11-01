@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import BackArrow from '../components/svg/signUp/BackArrow'
 import SignUpDivider from '../components/svg/signUp/SignUpDivider'
 import { useSignUpContext } from '../context/signUp_context'
+import {useRouter} from 'next/router'
 
 const SignUp = () => {
 
@@ -41,6 +42,18 @@ const SignUp = () => {
             console.log('form is not good');
         }
     }
+
+    // const handleGoogleSignUp = (e) => {
+    //     e.preventDefault();
+    //     window.open("http://localhost:8000/api/auth/google", "_self");
+    // }
+    const googleAuth = (e) => {
+        e.preventDefault();
+		window.open(
+			`http://localhost:8000/api/auth/google/`,
+			"_self"
+		);
+	};
 
     const validateSignUp = () =>{
 
@@ -131,12 +144,14 @@ const SignUp = () => {
                                 <SignUpDivider/>
                             </div> */}
                         <div className='w-full flex flex-wrap justify-center gap-y-7'>
+                            
                             <div className='w-full flex justify-center'>
-                                <button className='flex justify-center w-[440px] gap-x-2 bg-white border border-[#C5C5C5] py-3 '>
+                                <button className='flex justify-center w-[440px] gap-x-2 bg-white border border-[#C5C5C5] py-3 ' onClick={(e)=>googleAuth(e)}>
                                     <img src="./assets/images/userSignUp/google.png" alt="" />
                                     <p>Sign Up with google</p>
                                 </button>
                             </div>
+                            
                             <div className='w-full flex justify-center'>
                                 <button className='flex justify-center w-[440px] gap-x-2 bg-white border border-[#C5C5C5] py-3 '>
                                     <img src="./assets/images/userSignUp/fb.png" alt="" />

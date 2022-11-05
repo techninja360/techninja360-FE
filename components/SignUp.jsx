@@ -7,6 +7,7 @@ import {useRouter} from 'next/router'
 
 const SignUp = () => {
 
+    const Router = useRouter()
     const {signUpOpen, setSignUpOpen} = useSignUpContext()
 
     const [fname, setFname] = useState('')
@@ -37,6 +38,22 @@ const SignUp = () => {
                 cpword : false,
             })
             console.log('form is good')
+
+            const formBody = {
+                "first_name" : fname,
+                "last_name" : lname,
+                "email" : email,
+                "password" : pword,
+                "phone_no" : phnNo
+            }
+
+            const rawRes = await fetch('http://localhost:8000/api/auth/signup',{method:'POST', body: JSON.stringify(formBody)})
+            const data = await rawRes.json()
+
+            if(data.status === 'ok'){
+                Router.push('http://localhost:3000/UserProfile')
+            }
+
         }
         else{
             console.log('form is not good');

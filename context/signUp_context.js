@@ -33,9 +33,9 @@ export const SignUpProvider = ({ children }) => {
       }
     };
 
-    useEffect(() => {
-      getUser();
-    }, []);
+    // useEffect(() => {
+    //   getUser();
+    // }, []);
 
     // const getUserData = async()=>{
     //   // const res = await fetch('http://localhost:8000/api/auth/login/success')

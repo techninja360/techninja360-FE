@@ -47,7 +47,10 @@ const SignUp = () => {
                 "phone_no" : phnNo
             }
 
-            const rawRes = await fetch('http://localhost:8000/api/auth/signup',{method:'POST', body: JSON.stringify(formBody)})
+            const rawRes = await fetch('http://localhost:8000/api/auth/signup',{method:'POST', body: JSON.stringify(formBody),headers: {
+                "Content-Type": "application/json",
+                // "Authorization": "Bearer " + auth.token,
+              },})
             const data = await rawRes.json()
 
             if(data.status === 'ok'){

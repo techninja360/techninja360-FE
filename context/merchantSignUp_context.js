@@ -5,7 +5,7 @@ import axios from "axios";
 const MerchantSignUpContext = React.createContext()
 export const MerchantSignUpProvider = ({ children }) => {
 
-    const [step, setStep] = useState(1)
+    const [step, setStep] = useState(2)
 
     const [formOneVals, setFormOneVals] = useState({
       primSalut:'',
@@ -121,8 +121,114 @@ export const MerchantSignUpProvider = ({ children }) => {
 
     }
     
+    const [formTwoVals, setFormTwoVals] = useState({
+        businessSmallLogo : '',
+        businessLargeLogo : '',
+        businessName : '',
+        businessWebAddress : '',
+        businessTollFreePreFix : '',
+        businessTollFreeStart: '',
+        businessTollFreeEnd: '',
+        businessWorkNumber: '',
+        businessYearsInBusiness: '',
+        businessEmployeeStrength: '',
+        businessDescription: '',
+        
+        certificationsAll:{},
+        listingCertificate: '',
+        
+        businessLocationAddressType: '',
+        businessLocationStreetName: '',
+        businessLocationCityName: '',
+        businessLocationStateName: '',
+        businessLocationCountryName: '',
+        businessLocationZipCodeName: '',
+        businessLocationServiceRadStart: '',
+        businessLocationServiceRadEnd: '',
+        businessLocationZipCoverd: '',
+
+        businessHours: '',
+        businessHoursStart: '',
+        businessHoursEnd: '',
+        businessHoursTimezone: '',
+        businessHoursBusinessHours2: '',
+        businessHoursStart2: '',
+        businessHoursEnd2: '',
+        businessHoursService247: '',
+
+        otherInfoRemoteSupport: '',
+        otherInfoInStoreService: '',
+        otherInfoHouseCall: '',
+        otherInfoPickUpDrop: '',
+        otherInfoResidentialService: '',
+        otherInfoBusinessService: '',
+        otherInfoCreditDebitCardPayment: '',
+        otherInfoPaypalPayment: '',
+        otherInfoApplePayPayment: '',
+        otherInfoGooglePayPayment: '',
+        otherInfoCashPayment: '',
+        otherInfoCryptoCurrencyPayment: '',
+        otherInfoOneTimePlan: '',
+        otherInfoMonthlyPlan: '',
+        otherInfoYearlyPlan: '',
+    })
+
+    const [formTwoErrors, setFormTwoErrors] = useState({
+        businessSmallLogo : false,
+        businessLargeLogo : false,
+        businessName : false,
+        businessWebAddress : false,
+        businessTollFreePreFix : false,
+        businessTollFreeStart: false,
+        businessTollFreeEnd: false,
+        businessWorkNumber: false,
+        businessYearsInBusiness: false,
+        businessEmployeeStrength: false,
+        businessDescription: false,
+        
+        listingCertificate: false,
+        
+        businessLocationAddressType: false,
+        businessLocationStreetName: false,
+        businessLocationCityName: false,
+        businessLocationStateName: false,
+        businessLocationCountryName: false,
+        businessLocationZipCodeName: false,
+        businessLocationServiceRadStart: false,
+        businessLocationServiceRadEnd: false,
+        businessLocationZipCoverd: false,
+
+        businessHours: false,
+        businessHoursStart: false,
+        businessHoursEnd: false,
+        businessHoursTimezone: false,
+        businessHoursBusinessHours2: false,
+        businessHoursStart2: false,
+        businessHoursEnd2: false,
+        businessHoursService247: false,
+
+        otherInfoRemoteSupport: false,
+        otherInfoInStoreService: false,
+        otherInfoHouseCall: false,
+        otherInfoPickUpDrop: false,
+        otherInfoResidentialService: false,
+        otherInfoBusinessService: false,
+        otherInfoCreditDebitCardPayment: false,
+        otherInfoPaypalPayment: false,
+        otherInfoApplePayPayment: false,
+        otherInfoGooglePayPayment: false,
+        otherInfoCashPayment: false,
+        otherInfoCryptoCurrencyPayment: false,
+        otherInfoOneTimePlan: false,
+        otherInfoMonthlyPlan: false,
+        otherInfoYearlyPlan: false,
+    })
+
+    const formTwoValidate = () => {
+        
+    }
     return (
-        <MerchantSignUpContext.Provider value={{step, setStep, formOneVals, setFormOneVals, formOneErrors, setFormOneErrors, formOneValidate}}>{children}</MerchantSignUpContext.Provider>
+        <MerchantSignUpContext.Provider value={{step, setStep, formOneVals, setFormOneVals, formOneErrors, setFormOneErrors, formOneValidate, formTwoVals, setFormTwoVals, formTwoErrors, setFormTwoErrors}}>{children}</MerchantSignUpContext.Provider>
   )
 }
 // make sure use

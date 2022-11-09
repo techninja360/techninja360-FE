@@ -5,7 +5,7 @@ import axios from "axios";
 const MerchantSignUpContext = React.createContext()
 export const MerchantSignUpProvider = ({ children }) => {
 
-    const [step, setStep] = useState(2)
+    const [step, setStep] = useState(1)
 
     const [formOneVals, setFormOneVals] = useState({
       primSalut:'',
@@ -134,7 +134,7 @@ export const MerchantSignUpProvider = ({ children }) => {
         businessEmployeeStrength: '',
         businessDescription: '',
         
-        certificationsAll:{},
+        // certificationsAll:{cert0 : {certTitle:undefined,certUrl:undefined,certFile:undefined}},
         listingCertificate: '',
         
         businessLocationAddressType: '',
@@ -154,24 +154,30 @@ export const MerchantSignUpProvider = ({ children }) => {
         businessHoursBusinessHours2: '',
         businessHoursStart2: '',
         businessHoursEnd2: '',
-        businessHoursService247: '',
+        businessHoursService247: false,
 
-        otherInfoRemoteSupport: '',
-        otherInfoInStoreService: '',
-        otherInfoHouseCall: '',
-        otherInfoPickUpDrop: '',
-        otherInfoResidentialService: '',
-        otherInfoBusinessService: '',
-        otherInfoCreditDebitCardPayment: '',
-        otherInfoPaypalPayment: '',
-        otherInfoApplePayPayment: '',
-        otherInfoGooglePayPayment: '',
-        otherInfoCashPayment: '',
-        otherInfoCryptoCurrencyPayment: '',
-        otherInfoOneTimePlan: '',
-        otherInfoMonthlyPlan: '',
-        otherInfoYearlyPlan: '',
+        otherInfoRemoteSupport: 'no',
+        otherInfoInStoreService: 'no',
+        otherInfoHouseCall: 'no',
+        otherInfoPickUpDrop: 'no',
+        otherInfoResidentialService: 'no',
+        otherInfoBusinessService: 'no',
+        otherInfoCreditDebitCardPayment: 'no',
+        otherInfoPaypalPayment: 'no',
+        otherInfoApplePayPayment: 'no',
+        otherInfoGooglePayPayment: 'no',
+        otherInfoCashPayment: 'no',
+        otherInfoCryptoCurrencyPayment: 'no',
+        otherInfoOneTimePlan: 'no',
+        otherInfoMonthlyPlan: 'no',
+        otherInfoYearlyPlan: 'no',
     })
+
+    const [formTwoCertificates, setFormTwoCertificates] = useState({cert0 : {certTitle:undefined,certUrl:undefined,certFile:undefined}})
+    const [formTwoCertificatesStatus, setFormTwoCertificatesStatus] = useState(false)
+    
+    const [formTwoBusinessHours, setFormTwoBusinessHours] = useState({bn0 : {bnDays:undefined,bnStart:undefined,bnEnd:undefined}})
+    const [formTwoBusinessHoursStatus, setFormTwoBusinessHoursStatus] = useState(false)
 
     const [formTwoErrors, setFormTwoErrors] = useState({
         businessSmallLogo : false,
@@ -186,6 +192,7 @@ export const MerchantSignUpProvider = ({ children }) => {
         businessEmployeeStrength: false,
         businessDescription: false,
         
+        // certificationsAll : {cert0 : {certTitle:false,certUrl:false,certFile:false}},
         listingCertificate: false,
         
         businessLocationAddressType: false,
@@ -224,11 +231,406 @@ export const MerchantSignUpProvider = ({ children }) => {
         otherInfoYearlyPlan: false,
     })
 
+    const [formTwoCertificatesError, setFormTwoCertificatesError] = useState({cert0 : {certTitle:false,certUrl:false,certFile:false}})
+    const [formTwoBusinessHoursError, setFormTwoBusinessHoursError] = useState({bn0 : {bnDays:false,bnStart:false,bnEnd:false}})
+
     const formTwoValidate = () => {
+        {/************************************************************Business Details************************************************************/}
+        if(formTwoVals.businessSmallLogo === '' || formTwoVals.businessSmallLogo === null || formTwoVals.businessSmallLogo === undefined){
+            setFormTwoErrors(prevState => ({...prevState, businessSmallLogo:'Field is empty'}))
+        }else{
+            setFormTwoErrors(prevState => ({...prevState, businessSmallLogo:false}))
+        }
         
+        if(formTwoVals.businessLargeLogo === '' || formTwoVals.businessLargeLogo === null || formTwoVals.businessLargeLogo === undefined){
+            setFormTwoErrors(prevState => ({...prevState, businessLargeLogo:'Field is empty'}))
+        }else{
+            setFormTwoErrors(prevState => ({...prevState, businessLargeLogo:false}))
+        }
+        
+        if(formTwoVals.businessName === '' || formTwoVals.businessName === null || formTwoVals.businessName === undefined){
+            setFormTwoErrors(prevState => ({...prevState, businessName:'Field is empty'}))
+        }else{
+            setFormTwoErrors(prevState => ({...prevState, businessName:false}))
+        }
+        
+        if(formTwoVals.businessWebAddress === '' || formTwoVals.businessWebAddress === null || formTwoVals.businessWebAddress === undefined){
+            setFormTwoErrors(prevState => ({...prevState, businessWebAddress:'Field is empty'}))
+        }else{
+            setFormTwoErrors(prevState => ({...prevState, businessWebAddress:false}))
+        }
+        
+        if(formTwoVals.businessWorkNumber === '' || formTwoVals.businessWorkNumber === null || formTwoVals.businessWorkNumber === undefined || isNaN(formTwoVals.businessWorkNumber) || formTwoVals.businessWorkNumber.length !== 10 ){
+            setFormTwoErrors(prevState => ({...prevState, businessWorkNumber:'Phone number invalid'}))
+        }else{
+            setFormTwoErrors(prevState => ({...prevState, businessWorkNumber:false}))
+        }
+        
+        if(formTwoVals.businessDescription === '' || formTwoVals.businessDescription === null || formTwoVals.businessDescription === undefined){
+            setFormTwoErrors(prevState => ({...prevState, businessDescription:'Field is empty'}))
+        }else{
+            setFormTwoErrors(prevState => ({...prevState, businessDescription:false}))
+        }
+        
+        {/************************************************************Certificates and Accrediations************************************************************/}
+
+        // if(formTwoVals.certificationsAll === '' || formTwoVals.certificationsAll === null || formTwoVals.certificationsAll === undefined || Object.keys(formTwoVals.certificationsAll).length === 0){
+        //     setFormTwoErrors(prevState => ({...prevState, certificationsAll:'Field is empty'}))
+        //     setFormTwoErrors(prevState=>({...prevState, certificationsAll:{...formTwoErrors.certificationsAll, [`cert0`]: {'certUrl':'Field is empty','certTitle':'Field is empty','certFile':'Field is empty'}}}))
+        // }else if(Object.keys(formTwoVals.certificationsAll).length > 0){
+        // if(Object.keys(formTwoVals.certificationsAll).length > 0){
+        //     for (let [key, value] of Object.entries(formTwoVals.certificationsAll)) {
+        //         for (let [subKey, subValue] of Object.entries(value)) {
+        //             console.log(subKey,subValue);
+        //             if(subKey === 'certTitle'){
+        //                 if(subValue === '' || subValue === null || subValue === undefined){
+        //                     // setFormTwoErrors(prevState=>({...prevState, certificationsAll:{...formTwoErrors.certificationsAll, [`cert${cert}`]: {...formTwoErrors.certificationsAll[`cert${cert}`],'certTitle':'Field is empty'}}}))
+        //                     setFormTwoErrors(prevState=>({...prevState, certificationsAll:{...prevState.certificationsAll, [key]: {...prevState.certificationsAll[key],'certTitle':'Field is empty'}}}))
+        //                 }
+        //                 else{
+        //                     setFormTwoErrors(prevState=>({...prevState, certificationsAll:{...prevState.certificationsAll, [key]: {...prevState.certificationsAll[key],'certTitle':false}}}))
+        //                 }
+        //             }
+        //             else if(subKey === 'certUrl'){
+        //                 if(subValue === '' || subValue === null || subValue === undefined){
+        //                     setFormTwoErrors(prevState=>({...prevState, certificationsAll:{...prevState.certificationsAll, [key]: {...prevState.certificationsAll[key],'certUrl':'Field is empty'}}}))
+        //                 }
+        //                 else{
+        //                     setFormTwoErrors(prevState=>({...prevState, certificationsAll:{...prevState.certificationsAll, [key]: {...prevState.certificationsAll[key],'certUrl':false}}}))
+        //                 }
+        //             }
+        //             else if(subKey === 'certFile'){
+        //                 if(subValue === '' || subValue === null || subValue === undefined){
+        //                     setFormTwoErrors(prevState=>({...prevState, certificationsAll:{...prevState.certificationsAll, [key]: {...prevState.certificationsAll[key],'certFile':'Field is empty'}}}))
+        //                 }
+        //                 else{
+        //                     setFormTwoErrors(prevState=>({...prevState, certificationsAll:{...prevState.certificationsAll, [key]: {...prevState.certificationsAll[key],'certFile':false}}}))
+        //                 }
+        //             }
+        //         }   
+        //     }
+        // }
+        // const checkTitleTrue = (key) => {
+        //     setTimeout(
+        //         setFormTwoErrors(prevState=>({...prevState, certificationsAll:{...prevState.certificationsAll, [key]: {...prevState.certificationsAll[key],'certTitle':'Field is empty'}}}))
+        //                 ,0)
+        // }
+        // const checkTitleFalse = (key) => {
+        //     setTimeout(
+        //         setFormTwoErrors(prevState=>({...prevState, certificationsAll:{...prevState.certificationsAll, [key]: {...prevState.certificationsAll[key],'certTitle':false}}}))
+        //                 ,0)
+        // }
+        // const checkUrlTrue = (key) => {
+        //     setTimeout(
+        //         setFormTwoErrors(prevState=>({...prevState, certificationsAll:{...prevState.certificationsAll, [key]: {...prevState.certificationsAll[key],'certUrl':'Field is empty'}}}))
+        //                 ,0)
+        // }
+        // const checkUrlFalse = (key) => {
+        //     setTimeout(
+        //         setFormTwoErrors(prevState=>({...prevState, certificationsAll:{...prevState.certificationsAll, [key]: {...prevState.certificationsAll[key],'certUrl':false}}}))
+        //                 ,0)
+        // }
+        // const checkFileTrue = (key) => {
+        //     setTimeout(
+        //         setFormTwoErrors(prevState=>({...prevState, certificationsAll:{...prevState.certificationsAll, [key]: {...prevState.certificationsAll[key],'certFile':'Field is empty'}}}))
+        //                 ,0)
+        // }
+        // const checFileFalse = (key) => {
+        //     setTimeout(
+        //         setFormTwoErrors(prevState=>({...prevState, certificationsAll:{...prevState.certificationsAll, [key]: {...prevState.certificationsAll[key],'certFile':false}}}))
+        //                 ,0)
+        // }
+        // for (let [key, value] of Object.entries(formTwoVals.certificationsAll)) {
+        //     for (let [subKey, subValue] of Object.entries(value)) {
+        //         console.log(subKey,subValue);
+        //         if(subKey === 'certTitle'){
+        //             if(subValue === '' || subValue === null || subValue === undefined){
+        //                 // setFormTwoErrors(prevState=>({...prevState, certificationsAll:{...formTwoErrors.certificationsAll, [`cert${cert}`]: {...formTwoErrors.certificationsAll[`cert${cert}`],'certTitle':'Field is empty'}}}))
+        //                 checkTitleTrue(key)
+        //             }
+        //             else{
+        //                 checkTitleFalse(key)
+        //             }
+        //         }
+        //         else if(subKey === 'certUrl'){
+        //             if(subValue === '' || subValue === null || subValue === undefined){
+        //                 checkUrlTrue(key)
+                        
+        //             }
+        //             else{
+        //                 checkUrlFalse(key)
+        //             }
+        //         }
+        //         else if(subKey === 'certFile'){
+        //             if(subValue === '' || subValue === null || subValue === undefined){
+        //                 checkFileTrue(key)
+        //             }
+        //             else{
+        //                 checFileFalse(key)
+        //             }
+        //         }
+        //     }   
+        // }
+
+        {/************************************************************Business Location************************************************************/}
+        
+        if(formTwoVals.businessLocationAddressType === '' || formTwoVals.businessLocationAddressType === null || formTwoVals.businessLocationAddressType === undefined){
+            setFormTwoErrors(prevState => ({...prevState, businessLocationAddressType:'Field is empty'}))
+        }else{
+            setFormTwoErrors(prevState => ({...prevState, businessLocationAddressType:false}))
+        }
+
+        if(formTwoVals.businessLocationAddressType === '' || formTwoVals.businessLocationAddressType === null || formTwoVals.businessLocationAddressType === undefined){
+            setFormTwoErrors(prevState => ({...prevState, businessLocationAddressType:'Field is empty'}))
+        }else{
+            setFormTwoErrors(prevState => ({...prevState, businessLocationAddressType:false}))
+        }
+        
+        if(formTwoVals.businessLocationStreetName === '' || formTwoVals.businessLocationStreetName === null || formTwoVals.businessLocationStreetName === undefined){
+            setFormTwoErrors(prevState => ({...prevState, businessLocationStreetName:'Field is empty'}))
+        }else{
+            setFormTwoErrors(prevState => ({...prevState, businessLocationStreetName:false}))
+        }
+        
+        if(formTwoVals.businessLocationCityName === '' || formTwoVals.businessLocationCityName === null || formTwoVals.businessLocationCityName === undefined){
+            setFormTwoErrors(prevState => ({...prevState, businessLocationCityName:'Field is empty'}))
+        }else{
+            setFormTwoErrors(prevState => ({...prevState, businessLocationCityName:false}))
+        }
+        
+        if(formTwoVals.businessLocationStateName === '' || formTwoVals.businessLocationStateName === null || formTwoVals.businessLocationStateName === undefined){
+            setFormTwoErrors(prevState => ({...prevState, businessLocationStateName:'Field is empty'}))
+        }else{
+            setFormTwoErrors(prevState => ({...prevState, businessLocationStateName:false}))
+        }
+        
+        if(formTwoVals.businessLocationCountryName === '' || formTwoVals.businessLocationCountryName === null || formTwoVals.businessLocationCountryName === undefined){
+            setFormTwoErrors(prevState => ({...prevState, businessLocationCountryName:'Field is empty'}))
+        }else{
+            setFormTwoErrors(prevState => ({...prevState, businessLocationCountryName:false}))
+        }
+
+        if(formTwoVals.businessLocationZipCodeName === '' || formTwoVals.businessLocationZipCodeName === null || formTwoVals.businessLocationZipCodeName === undefined){
+            setFormTwoErrors(prevState => ({...prevState, businessLocationZipCodeName:'Field is empty'}))
+        }else{
+            setFormTwoErrors(prevState => ({...prevState, businessLocationZipCodeName:false}))
+        }
+
+        if(formTwoVals.businessLocationServiceRadStart === '' || formTwoVals.businessLocationServiceRadStart === null || formTwoVals.businessLocationServiceRadStart === undefined){
+            setFormTwoErrors(prevState => ({...prevState, businessLocationServiceRadStart:'Field is empty'}))
+        }else{
+            setFormTwoErrors(prevState => ({...prevState, businessLocationServiceRadStart:false}))
+        }
+
+        if(formTwoVals.businessLocationServiceRadEnd === '' || formTwoVals.businessLocationServiceRadEnd === null || formTwoVals.businessLocationServiceRadEnd === undefined){
+            setFormTwoErrors(prevState => ({...prevState, businessLocationServiceRadEnd:'Field is empty'}))
+        }else{
+            setFormTwoErrors(prevState => ({...prevState, businessLocationServiceRadEnd:false}))
+        }
+
+        if(formTwoVals.businessLocationZipCoverd === '' || formTwoVals.businessLocationZipCoverd === null || formTwoVals.businessLocationZipCoverd === undefined){
+            setFormTwoErrors(prevState => ({...prevState, businessLocationZipCoverd:'Field is empty'}))
+        }else{
+            setFormTwoErrors(prevState => ({...prevState, businessLocationZipCoverd:false}))
+        }
+
+        {/************************************************************Business Hours************************************************************/}
+
+        if(formTwoVals.businessHours === '' || formTwoVals.businessHours === null || formTwoVals.businessHours === undefined){
+            setFormTwoErrors(prevState => ({...prevState, businessHours:'Field is empty'}))
+        }else{
+            setFormTwoErrors(prevState => ({...prevState, businessHours:false}))
+        }
+        if(formTwoVals.businessHoursStart === '' || formTwoVals.businessHoursStart === null || formTwoVals.businessHoursStart === undefined){
+            setFormTwoErrors(prevState => ({...prevState, businessHoursStart:'Field is empty'}))
+        }else{
+            setFormTwoErrors(prevState => ({...prevState, businessHoursStart:false}))
+        }
+        if(formTwoVals.businessHoursEnd === '' || formTwoVals.businessHoursEnd === null || formTwoVals.businessHoursEnd === undefined){
+            setFormTwoErrors(prevState => ({...prevState, businessHoursEnd:'Field is empty'}))
+        }else{
+            setFormTwoErrors(prevState => ({...prevState, businessHoursEnd:false}))
+        }
+        if(formTwoVals.businessHoursTimezone === '' || formTwoVals.businessHoursTimezone === null || formTwoVals.businessHoursTimezone === undefined){
+            setFormTwoErrors(prevState => ({...prevState, businessHoursTimezone:'Field is empty'}))
+        }else{
+            setFormTwoErrors(prevState => ({...prevState, businessHoursTimezone:false}))
+        }
+
+        {/************************************************************Other information************************************************************/}
+    }
+
+
+    const formTwoCertificatesValidate = () => {
+
+        const checkTitleTrue = (key) => {
+            setTimeout(
+                            function(){
+                                setFormTwoCertificatesError(prevState=>({...prevState, [key]:{...prevState[key], 'certTitle':'Field is empty'}}))
+                                setFormTwoCertificatesStatus(true)
+                            }
+                        ,0)
+        }
+        const checkTitleFalse = (key) => {
+            setTimeout(
+                function(){
+                    setFormTwoCertificatesError(prevState=>({...prevState, [key]:{...prevState[key], 'certTitle':false}}))
+                    setFormTwoCertificatesStatus(false)
+                }
+                        ,0)
+        }
+        const checkUrlTrue = (key) => {
+            setTimeout(
+                function(){
+                    setFormTwoCertificatesError(prevState=>({...prevState, [key]:{...prevState[key], 'certUrl':'Field is empty'}}))
+                    setFormTwoCertificatesStatus(true)
+                }
+                        ,0)
+        }
+        const checkUrlFalse = (key) => {
+            setTimeout(
+                function(){
+                    setFormTwoCertificatesError(prevState=>({...prevState, [key]:{...prevState[key], 'certUrl':false}}))
+                    setFormTwoCertificatesStatus(false)
+                }
+                        ,0)
+        }
+        const checkFileTrue = (key) => {
+            setTimeout(
+                function(){
+                    setFormTwoCertificatesError(prevState=>({...prevState, [key]:{...prevState[key], 'certFile':'Field is empty'}}))
+                    setFormTwoCertificatesStatus(true)
+                }
+                        ,0)
+        }
+        const checFileFalse = (key) => {
+            setTimeout(
+                function(){
+                    setFormTwoCertificatesError(prevState=>({...prevState, [key]:{...prevState[key], 'certFile':false}}))
+                    setFormTwoCertificatesStatus(false)
+                }
+                        ,0)
+        }
+        for (let [key, value] of Object.entries(formTwoCertificates)) {
+            for (let [subKey, subValue] of Object.entries(value)) {
+                console.log(subKey,subValue);
+                if(subKey === 'certTitle'){
+                    if(subValue === '' || subValue === null || subValue === undefined){
+                        // setFormTwoErrors(prevState=>({...prevState, certificationsAll:{...formTwoErrors.certificationsAll, [`cert${cert}`]: {...formTwoErrors.certificationsAll[`cert${cert}`],'certTitle':'Field is empty'}}}))
+                        checkTitleTrue(key)
+                    }
+                    else{
+                        checkTitleFalse(key)
+                    }
+                }
+                else if(subKey === 'certUrl'){
+                    if(subValue === '' || subValue === null || subValue === undefined){
+                        checkUrlTrue(key)
+                        
+                    }
+                    else{
+                        checkUrlFalse(key)
+                    }
+                }
+                else if(subKey === 'certFile'){
+                    if(subValue === '' || subValue === null || subValue === undefined){
+                        checkFileTrue(key)
+                    }
+                    else{
+                        checFileFalse(key)
+                    }
+                }
+            }   
+        }
+    
+    }
+
+
+    const formTwoBusinessHoursValidate = () => {
+
+        const checkDaysTrue = (key) => {
+            setTimeout(
+                            function(){
+                                setFormTwoBusinessHoursError(prevState=>({...prevState, [key]:{...prevState[key], 'bnDays':'Field is empty'}}))
+                                setFormTwoBusinessHoursStatus(true)
+                            }
+                        ,0)
+        }
+        const checkDaysFalse = (key) => {
+            setTimeout(
+                function(){
+                    setFormTwoBusinessHoursError(prevState=>({...prevState, [key]:{...prevState[key], 'bnDays':false}}))
+                    setFormTwoBusinessHoursStatus(false)
+                }
+                        ,0)
+        }
+        const checkStartTrue = (key) => {
+            setTimeout(
+                function(){
+                    setFormTwoBusinessHoursError(prevState=>({...prevState, [key]:{...prevState[key], 'bnStart':'Field is empty'}}))
+                    setFormTwoBusinessHoursStatus(true)
+                }
+                        ,0)
+        }
+        const checkStartFalse = (key) => {
+            setTimeout(
+                function(){
+                    setFormTwoBusinessHoursError(prevState=>({...prevState, [key]:{...prevState[key], 'bnStart':false}}))
+                    setFormTwoBusinessHoursStatus(false)
+                }
+                        ,0)
+        }
+        const checkEndTrue = (key) => {
+            setTimeout(
+                function(){
+                    setFormTwoBusinessHoursError(prevState=>({...prevState, [key]:{...prevState[key], 'bnEnd':'Field is empty'}}))
+                    setFormTwoBusinessHoursStatus(true)
+                }
+                        ,0)
+        }
+        const checkEndFalse = (key) => {
+            setTimeout(
+                function(){
+                    setFormTwoBusinessHoursError(prevState=>({...prevState, [key]:{...prevState[key], 'bnEnd':false}}))
+                    setFormTwoBusinessHoursStatus(false)
+                }
+                        ,0)
+        }
+        for (let [key, value] of Object.entries(formTwoBusinessHours)) {
+            for (let [subKey, subValue] of Object.entries(value)) {
+                console.log(subKey,subValue);
+                if(subKey === 'bnDays'){
+                    if(subValue === '' || subValue === null || subValue === undefined){
+                        // setFormTwoErrors(prevState=>({...prevState, certificationsAll:{...formTwoErrors.certificationsAll, [`cert${cert}`]: {...formTwoErrors.certificationsAll[`cert${cert}`],'certTitle':'Field is empty'}}}))
+                        checkDaysTrue(key)
+                    }
+                    else{
+                        checkDaysFalse(key)
+                    }
+                }
+                else if(subKey === 'bnStart'){
+                    if(subValue === '' || subValue === null || subValue === undefined){
+                        checkStartTrue(key)
+                        
+                    }
+                    else{
+                        checkStartFalse(key)
+                    }
+                }
+                else if(subKey === 'bnEnd'){
+                    if(subValue === '' || subValue === null || subValue === undefined){
+                        checkEndTrue(key)
+                    }
+                    else{
+                        checkEndFalse(key)
+                    }
+                }
+            }   
+        }
+    
     }
     return (
-        <MerchantSignUpContext.Provider value={{step, setStep, formOneVals, setFormOneVals, formOneErrors, setFormOneErrors, formOneValidate, formTwoVals, setFormTwoVals, formTwoErrors, setFormTwoErrors}}>{children}</MerchantSignUpContext.Provider>
+        <MerchantSignUpContext.Provider value={{step, setStep, formOneVals, setFormOneVals, formOneErrors, setFormOneErrors, formOneValidate, formTwoVals, setFormTwoVals, formTwoErrors, setFormTwoErrors, formTwoValidate,formTwoCertificates, setFormTwoCertificates,formTwoCertificatesError, setFormTwoCertificatesError,formTwoCertificatesValidate, formTwoCertificatesStatus, formTwoBusinessHours, setFormTwoBusinessHours, formTwoBusinessHoursStatus, setFormTwoBusinessHoursStatus, formTwoBusinessHoursError, setFormTwoBusinessHoursError, formTwoBusinessHoursValidate}}>{children}</MerchantSignUpContext.Provider>
   )
 }
 // make sure use

@@ -17,9 +17,9 @@ const RadioInput = ({id, required, width, title, placeholder, items, warning, on
                 {
                     items.map((item)=>{
                         return (
-                            <div className='flex gap-x-3' onChange={e=>handleChange(e)}>
+                            <div key={id + item.value} className='flex gap-x-3' onChange={e=>handleChange(e)}>
                                 <input type="radio" id={id + item.value} name={id} value={item.value} checked={selected === item.value || value === item.value} />
-                                <label for={id + item.value} className='font-normal text-base text-[#605F5F]'>{item.name}</label>
+                                <label htmlFor={id + item.value} className='font-normal text-base text-[#605F5F]'>{item.name}</label>
                             </div>
                         )
                     })

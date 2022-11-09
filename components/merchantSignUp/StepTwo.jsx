@@ -272,7 +272,7 @@ const StepTwo = () => {
                     {
                         certifications.map((cert,index)=>{
                             return (
-                                <div className='mt-7 flex w-full gap-x-4 items-start'>
+                                <div key={index} className='mt-7 flex w-full gap-x-4 items-start'>
                                     <TextInput id={`certificateTitle${cert}`} width='w-1/3' title={`${parseInt(cert)+1} certificate title`} placeholder='Enter title' required={true} value={formTwoCertificates[ `cert${cert}`]?.certTitle} onChange={(e)=>onChangeCerti(e,cert)} error={formTwoCertificatesError[ `cert${cert}`]?.certTitle}/>
                                     
                                     <TextInput id={`certificateURL${cert}`} width='w-1/3' title='certificate url link' placeholder='Enter Website Address' required={true} value={formTwoCertificates[ `cert${cert}`]?.certUrl} onChange={(e)=>onChangeCerti(e,cert)} error={formTwoCertificatesError[ `cert${cert}`]?.certUrl}/>
@@ -364,7 +364,7 @@ const StepTwo = () => {
                             {
                                 bnHours.map((bnHour,index)=>{
                                     return(
-                                        <div className={`${bnHour !== 0 ? 'w-full mt-0' : 'w-[84.5%] mt-2'} w-full mb-5 flex items-start justify-between  gap-x-6`}>
+                                        <div key={index} className={`${bnHour !== 0 ? 'w-full mt-0' : 'w-[84.5%] mt-2'} w-full mb-5 flex items-start justify-between  gap-x-6`}>
                                             <SelectInput id={`businessHoursDays${bnHour}`} items={businessDays} placeholder='All Days' required={true} width='w-1/2' onChange={(e)=>onChangeBnHours(e,bnHour)} error={formTwoBusinessHoursError[ `bn${bnHour}`]?.bnDays} value={formTwoBusinessHours[ `bn${bnHour}`]?.bnDays}/>
                                             
                                             <SelectInput id={`businessHoursStart${bnHour}`} items={businessTime} placeholder='01' required={true} width='w-1/4' onChange={(e)=>onChangeBnHours(e,bnHour)} error={formTwoBusinessHoursError[ `bn${bnHour}`]?.bnStart} value={formTwoBusinessHours[ `bn${bnHour}`]?.bnStart}/>

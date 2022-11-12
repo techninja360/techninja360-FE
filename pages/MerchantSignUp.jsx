@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import Footer from '../components/Footer'
 import MerchantSteps from '../components/merchantSignUp/MerchantSteps'
 import StepOne from '../components/merchantSignUp/StepOne'
+import StepThree from '../components/merchantSignUp/StepThree'
 import StepTwo from '../components/merchantSignUp/StepTwo'
 import NavbarMerchant from '../components/NavbarMerchant'
 import { useMerchantSignUpContext } from '../context/merchantSignUp_context'
@@ -14,9 +15,11 @@ const MerchantSignUp = () => {
     <>
     <NavbarMerchant/>
     <div className='flex justify-center w-full'>
+      <MerchantSteps step = {step}/>
+    </div>
+    <div className='flex justify-center w-full'>
         <div className='relative max-w-[1100px] w-full flex justify-center flex-wrap mb-10'>
 
-          <MerchantSteps step = {step}/>
           {
             step === 1 && <StepOne/>
             
@@ -24,6 +27,9 @@ const MerchantSignUp = () => {
           {
             step === 2 && <StepTwo/>
             
+          }
+          {
+            step === 3 && <StepThree/>
           }
           
         </div>

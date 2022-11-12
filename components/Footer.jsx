@@ -12,7 +12,7 @@ const Footer = () => {
         <div className='w-1/2 md:w-full'>
             <div className='flex flex-wrap justify-start gap-y-8'>
                 <div className='h-14 w-full flex justify-start'>
-                    <img className='h-14 sm:h-10 md:h-12' src="./assets/images/home/baldgenie.png" alt="" />
+                    <img className='h-8 sm:h-6 md:h-6' src="./assets/images/home/logo.png" alt="" />
                 </div>
                 <div className='flex gap-x-3 ml-12'>
                     <div  className='flex justify-center items-center h-7 w-7 rounded-full bg-white'>

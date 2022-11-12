@@ -27,7 +27,7 @@ const MainSection = () => {
         <div className='flex justify-center flex-wrap pt-56'>
           
           <div className='w-full flex justify-center'>
-            <img src="./assets/images/home/TechNinja360.png" alt="" className='md:w-[80%] max-w-[550px] object-cover' />
+            <img src="./assets/images/home/logo.png" alt="" className='md:w-[80%] max-w-[550px] object-cover' />
           </div>
           
           <div className='w-full flex justify-center md:px-5'>

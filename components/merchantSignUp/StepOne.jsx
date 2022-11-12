@@ -59,9 +59,9 @@ const StepOne = () => {
 
                     <div className='mt-7 flex w-full gap-x-4 items-start'>
 
-                        <TextInput id='primEmail' placeholder='Enter Email Address' required={true} title='PRIMARY CONTACT EMAIL' warning='(For us to contact you and will not be made public)' width='w-1/3' onChange={onChange} value={formOneVals.primEmail} error = {formOneErrors.primEmail}/>                        
-                        <TextInput id='primPhone' placeholder='Enter Phone Number' required={true} title='PRIMARY PERSON PHONE' warning='(For us to contact you and will not be made public)' width='w-1/3' onChange={onChange} value={formOneVals.primPhone} error = {formOneErrors.primPhone}/>                        
-                        <TextInput id='primAltPh' placeholder='Enter Phone Number' title='ALTERNATE PERSON PHONE' width='w-1/3' onChange={onChange} value={formOneVals.primAltPh} error = {formOneErrors.primAltPh}/>
+                        <TextInput id='primEmail' placeholder='Enter Email Address' required={true} title='CONTACT EMAIL' warning='(For us to contact you and will not be made public)' width='w-1/3' onChange={onChange} value={formOneVals.primEmail} error = {formOneErrors.primEmail}/>                        
+                        <TextInput id='primPhone' placeholder='Enter Phone Number' required={true} title='PRIMARY PHONE' warning='(For us to contact you and will not be made public)' width='w-1/3' onChange={onChange} value={formOneVals.primPhone} error = {formOneErrors.primPhone}/>                        
+                        <TextInput id='primAltPh' placeholder='Enter Phone Number' title='ALTERNATE PHONE' width='w-1/3' onChange={onChange} value={formOneVals.primAltPh} error = {formOneErrors.primAltPh}/>
                         
                     </div>
 
@@ -85,9 +85,9 @@ const StepOne = () => {
 
                     <div className='mt-7 flex w-full gap-x-4 items-start'>
                         
-                        <TextInput id='altEmail' placeholder='Enter Email Address' title='Alternate CONTACT EMAIL' warning='(For us to contact you and will not be made public)' width='w-1/3' onChange={onChange} value={formOneVals.altEmail} error = {formOneErrors.altEmail}/>
-                        <TextInput id='altPhone' placeholder='Enter Phone Number' title='Alternate PERSON PHONE' warning='(For us to contact you and will not be made public)' width='w-1/3' onChange={onChange} value={formOneVals.altPhone} error = {formOneErrors.altPhone}/>        
-                        <TextInput id='altAltPh' placeholder='Enter Phone Number' title='ALTERNATE PERSON PHONE' width='w-1/3' onChange={onChange} value={formOneVals.altAltPh} error = {formOneErrors.altAltPh}/>
+                        <TextInput id='altEmail' placeholder='Enter Email Address' title='CONTACT EMAIL' warning='(For us to contact you and will not be made public)' width='w-1/3' onChange={onChange} value={formOneVals.altEmail} error = {formOneErrors.altEmail}/>
+                        <TextInput id='altPhone' placeholder='Enter Phone Number' title='Alternate PHONE' warning='(For us to contact you and will not be made public)' width='w-1/3' onChange={onChange} value={formOneVals.altPhone} error = {formOneErrors.altPhone}/>        
+                        <TextInput id='altAltPh' placeholder='Enter Phone Number' title='ALTERNATE PHONE' width='w-1/3' onChange={onChange} value={formOneVals.altAltPh} error = {formOneErrors.altAltPh}/>
 
                     </div>
 

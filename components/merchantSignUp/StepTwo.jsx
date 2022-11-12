@@ -92,7 +92,7 @@ const StepTwo = () => {
             }
             else{
                 console.log('form good');
-                // setStep(3)
+                setStep(3)
             }
 
         }

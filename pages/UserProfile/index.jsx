@@ -1,10 +1,62 @@
-import React from 'react'
+import { useRouter } from 'next/router'
+import React, { useEffect, useState } from 'react'
 import Navbar from '../../components/Navbar'
 import ChangePhoto from '../../components/svg/userProfile/ChangePhoto'
 import LabeledInput from '../../components/userProfile/LabeledInput'
 import SideBar from '../../components/userProfile/SideBar'
 
+
 const UserProfile = () => {
+  const router = useRouter()
+
+  const ISSERVER = typeof window === "undefined";
+
+  const [userData, setUserData] = useState()
+  if(!ISSERVER) {
+      // Access localStorage
+      
+  }
+
+  // console.log(router.query.token);
+  useEffect( ()=>{
+    if(!router.isReady) return;
+
+    // console.log('here');
+    // console.log(router.query);
+    if(router.query.token){
+          // setToken(router.query.token)
+          // console.log('google')
+          localStorage.setItem('userToken',router.query.token)
+          router.push('http://localhost:3000/UserProfile')          
+        }
+
+    else{
+    }
+      // console.log('regular')
+      const userToken = localStorage.getItem('userToken')
+      
+      
+      const getUserData = async () => {
+        const userRes = await fetch('http://localhost:8000/api/user/profile/details',{method:'GET',headers: {
+              "Content-Type": "application/json",
+              "Authorization": "Bearer " + userToken,
+          },})
+  
+        const userResData = await userRes.json()
+        setUserData(userResData)
+        console.log(userResData);
+        localStorage.setItem('userData',JSON.stringify(userResData))
+      }
+      
+      getUserData()
+    
+    },[router.isReady])
+    
+  useEffect(()=>{
+    console.log('uesrData',(userData))
+    // setUserData( JSON.parse(localStorage.getItem('userData')))
+  },[])
+  
   return (
     <>
         <Navbar/>
@@ -31,7 +83,7 @@ const UserProfile = () => {
 
                   <div className='pl-10 mt-6'>
                     <div>
-                      <h1 className='text-2xl font-semibold'>Johnson Smith</h1>
+                      <h1 className='text-2xl font-semibold'>{userData?.results?.first_name} {userData?.results?.last_name}</h1>
                     </div>
                     <div className='mt-2'>
                       <h3 className='text-xl font-normal text-[#A9B7BD]'>john@example.com |  +919876 543 210</h3>

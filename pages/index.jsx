@@ -4,13 +4,16 @@ import Footer from '../components/Footer'
 import MainSection from '../components/home/MainSection'
 import ReviewsSection from '../components/home/ReviewsSection'
 import SearchTermSection from '../components/home/SearchTermSection'
-import SignUp from '../components/SignUp'
+import UserSignUp from '../components/UserSignUp'
 import { useSignUpContext } from '../context/signUp_context'
 import { useRouter } from 'next/router'
+import MerchantSignUp from '../components/MerchantSignUp'
+import { useMerchantSignUpContext } from '../context/merchantSignUp_context'
 
 export default function Home() {
 
   const {signUpOpen, setSignUpOpen, setToken} = useSignUpContext()
+  const {merchantSignUpOpen, setMerchantSignUpOpen, } = useMerchantSignUpContext()
 
  
   // console.log(router.query);
@@ -29,7 +32,8 @@ export default function Home() {
 
   return (
     <div className={`relative ${signUpOpen ? 'overscroll-none':''}`}>
-    {signUpOpen ? <SignUp/> : null}
+    {signUpOpen ? <UserSignUp/> : null}
+    {merchantSignUpOpen ? <MerchantSignUp/> : null}
       <MainSection/>
       <CategorySection/>
       <SearchTermSection/>

@@ -6,7 +6,8 @@ import axios from "axios";
 const MerchantSignUpContext = React.createContext()
 export const MerchantSignUpProvider = ({ children }) => {
 
-    const [step, setStep] = useState(1)
+    const [merchantSignUpOpen, setMerchantSignUpOpen] = useState(false)
+    const [step, setStep] = useState(2)
 //--------------------------------------------Form 1 processing-------------------------------------------------------------------------------------
     const [formOneVals, setFormOneVals] = useState({
       primSalut:'',
@@ -53,11 +54,7 @@ export const MerchantSignUpProvider = ({ children }) => {
         }else{
             setFormOneErrors(prevState => ({...prevState, primFName:false}))
         }
-        if(formOneVals.primMName === '' || formOneVals.primMName === null || formOneVals.primMName === undefined){
-            setFormOneErrors(prevState => ({...prevState, primMName:'Field is empty'}))
-        }else{
-            setFormOneErrors(prevState => ({...prevState, primMName:false}))
-        }
+        
         if(formOneVals.primLName === '' || formOneVals.primLName === null || formOneVals.primLName === undefined){
             setFormOneErrors(prevState => ({...prevState, primLName:'Field is empty'}))
         }else{
@@ -159,21 +156,21 @@ export const MerchantSignUpProvider = ({ children }) => {
         businessHoursEnd2: '',
         businessHoursService247: false,
 
-        otherInfoRemoteSupport: 'no',
-        otherInfoInStoreService: 'no',
-        otherInfoHouseCall: 'no',
-        otherInfoPickUpDrop: 'no',
-        otherInfoResidentialService: 'no',
-        otherInfoBusinessService: 'no',
-        otherInfoCreditDebitCardPayment: 'no',
-        otherInfoPaypalPayment: 'no',
-        otherInfoApplePayPayment: 'no',
-        otherInfoGooglePayPayment: 'no',
-        otherInfoCashPayment: 'no',
-        otherInfoCryptoCurrencyPayment: 'no',
-        otherInfoOneTimePlan: 'no',
-        otherInfoMonthlyPlan: 'no',
-        otherInfoYearlyPlan: 'no',
+        otherInfoRemoteSupport: '',
+        otherInfoInStoreService: '',
+        otherInfoHouseCall: '',
+        otherInfoPickUpDrop: '',
+        otherInfoResidentialService: '',
+        otherInfoBusinessService: '',
+        otherInfoCreditDebitCardPayment: '',
+        otherInfoPaypalPayment: '',
+        otherInfoApplePayPayment: '',
+        otherInfoGooglePayPayment: '',
+        otherInfoCashPayment: '',
+        otherInfoCryptoCurrencyPayment: '',
+        otherInfoOneTimePlan: '',
+        otherInfoMonthlyPlan: '',
+        otherInfoYearlyPlan: '',
     })
 
     const [formTwoCertificates, setFormTwoCertificates] = useState({cert0 : {certTitle:undefined,certUrl:undefined,certFile:undefined}})
@@ -257,12 +254,6 @@ export const MerchantSignUpProvider = ({ children }) => {
             setFormTwoErrors(prevState => ({...prevState, businessName:false}))
         }
         
-        if(formTwoVals.businessWebAddress === '' || formTwoVals.businessWebAddress === null || formTwoVals.businessWebAddress === undefined){
-            setFormTwoErrors(prevState => ({...prevState, businessWebAddress:'Field is empty'}))
-        }else{
-            setFormTwoErrors(prevState => ({...prevState, businessWebAddress:false}))
-        }
-        
         if(formTwoVals.businessWorkNumber === '' || formTwoVals.businessWorkNumber === null || formTwoVals.businessWorkNumber === undefined || isNaN(formTwoVals.businessWorkNumber) || formTwoVals.businessWorkNumber.length !== 10 ){
             setFormTwoErrors(prevState => ({...prevState, businessWorkNumber:'Phone number invalid'}))
         }else{
@@ -284,41 +275,41 @@ export const MerchantSignUpProvider = ({ children }) => {
             setFormTwoErrors(prevState => ({...prevState, businessLocationAddressType:false}))
         }
 
-        if(formTwoVals.businessLocationAddressType === '' || formTwoVals.businessLocationAddressType === null || formTwoVals.businessLocationAddressType === undefined){
-            setFormTwoErrors(prevState => ({...prevState, businessLocationAddressType:'Field is empty'}))
-        }else{
-            setFormTwoErrors(prevState => ({...prevState, businessLocationAddressType:false}))
-        }
+        // if(formTwoVals.businessLocationAddressType === '' || formTwoVals.businessLocationAddressType === null || formTwoVals.businessLocationAddressType === undefined){
+        //     setFormTwoErrors(prevState => ({...prevState, businessLocationAddressType:'Field is empty'}))
+        // }else{
+        //     setFormTwoErrors(prevState => ({...prevState, businessLocationAddressType:false}))
+        // }
         
-        if(formTwoVals.businessLocationStreetName === '' || formTwoVals.businessLocationStreetName === null || formTwoVals.businessLocationStreetName === undefined){
-            setFormTwoErrors(prevState => ({...prevState, businessLocationStreetName:'Field is empty'}))
-        }else{
-            setFormTwoErrors(prevState => ({...prevState, businessLocationStreetName:false}))
-        }
+        // if(formTwoVals.businessLocationStreetName === '' || formTwoVals.businessLocationStreetName === null || formTwoVals.businessLocationStreetName === undefined){
+        //     setFormTwoErrors(prevState => ({...prevState, businessLocationStreetName:'Field is empty'}))
+        // }else{
+        //     setFormTwoErrors(prevState => ({...prevState, businessLocationStreetName:false}))
+        // }
         
-        if(formTwoVals.businessLocationCityName === '' || formTwoVals.businessLocationCityName === null || formTwoVals.businessLocationCityName === undefined){
-            setFormTwoErrors(prevState => ({...prevState, businessLocationCityName:'Field is empty'}))
-        }else{
-            setFormTwoErrors(prevState => ({...prevState, businessLocationCityName:false}))
-        }
+        // if(formTwoVals.businessLocationCityName === '' || formTwoVals.businessLocationCityName === null || formTwoVals.businessLocationCityName === undefined){
+        //     setFormTwoErrors(prevState => ({...prevState, businessLocationCityName:'Field is empty'}))
+        // }else{
+        //     setFormTwoErrors(prevState => ({...prevState, businessLocationCityName:false}))
+        // }
         
-        if(formTwoVals.businessLocationStateName === '' || formTwoVals.businessLocationStateName === null || formTwoVals.businessLocationStateName === undefined){
-            setFormTwoErrors(prevState => ({...prevState, businessLocationStateName:'Field is empty'}))
-        }else{
-            setFormTwoErrors(prevState => ({...prevState, businessLocationStateName:false}))
-        }
+        // if(formTwoVals.businessLocationStateName === '' || formTwoVals.businessLocationStateName === null || formTwoVals.businessLocationStateName === undefined){
+        //     setFormTwoErrors(prevState => ({...prevState, businessLocationStateName:'Field is empty'}))
+        // }else{
+        //     setFormTwoErrors(prevState => ({...prevState, businessLocationStateName:false}))
+        // }
         
-        if(formTwoVals.businessLocationCountryName === '' || formTwoVals.businessLocationCountryName === null || formTwoVals.businessLocationCountryName === undefined){
-            setFormTwoErrors(prevState => ({...prevState, businessLocationCountryName:'Field is empty'}))
-        }else{
-            setFormTwoErrors(prevState => ({...prevState, businessLocationCountryName:false}))
-        }
+        // if(formTwoVals.businessLocationCountryName === '' || formTwoVals.businessLocationCountryName === null || formTwoVals.businessLocationCountryName === undefined){
+        //     setFormTwoErrors(prevState => ({...prevState, businessLocationCountryName:'Field is empty'}))
+        // }else{
+        //     setFormTwoErrors(prevState => ({...prevState, businessLocationCountryName:false}))
+        // }
 
-        if(formTwoVals.businessLocationZipCodeName === '' || formTwoVals.businessLocationZipCodeName === null || formTwoVals.businessLocationZipCodeName === undefined){
-            setFormTwoErrors(prevState => ({...prevState, businessLocationZipCodeName:'Field is empty'}))
-        }else{
-            setFormTwoErrors(prevState => ({...prevState, businessLocationZipCodeName:false}))
-        }
+        // if(formTwoVals.businessLocationZipCodeName === '' || formTwoVals.businessLocationZipCodeName === null || formTwoVals.businessLocationZipCodeName === undefined){
+        //     setFormTwoErrors(prevState => ({...prevState, businessLocationZipCodeName:'Field is empty'}))
+        // }else{
+        //     setFormTwoErrors(prevState => ({...prevState, businessLocationZipCodeName:false}))
+        // }
 
         if(formTwoVals.businessLocationServiceRadStart === '' || formTwoVals.businessLocationServiceRadStart === null || formTwoVals.businessLocationServiceRadStart === undefined){
             setFormTwoErrors(prevState => ({...prevState, businessLocationServiceRadStart:'Field is empty'}))
@@ -362,6 +353,98 @@ export const MerchantSignUpProvider = ({ children }) => {
         }
 
         {/************************************************************Other information************************************************************/}
+        
+        if(formTwoVals.otherInfoRemoteSupport === '' || formTwoVals.otherInfoRemoteSupport === null || formTwoVals.otherInfoRemoteSupport === undefined){
+            setFormTwoErrors(prevState => ({...prevState, otherInfoRemoteSupport:'Field is empty'}))
+        }else{
+            setFormTwoErrors(prevState => ({...prevState, otherInfoRemoteSupport:false}))
+        }
+        
+        if(formTwoVals.otherInfoInStoreService === '' || formTwoVals.otherInfoInStoreService === null || formTwoVals.otherInfoInStoreService === undefined){
+            setFormTwoErrors(prevState => ({...prevState, otherInfoInStoreService:'Field is empty'}))
+        }else{
+            setFormTwoErrors(prevState => ({...prevState, otherInfoInStoreService:false}))
+        }
+
+        if(formTwoVals.otherInfoHouseCall === '' || formTwoVals.otherInfoHouseCall === null || formTwoVals.otherInfoHouseCall === undefined){
+            setFormTwoErrors(prevState => ({...prevState, otherInfoHouseCall:'Field is empty'}))
+        }else{
+            setFormTwoErrors(prevState => ({...prevState, otherInfoHouseCall:false}))
+        }
+
+        if(formTwoVals.otherInfoPickUpDrop === '' || formTwoVals.otherInfoPickUpDrop === null || formTwoVals.otherInfoPickUpDrop === undefined){
+            setFormTwoErrors(prevState => ({...prevState, otherInfoPickUpDrop:'Field is empty'}))
+        }else{
+            setFormTwoErrors(prevState => ({...prevState, otherInfoPickUpDrop:false}))
+        }
+
+        if(formTwoVals.otherInfoResidentialService === '' || formTwoVals.otherInfoResidentialService === null || formTwoVals.otherInfoResidentialService === undefined){
+            setFormTwoErrors(prevState => ({...prevState, otherInfoResidentialService:'Field is empty'}))
+        }else{
+            setFormTwoErrors(prevState => ({...prevState, otherInfoResidentialService:false}))
+        }
+
+        if(formTwoVals.otherInfoBusinessService === '' || formTwoVals.otherInfoBusinessService === null || formTwoVals.otherInfoBusinessService === undefined){
+            setFormTwoErrors(prevState => ({...prevState, otherInfoBusinessService:'Field is empty'}))
+        }else{
+            setFormTwoErrors(prevState => ({...prevState, otherInfoBusinessService:false}))
+        }
+
+        if(formTwoVals.otherInfoCreditDebitCardPayment === '' || formTwoVals.otherInfoCreditDebitCardPayment === null || formTwoVals.otherInfoCreditDebitCardPayment === undefined){
+            setFormTwoErrors(prevState => ({...prevState, otherInfoCreditDebitCardPayment:'Field is empty'}))
+        }else{
+            setFormTwoErrors(prevState => ({...prevState, otherInfoCreditDebitCardPayment:false}))
+        }
+
+        if(formTwoVals.otherInfoPaypalPayment === '' || formTwoVals.otherInfoPaypalPayment === null || formTwoVals.otherInfoPaypalPayment === undefined){
+            setFormTwoErrors(prevState => ({...prevState, otherInfoPaypalPayment:'Field is empty'}))
+        }else{
+            setFormTwoErrors(prevState => ({...prevState, otherInfoPaypalPayment:false}))
+        }
+
+        if(formTwoVals.otherInfoApplePayPayment === '' || formTwoVals.otherInfoApplePayPayment === null || formTwoVals.otherInfoApplePayPayment === undefined){
+            setFormTwoErrors(prevState => ({...prevState, otherInfoApplePayPayment:'Field is empty'}))
+        }else{
+            setFormTwoErrors(prevState => ({...prevState, otherInfoApplePayPayment:false}))
+        }
+
+        if(formTwoVals.otherInfoGooglePayPayment === '' || formTwoVals.otherInfoGooglePayPayment === null || formTwoVals.otherInfoGooglePayPayment === undefined){
+            setFormTwoErrors(prevState => ({...prevState, otherInfoGooglePayPayment:'Field is empty'}))
+        }else{
+            setFormTwoErrors(prevState => ({...prevState, otherInfoGooglePayPayment:false}))
+        }
+
+        if(formTwoVals.otherInfoCashPayment === '' || formTwoVals.otherInfoCashPayment === null || formTwoVals.otherInfoCashPayment === undefined){
+            setFormTwoErrors(prevState => ({...prevState, otherInfoCashPayment:'Field is empty'}))
+        }else{
+            setFormTwoErrors(prevState => ({...prevState, otherInfoCashPayment:false}))
+        }
+
+        if(formTwoVals.otherInfoCryptoCurrencyPayment === '' || formTwoVals.otherInfoCryptoCurrencyPayment === null || formTwoVals.otherInfoCryptoCurrencyPayment === undefined){
+            setFormTwoErrors(prevState => ({...prevState, otherInfoCryptoCurrencyPayment:'Field is empty'}))
+        }else{
+            setFormTwoErrors(prevState => ({...prevState, otherInfoCryptoCurrencyPayment:false}))
+        }
+        
+        if(formTwoVals.otherInfoOneTimePlan === '' || formTwoVals.otherInfoOneTimePlan === null || formTwoVals.otherInfoOneTimePlan === undefined){
+            setFormTwoErrors(prevState => ({...prevState, otherInfoOneTimePlan:'Field is empty'}))
+        }else{
+            setFormTwoErrors(prevState => ({...prevState, otherInfoOneTimePlan:false}))
+        }
+
+        if(formTwoVals.otherInfoMonthlyPlan === '' || formTwoVals.otherInfoMonthlyPlan === null || formTwoVals.otherInfoMonthlyPlan === undefined){
+            setFormTwoErrors(prevState => ({...prevState, otherInfoMonthlyPlan:'Field is empty'}))
+        }else{
+            setFormTwoErrors(prevState => ({...prevState, otherInfoMonthlyPlan:false}))
+        }
+
+        if(formTwoVals.otherInfoYearlyPlan === '' || formTwoVals.otherInfoYearlyPlan === null || formTwoVals.otherInfoYearlyPlan === undefined){
+            setFormTwoErrors(prevState => ({...prevState, otherInfoYearlyPlan:'Field is empty'}))
+        }else{
+            setFormTwoErrors(prevState => ({...prevState, otherInfoYearlyPlan:false}))
+        }
+
+        
     }
 
 
@@ -593,7 +676,7 @@ export const MerchantSignUpProvider = ({ children }) => {
     }
 
     return (
-        <MerchantSignUpContext.Provider value={{step, setStep, formOneVals, setFormOneVals, formOneErrors, setFormOneErrors, formOneValidate, formTwoVals, setFormTwoVals, formTwoErrors, setFormTwoErrors, formTwoValidate,formTwoCertificates, setFormTwoCertificates,formTwoCertificatesError, setFormTwoCertificatesError,formTwoCertificatesValidate, formTwoCertificatesStatus, formTwoBusinessHours, setFormTwoBusinessHours, formTwoBusinessHoursStatus, setFormTwoBusinessHoursStatus, formTwoBusinessHoursError, setFormTwoBusinessHoursError, formTwoBusinessHoursValidate, formThreeVals, setFormThreeVals, formThreeValidate}}>{children}</MerchantSignUpContext.Provider>
+        <MerchantSignUpContext.Provider value={{merchantSignUpOpen, setMerchantSignUpOpen, step, setStep, formOneVals, setFormOneVals, formOneErrors, setFormOneErrors, formOneValidate, formTwoVals, setFormTwoVals, formTwoErrors, setFormTwoErrors, formTwoValidate,formTwoCertificates, setFormTwoCertificates,formTwoCertificatesError, setFormTwoCertificatesError,formTwoCertificatesValidate, formTwoCertificatesStatus, formTwoBusinessHours, setFormTwoBusinessHours, formTwoBusinessHoursStatus, setFormTwoBusinessHoursStatus, formTwoBusinessHoursError, setFormTwoBusinessHoursError, formTwoBusinessHoursValidate, formThreeVals, setFormThreeVals, formThreeValidate}}>{children}</MerchantSignUpContext.Provider>
   )
 }
 // make sure use

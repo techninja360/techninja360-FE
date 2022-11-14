@@ -1,14 +1,16 @@
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
-import BackArrow from '../components/svg/signUp/BackArrow'
-import SignUpDivider from '../components/svg/signUp/SignUpDivider'
+import BackArrow from './svg/signUp/BackArrow'
+import SignUpDivider from './svg/signUp/SignUpDivider'
 import { useSignUpContext } from '../context/signUp_context'
 import {useRouter} from 'next/router'
 
-const SignUp = () => {
+const UserSignUp = () => {
 
     const Router = useRouter()
     const {signUpOpen, setSignUpOpen} = useSignUpContext()
+
+    const [authRes, setAuthRes] = useState()
 
     const [fname, setFname] = useState('')
     const [lname, setLname] = useState('')
@@ -52,8 +54,19 @@ const SignUp = () => {
                 // "Authorization": "Bearer " + auth.token,
               },})
             const data = await rawRes.json()
+            
+            console.log(data)
+            setAuthRes(data)
 
             if(data.status === 'ok'){
+                // const userDetail = await fetch('http://localhost:8000/api/user/profile/details',{method:'GET',headers: {
+                //     "Content-Type": "application/json",
+                //     "Authorization": "Bearer " + data.user_data.token,
+                // },})
+                // const userDetailData = await userDetail.json()
+                // console.log('userDetailData',userDetailData);
+
+                localStorage.setItem('userToken',data.user_data.token)
                 Router.push('http://localhost:3000/UserProfile')
             }
 
@@ -186,4 +199,4 @@ const SignUp = () => {
   )
 }
 
-export default SignUp
+export default UserSignUp

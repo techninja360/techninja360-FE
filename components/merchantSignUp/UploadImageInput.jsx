@@ -21,7 +21,7 @@ const UploadImageInput = ({id, required, width, title, placeholder, warning, onC
                     onChange(e)
                 }
                 else{
-                    setsizeError('Img Size large')
+                    setsizeError(`Uploaded img Size is larger than ${imgSize/1024} kb`)
                 }
             }
             else if(sizeRule === 'gt'){
@@ -32,7 +32,7 @@ const UploadImageInput = ({id, required, width, title, placeholder, warning, onC
                     onChange(e)
                 }
                 else{
-                    setsizeError('Img Size small')
+                    setsizeError(`Uploaded img Size is smaller than ${imgSize/1024} kb`)
                 }
             }
 

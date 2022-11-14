@@ -51,7 +51,7 @@ const StepOne = () => {
                 <div className='py-7 px-7'>
                     <h3 className='font-semibold text-sm'>PRIMARY CONTACT NAME <span className='text-red-500'>*</span></h3>
                     <div className='mt-2 flex w-full gap-x-4'>
-                        <SelectInput id='primSalut' items={[{name:'Mr',value:'Mr'},{name:'Mrs',value:'Mrs'},{name:'Ms',value:'Ms'}]} placeholder='Mr' required={true} width='w-1/6' onChange={onChange} value={formOneVals.primSalut} error = {formOneErrors.primSalut} />
+                        <SelectInput id='primSalut' items={[{name:'Mr',value:'Mr'},{name:'Mrs',value:'Mrs'},{name:'Ms',value:'Ms'}]} placeholder='Title' required={true} width='w-1/6' onChange={onChange} value={formOneVals.primSalut} error = {formOneErrors.primSalut} />
                         <TextInput id='primFName' placeholder='First Name' required={true} width='w-1/3' onChange={onChange} value={formOneVals.primFName} error = {formOneErrors.primFName}/>
                         <TextInput id='primMName' placeholder='Middle Name' required={true} width='w-1/3' onChange={onChange} value={formOneVals.primMName} error = {formOneErrors.primMName}/>
                         <TextInput id='primLName' placeholder='Last Name' required={true} width='w-1/3' onChange={onChange} value={formOneVals.primLName} error = {formOneErrors.primLName}/>
@@ -77,7 +77,7 @@ const StepOne = () => {
                 <div className='py-7 px-7'>
                     <h3 className='font-semibold text-sm'>ALTERNATE CONTACT NAME </h3>
                     <div className='mt-2 flex w-full gap-x-4'>
-                        <SelectInput id='altSalut' items={[{name:'Mr',value:'Mr'},{name:'Mrs',value:'Mrs'},{name:'Ms',value:'Ms'}]} placeholder='Mr' width='w-1/6' onChange={onChange} value={formOneVals.altSalut} />
+                        <SelectInput id='altSalut' items={[{name:'Mr',value:'Mr'},{name:'Mrs',value:'Mrs'},{name:'Ms',value:'Ms'}]} placeholder='Title' width='w-1/6' onChange={onChange} value={formOneVals.altSalut} />
                         <TextInput id='altFName' placeholder='First Name' width='w-1/3' onChange={onChange} value={formOneVals.altFName}/>
                         <TextInput id='altMName' placeholder='Middle Name' width='w-1/3' onChange={onChange} value={formOneVals.altMName}/>
                         <TextInput id='altLName' placeholder='Last Name' width='w-1/3' onChange={onChange} value={formOneVals.altLName}/>

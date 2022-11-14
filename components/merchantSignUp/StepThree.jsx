@@ -169,14 +169,14 @@ const StepThree = () => {
                                                                                 <p className='font-normal text-[10px] italic text-red-500 mt-2 pr-10'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{formThreeVals[subCategoryServiceId].error}</p> 
                                                                             </div>
                                                                             <div className='mt-3'>
-                                                                                <input type='text' id={subCategoryServiceId + 'Text' +'Fees'} value={formThreeVals[subCategoryServiceId].fees} className={`placeholder-[#B0B0B0] py-3 px-4 h-fit mt-0 w-full font-normal text-base bg-[#F9F9F9] border border-[#E9E9E9] rounded-md`} placeholder='Flat Fees (Enter Amount)' onChange={(e)=>handleChange(e,subCategoryServiceId)}/>
+                                                                                <input type='text' id={subCategoryServiceId + 'Text' +'Fees'} value={formThreeVals[subCategoryServiceId].fees} className={`placeholder-[#B0B0B0] py-3 px-4 h-fit mt-0 w-full font-normal text-base bg-[#F9F9F9] border border-[#E9E9E9] rounded-md`} placeholder='Flat Fees (Amount)' onChange={(e)=>handleChange(e,subCategoryServiceId)}/>
                                                                             </div>
                                                                         </div>
                                                                     )
                                                                 })
                                                             }
                                                             <div className='mt-6 w-full'>
-                                                                <input type='text' id={'Audio/Video&TVMountingTVMountingDesc'} value={formThreeVals['Audio/Video&TVMountingTVMountingDesc']} className={`placeholder-[#B0B0B0] py-3 px-4 h-fit mt-0 w-full font-normal text-base bg-[#F9F9F9] border border-[#E9E9E9] rounded-md`} placeholder='Describe Your Service in some words... (Optional)' onChange={(e)=>handleChange(e,'Audio/Video&TVMountingTVMountingDesc')}/>
+                                                                <input type='text' id={'Audio/Video&TVMountingTVMountingDesc'} value={formThreeVals['Audio/Video&TVMountingTVMountingDesc']} className={`placeholder-[#B0B0B0] py-3 px-4 h-fit mt-0 w-full font-normal text-base bg-[#F9F9F9] border border-[#E9E9E9] rounded-md`} placeholder='Describe Your Service in some words... (Optional)' onChange={(e)=>handleChange(e,'Audio/Video&TVMountingTVMountingDesc')} maxLength={100}/>
                                                             </div>
                                                         </div>
                                                         
@@ -197,17 +197,17 @@ const StepThree = () => {
                                                                     
                                                                     <div className='flex items-center gap-x-3'>
                                                                         <input type="radio" id={subCategoryServiceId + 'Radio' +'FlatFees'} name={subCategoryServiceId + 'fees'} value={formThreeVals[subCategoryServiceId].fees.flat}/>
-                                                                        <input type='text' id={subCategoryServiceId + 'Text' +'FlatFees'} value={formThreeVals[subCategoryServiceId].fees.flat} className={`placeholder-[#B0B0B0] py-3 px-4 h-fit mt-0 w-full font-normal text-base bg-[#F9F9F9] border border-[#E9E9E9] rounded-md`} placeholder='Flat Fees (Enter Amount)' onChange={(e)=>handleChange(e,subCategoryServiceId)}/>
+                                                                        <input type='text' id={subCategoryServiceId + 'Text' +'FlatFees'} value={formThreeVals[subCategoryServiceId].fees.flat} className={`placeholder-[#B0B0B0] py-3 px-4 h-fit mt-0 w-full font-normal text-base bg-[#F9F9F9] border border-[#E9E9E9] rounded-md`} placeholder='Flat Fees (Amount)' onChange={(e)=>handleChange(e,subCategoryServiceId)}/>
                                                                     </div>
 
                                                                     <div className='flex items-center gap-x-3'>
                                                                         <input type="radio" id={subCategoryServiceId + 'Radio' +'HourlyFees'} name={subCategoryServiceId + 'fees'} value={formThreeVals[subCategoryServiceId].fees.hourly}/>
-                                                                        <input type='text' id={subCategoryServiceId + 'Text' +'HourlyFees'} value={formThreeVals[subCategoryServiceId].fees.hourly} className={`placeholder-[#B0B0B0] py-3 px-4 h-fit mt-0 w-full font-normal text-base bg-[#F9F9F9] border border-[#E9E9E9] rounded-md`} placeholder='Hourly Fees (Enter Amount)' onChange={(e)=>handleChange(e,subCategoryServiceId)}/>
+                                                                        <input type='text' id={subCategoryServiceId + 'Text' +'HourlyFees'} value={formThreeVals[subCategoryServiceId].fees.hourly} className={`placeholder-[#B0B0B0] py-3 px-4 h-fit mt-0 w-full font-normal text-base bg-[#F9F9F9] border border-[#E9E9E9] rounded-md`} placeholder='Hourly Fees (Amount)' onChange={(e)=>handleChange(e,subCategoryServiceId)}/>
                                                                     </div>
 
                                                                     <div className='flex items-center gap-x-3'>
                                                                         <input type="radio" id={subCategoryServiceId + 'Radio' +'CustomFees'} name={subCategoryServiceId + 'fees'} value={formThreeVals[subCategoryServiceId].fees.custom}/>
-                                                                        <input type='text' id={subCategoryServiceId + 'Text' +'CustomFees'} value={formThreeVals[subCategoryServiceId].fees.custom} className={`placeholder-[#000] placeholder:font-semibold placeholder:text-base py-3 px-4 h-fit mt-0 w-full font-normal text-base bg-[#F1F8FF] border border-[#D4EAFF] rounded-md`} placeholder='Custom (Starts From)' onChange={(e)=>handleChange(e,subCategoryServiceId)}/>
+                                                                        <input type='text' id={subCategoryServiceId + 'Text' +'CustomFees'} value={formThreeVals[subCategoryServiceId].fees.custom} className={`placeholder-[#B0B0B0] py-3 px-4 h-fit mt-0 w-full font-normal text-base bg-[#F9F9F9] border border-[#E9E9E9] rounded-md`} placeholder='Starts At' onChange={(e)=>handleChange(e,subCategoryServiceId)}/>
                                                                     </div>
 
                                                                     <div className='flex items-center gap-x-3 w-1/4'>
@@ -217,7 +217,7 @@ const StepThree = () => {
                                                                         
                                                                     </div>
                                                                     <div className='mt-6'>
-                                                                        <input type='text' id={subCategoryServiceId + 'Desc'} value={formThreeVals[subCategoryServiceId].desc} className={`placeholder-[#B0B0B0] py-3 px-4 h-fit mt-0 w-full font-normal text-base bg-[#F9F9F9] border border-[#E9E9E9] rounded-md`} placeholder='Describe Your Service in some words... (Optional)' onChange={(e)=>handleChange(e,subCategoryServiceId)}/>
+                                                                        <input type='text' id={subCategoryServiceId + 'Desc'} value={formThreeVals[subCategoryServiceId].desc} className={`placeholder-[#B0B0B0] py-3 px-4 h-fit mt-0 w-full font-normal text-base bg-[#F9F9F9] border border-[#E9E9E9] rounded-md`} placeholder='Describe Your Service in some words... (Optional)' maxLength={100} onChange={(e)=>handleChange(e,subCategoryServiceId)}/>
                                                                     </div>
                                                                 </div>
                                                         </div>

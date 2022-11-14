@@ -77,7 +77,7 @@ const StepTwo = () => {
     const handleFormTwo = (e) => {
         e.preventDefault()
         formTwoValidate()
-        formTwoCertificatesValidate()
+        // formTwoCertificatesValidate()
         formTwoBusinessHoursValidate()
     }
 
@@ -232,12 +232,12 @@ const StepTwo = () => {
                     <div className='mt-7 flex w-full gap-x-4 items-start'>
                         
                         <TextInput id='businessName' title='Business Name' placeholder='Enter Business Name' width='w-1/3' required={true} onChange={onChange} error={formTwoErrors.businessName} value={businessName}/>
-                        <TextInput id='businessWebAddress' title='Website Address' placeholder='Enter Website Addess' width='w-1/3' required={true} onChange={onChange} error={formTwoErrors.businessWebAddress} value={businessWebAddress}/>
+                        <TextInput id='businessWebAddress' title='Website Address' placeholder='Enter Website Addess' width='w-1/3' onChange={onChange} error={formTwoErrors.businessWebAddress} value={businessWebAddress}/>
                         
                         <div className={`flex flex-wrap w-1/3 relative`}>
                             <h3 className='font-semibold text-sm uppercase'>Toll Free Number</h3>
                             <div className='mt-2 flex w-full gap-x-4'>
-                                <SelectInput id={'businessTollFreePreFix'} items={[{name:'800',value:'800'},{name:'1800',value:'1800'},{name:'1860',value:'1860'},]} placeholder='800' width='w-full' onChange={onChange} error={formTwoErrors.businessTollFreePreFix} value={businessTollFreePreFix}/>
+                                <SelectInput id={'businessTollFreePreFix'} items={[{name:'800',value:'800'},{name:'888',value:'888'},{name:'877',value:'877'},{name:'866',value:'866'},{name:'855',value:'855'},{name:'844',value:'844'},{name:'833',value:'833'},]} placeholder='800' width='w-full' onChange={onChange} error={formTwoErrors.businessTollFreePreFix} value={businessTollFreePreFix}/>
                                 <TextInput id={'businessTollFreeStart'} width='1/3' placeholder='123' onChange={onChange} error={formTwoErrors.businessTollFreeStart} value={businessTollFreeStart} />
                                 <TextInput id={'businessTollFreeEnd'} width='1/3' placeholder='5678' onChange={onChange} error={formTwoErrors.businessTollFreeEnd} value={businessTollFreeEnd}/>
                             </div>                            
@@ -247,14 +247,14 @@ const StepTwo = () => {
 
                     <div className='mt-7 flex w-full gap-x-4 items-start'>
                         <TextInput id='businessWorkNumber' title='Work Number' placeholder='(123)-456-7890' width='w-1/3' required={true} onChange={onChange} error={formTwoErrors.businessWorkNumber} value={businessWorkNumber}/>
-                        <SelectInput id='businessYearsInBusiness' title='Years in business' items={[{name:'<1',value:0},{name:'1-5',value:5},{name:'5-10',value:10},{name:'10+',value:15}]} placeholder='Select Years' width='w-1/3' onChange={onChange} error={formTwoErrors.businessYearsInBusiness} value={businessYearsInBusiness}/>
-                        <SelectInput id='businessEmployeeStrength' title='Employee strength' items={[{name:'Solo',value:1},{name:'1-5',value:5},{name:'5-10',value:10},{name:'10+',value:15}]} placeholder='Solo' width='w-1/3' onChange={onChange} error={formTwoErrors.businessEmployeeStrength} value={businessEmployeeStrength}/>
+                        <SelectInput id='businessYearsInBusiness' title='Years in business' items={[{name:'1',value:1},{name:'2',value:2},{name:'3',value:3},{name:'4',value:4},{name:'5',value:5},{name:'6',value:6},{name:'7',value:7},{name:'8',value:8},{name:'9',value:9},{name:'10',value:10},{name:'11',value:11},{name:'12',value:12},{name:'13',value:13},{name:'14',value:14},{name:'15',value:15},{name:'16',value:16},{name:'17',value:17},{name:'18',value:18},{name:'19',value:19},{name:'20+',value:20},]} placeholder='Select Years' width='w-1/3' onChange={onChange} error={formTwoErrors.businessYearsInBusiness} value={businessYearsInBusiness}/>
+                        <SelectInput id='businessEmployeeStrength' title='Employee strength' items={[{name:'Solo',value:1},{name:'2-5',value:5},{name:'6-10',value:10},{name:'11-20',value:20},{name:'20+',value:25}]} placeholder='Solo' width='w-1/3' onChange={onChange} error={formTwoErrors.businessEmployeeStrength} value={businessEmployeeStrength}/>
                     </div>
 
                     <div className='mt-7 flex w-full gap-x-4 items-start flex-wrap'>
                         {/* <h3 className='font-semibold text-sm uppercase'>Description <span className='text-red-500'>*</span></h3>
                         <textarea id="businessDescription" placeholder='Describe About Yourself' className='py-3 px-4 mt-2 w-full h-36 font-normal text-base bg-[#F9F9F9] border border-[#E9E9E9] rounded-md' onChange={onChange} error={formTwoErrors.businessDescription} value={businessDescription}></textarea> */}
-                        <TextareaInput id='businessDescription' error={formTwoErrors.businessDescription} onChange={onChange} placeholder='Describe About Yourself' required={true} title='Description' value={businessDescription} width='w-full' height='h-36'/>
+                        <TextareaInput id='businessDescription' error={formTwoErrors.businessDescription} onChange={onChange} placeholder='Describe About Yourself' required={true} title='Description' value={businessDescription} width='w-full' height='h-36' wordLimit={500}/>
                     </div>
                 
                 </div>
@@ -314,14 +314,14 @@ const StepTwo = () => {
                     </div>
 
                     <div className='mt-7 flex w-full gap-x-4 items-start'>
-                        <TextInput id='businessLocationStreetName' placeholder='Enter Street Address' title='street' required={true} width='w-3/4' onChange={onChange} error={formTwoErrors.businessLocationStreetName} value={businessLocationStreetName}/>
-                        <TextInput id='businessLocationCityName' placeholder='Enter City Name' title='City' required={true} width='w-1/4' onChange={onChange} error={formTwoErrors.businessLocationCityName} value={businessLocationCityName}/>
+                        <TextInput id='businessLocationStreetName' placeholder='Enter Street Address' title='street' width='w-3/4' onChange={onChange} error={formTwoErrors.businessLocationStreetName} value={businessLocationStreetName}/>
+                        <TextInput id='businessLocationCityName' placeholder='Enter City Name' title='City' width='w-1/4' onChange={onChange} error={formTwoErrors.businessLocationCityName} value={businessLocationCityName}/>
                     </div>
                     
                     <div className='mt-7 flex w-full gap-x-4 items-start'>
-                        <SelectInput id='businessLocationStateName' items={[{name:'gujarat',value:'gj'},{name:'Delhi',value:'dl'},{name:'Maharashtra',value:'mh'},]} placeholder='Select State' required={true} title='state' width='w-1/3' onChange={onChange} error={formTwoErrors.businessLocationStateName} value={businessLocationStateName}/>
-                        <SelectInput id='businessLocationCountryName' items={[{name:'India',value:'in'},{name:'USA',value:'usa'},{name:'Canada',value:'ca'},]} placeholder='Select Country' required={true} title='Country' width='w-1/3' onChange={onChange} error={formTwoErrors.businessLocationCountryName} value={businessLocationCountryName}/>
-                        <TextInput id='businessLocationZipCodeName' placeholder='Enter Zip Code' title='zip code' required={true} width='w-1/3' onChange={onChange} error={formTwoErrors.businessLocationZipCodeName} value={businessLocationZipCodeName}/>
+                        <SelectInput id='businessLocationStateName' items={[{name:'gujarat',value:'gj'},{name:'Delhi',value:'dl'},{name:'Maharashtra',value:'mh'},]} placeholder='Select State' title='state' width='w-1/3' onChange={onChange} error={formTwoErrors.businessLocationStateName} value={businessLocationStateName}/>
+                        <SelectInput id='businessLocationCountryName' items={[{name:'India',value:'in'},{name:'USA',value:'usa'},{name:'Canada',value:'ca'},]} placeholder='Select Country' title='Country' width='w-1/3' onChange={onChange} error={formTwoErrors.businessLocationCountryName} value={businessLocationCountryName}/>
+                        <TextInput id='businessLocationZipCodeName' placeholder='Enter Zip Code' title='zip code' width='w-1/3' onChange={onChange} error={formTwoErrors.businessLocationZipCodeName} value={businessLocationZipCodeName}/>
                     </div>
                     
                     
@@ -359,12 +359,12 @@ const StepTwo = () => {
                 <div className='py-7 px-7'>
                     
                     <div className='mt-7 flex w-full gap-x-10 items-start'>
-                        <div className={`flex flex-wrap w-1/2 relative`}>
+                        <div className={`flex flex-wrap w-2/3 relative`}>
                             <h3 className='font-semibold text-sm uppercase'>Business Hours<span className='text-red-500'>*</span></h3>
                             {
                                 bnHours.map((bnHour,index)=>{
                                     return(
-                                        <div key={index} className={`${bnHour !== 0 ? 'w-full mt-0' : 'w-[84.5%] mt-2'} w-full mb-5 flex items-start justify-between  gap-x-6`}>
+                                        <div key={index} className={`${bnHour !== 0 ? 'w-full mt-0' : 'w-[88.5%] mt-2'} w-full mb-5 flex items-start justify-between  gap-x-6`}>
                                             <SelectInput id={`businessHoursDays${bnHour}`} items={businessDays} placeholder='All Days' required={true} width='w-1/2' onChange={(e)=>onChangeBnHours(e,bnHour)} error={formTwoBusinessHoursError[ `bn${bnHour}`]?.bnDays} value={formTwoBusinessHours[ `bn${bnHour}`]?.bnDays}/>
                                             
                                             <SelectInput id={`businessHoursStart${bnHour}`} items={businessTime} placeholder='01' required={true} width='w-1/4' onChange={(e)=>onChangeBnHours(e,bnHour)} error={formTwoBusinessHoursError[ `bn${bnHour}`]?.bnStart} value={formTwoBusinessHours[ `bn${bnHour}`]?.bnStart}/>
@@ -382,7 +382,7 @@ const StepTwo = () => {
                                 <div className='text-white px-5 py-3 bg-blue-500 font-semibold text-base rounded-sm cursor-pointer' onClick={addBnHours}>Add New</div>
                             </div>}
                         </div>
-                        <div className='flex flex-wrap w-1/2 relative'>
+                        <div className='flex flex-wrap w-1/3 relative'>
                             <SelectInput id='businessHoursTimezone' items={timeZones} placeholder='Pick Timezone' required={true} title='Time Zone'  onChange={onChange} error={formTwoErrors.businessHoursTimezone} value={businessHoursTimezone}/>
                             <div className='mt-8'>
                                 <input type="checkbox" id="businessHoursService247" name="businessHoursService247" checked={businessHoursService247} onClick={e=>onChange(e)}/><label htmlFor="businessHoursService247" className='font-semibold text-sm ml-3' > 24 X 7 Hours Service</label>
@@ -411,33 +411,33 @@ const StepTwo = () => {
                 <div className='py-7 px-7'>
                 
                     <div className='mt-7 flex w-full gap-x-10 items-start'>
-                        <RadioInput id='otherInfoRemoteSupport' title='Remote Support' items={[{value:'yes',name:'Yes'},{value:'no',name:'No'}]}  width='w-1/3' onChange={onChange} value={otherInfoRemoteSupport}/>
-                        <RadioInput id='otherInfoInStoreService' title='In Store Service' items={[{value:'yes',name:'Yes'},{value:'no',name:'No'}]}  width='w-1/3' onChange={onChange} value={otherInfoInStoreService}/>
-                        <RadioInput id='otherInfoHouseCall' title='House Call' items={[{value:'yes',name:'Yes'},{value:'no',name:'No'}]}  width='w-1/3' onChange={onChange} value={otherInfoHouseCall}/>
+                        <RadioInput id='otherInfoRemoteSupport' title='Remote Support' items={[{value:'yes',name:'Yes'},{value:'no',name:'No'}]}  width='w-1/3' onChange={onChange} value={otherInfoRemoteSupport} required={true} error={formTwoErrors.otherInfoRemoteSupport}/>
+                        <RadioInput id='otherInfoInStoreService' title='In Store Service' items={[{value:'yes',name:'Yes'},{value:'no',name:'No'}]}  width='w-1/3' onChange={onChange} value={otherInfoInStoreService} required={true} error={formTwoErrors.otherInfoInStoreService}/>
+                        <RadioInput id='otherInfoHouseCall' title='House Call' items={[{value:'yes',name:'Yes'},{value:'no',name:'No'}]}  width='w-1/3' onChange={onChange} value={otherInfoHouseCall} required={true} error={formTwoErrors.otherInfoHouseCall}/>
                     </div>
                     <div className='mt-7 flex w-full gap-x-10 items-start'>
-                        <RadioInput id='otherInfoPickUpDrop' title='Pick Up & Drop' items={[{value:'yes',name:'Yes'},{value:'no',name:'No'}]}  width='w-1/3' onChange={onChange} value={otherInfoPickUpDrop}/>
-                        <RadioInput id='otherInfoResidentialService' title='Residential Service' items={[{value:'yes',name:'Yes'},{value:'no',name:'No'}]}  width='w-1/3' onChange={onChange} value={otherInfoResidentialService}/>
-                        <RadioInput id='otherInfoBusinessService' title='Business Service' items={[{value:'yes',name:'Yes'},{value:'no',name:'No'}]}  width='w-1/3' onChange={onChange} value={otherInfoBusinessService}/>
+                        <RadioInput id='otherInfoPickUpDrop' title='Pick Up & Drop' items={[{value:'yes',name:'Yes'},{value:'no',name:'No'}]}  width='w-1/3' onChange={onChange} value={otherInfoPickUpDrop} required={true} error={formTwoErrors.otherInfoPickUpDrop}/>
+                        <RadioInput id='otherInfoResidentialService' title='Residential Service' items={[{value:'yes',name:'Yes'},{value:'no',name:'No'}]}  width='w-1/3' onChange={onChange} value={otherInfoResidentialService} required={true} error={formTwoErrors.otherInfoResidentialService}/>
+                        <RadioInput id='otherInfoBusinessService' title='Business Service' items={[{value:'yes',name:'Yes'},{value:'no',name:'No'}]}  width='w-1/3' onChange={onChange} value={otherInfoBusinessService} required={true} error={formTwoErrors.otherInfoBusinessService}/>
                     </div>
 
                     <h1 className='font-semibold text-2xl mt-14'>Payment Method</h1>
                     <div className='mt-7 flex w-full gap-x-10 items-start'>
-                        <RadioInput id='otherInfoCreditDebitCardPayment' title='Credit/ Debit Card' items={[{value:'yes',name:'Yes'},{value:'no',name:'No'}]}  width='w-1/3' onChange={onChange} value={otherInfoCreditDebitCardPayment}/>
-                        <RadioInput id='otherInfoPaypalPayment' title='Paypal' items={[{value:'yes',name:'Yes'},{value:'no',name:'No'}]}  width='w-1/3' onChange={onChange} value={otherInfoPaypalPayment}/>
-                        <RadioInput id='otherInfoApplePayPayment' title='Apple Pay' items={[{value:'yes',name:'Yes'},{value:'no',name:'No'}]}  width='w-1/3' onChange={onChange} value={otherInfoApplePayPayment}/>
+                        <RadioInput id='otherInfoCreditDebitCardPayment' title='Credit/ Debit Card' items={[{value:'yes',name:'Yes'},{value:'no',name:'No'}]}  width='w-1/3' onChange={onChange} value={otherInfoCreditDebitCardPayment} required={true} error={formTwoErrors.otherInfoCreditDebitCardPayment}/>
+                        <RadioInput id='otherInfoPaypalPayment' title='Paypal' items={[{value:'yes',name:'Yes'},{value:'no',name:'No'}]}  width='w-1/3' onChange={onChange} value={otherInfoPaypalPayment} required={true} error={formTwoErrors.otherInfoPaypalPayment}/>
+                        <RadioInput id='otherInfoApplePayPayment' title='Apple Pay' items={[{value:'yes',name:'Yes'},{value:'no',name:'No'}]}  width='w-1/3' onChange={onChange} value={otherInfoApplePayPayment} required={true} error={formTwoErrors.otherInfoApplePayPayment}/>
                     </div>
                     <div className='mt-7 flex w-full gap-x-10 items-start'>
-                        <RadioInput id='otherInfoGooglePayPayment' title='Google Pay' items={[{value:'yes',name:'Yes'},{value:'no',name:'No'}]}  width='w-1/3' onChange={onChange} value={otherInfoGooglePayPayment}/>
-                        <RadioInput id='otherInfoCashPayment' title='Cash' items={[{value:'yes',name:'Yes'},{value:'no',name:'No'}]}  width='w-1/3' onChange={onChange} value={otherInfoCashPayment}/>
-                        <RadioInput id='otherInfoCryptoCurrencyPayment' title='Crypto Currency' items={[{value:'yes',name:'Yes'},{value:'no',name:'No'}]}  width='w-1/3' onChange={onChange} value={otherInfoCryptoCurrencyPayment}/>
+                        <RadioInput id='otherInfoGooglePayPayment' title='Google Pay' items={[{value:'yes',name:'Yes'},{value:'no',name:'No'}]}  width='w-1/3' onChange={onChange} value={otherInfoGooglePayPayment} required={true} error={formTwoErrors.otherInfoGooglePayPayment}/>
+                        <RadioInput id='otherInfoCashPayment' title='Cash' items={[{value:'yes',name:'Yes'},{value:'no',name:'No'}]}  width='w-1/3' onChange={onChange} value={otherInfoCashPayment} required={true} error={formTwoErrors.otherInfoCashPayment}/>
+                        <RadioInput id='otherInfoCryptoCurrencyPayment' title='Crypto Currency' items={[{value:'yes',name:'Yes'},{value:'no',name:'No'}]}  width='w-1/3' onChange={onChange} value={otherInfoCryptoCurrencyPayment} required={true} error={formTwoErrors.otherInfoCryptoCurrencyPayment}/>
                     </div>
 
                     <h1 className='font-semibold text-2xl mt-14'>Plan Type</h1>
                     <div className='mt-7 flex w-full gap-x-10 items-start'>
-                        <RadioInput id='otherInfoOneTimePlan' title='One Time' items={[{value:'yes',name:'Yes'},{value:'no',name:'No'}]}  width='w-1/3' onChange={onChange} value={otherInfoOneTimePlan}/>
-                        <RadioInput id='otherInfoMonthlyPlan' title='Monthly' items={[{value:'yes',name:'Yes'},{value:'no',name:'No'}]}  width='w-1/3' onChange={onChange} value={otherInfoMonthlyPlan}/>
-                        <RadioInput id='otherInfoYearlyPlan' title='Yearly' items={[{value:'yes',name:'Yes'},{value:'no',name:'No'}]}  width='w-1/3' onChange={onChange} value={otherInfoYearlyPlan}/>
+                        <RadioInput id='otherInfoOneTimePlan' title='One Time' items={[{value:'yes',name:'Yes'},{value:'no',name:'No'}]}  width='w-1/3' onChange={onChange} value={otherInfoOneTimePlan} required={true} error={formTwoErrors.otherInfoOneTimePlan}/>
+                        <RadioInput id='otherInfoMonthlyPlan' title='Monthly' items={[{value:'yes',name:'Yes'},{value:'no',name:'No'}]}  width='w-1/3' onChange={onChange} value={otherInfoMonthlyPlan} required={true} error={formTwoErrors.otherInfoMonthlyPlan}/>
+                        <RadioInput id='otherInfoYearlyPlan' title='Yearly' items={[{value:'yes',name:'Yes'},{value:'no',name:'No'}]}  width='w-1/3' onChange={onChange} value={otherInfoYearlyPlan} required={true} error={formTwoErrors.otherInfoYearlyPlan}/>
                     </div>
                 
                 </div>

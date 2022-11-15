@@ -34,7 +34,7 @@ const UserProfile = () => {
     }
       // console.log('regular')
       const userToken = localStorage.getItem('userToken')
-      
+      console.log(userToken);
       
       const getUserData = async () => {
         const userRes = await fetch('http://localhost:8000/api/user/profile/details',{method:'GET',headers: {

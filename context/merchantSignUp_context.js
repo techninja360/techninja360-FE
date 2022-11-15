@@ -254,7 +254,7 @@ export const MerchantSignUpProvider = ({ children }) => {
             setFormTwoErrors(prevState => ({...prevState, businessName:false}))
         }
         
-        if(formTwoVals.businessWorkNumber === '' || formTwoVals.businessWorkNumber === null || formTwoVals.businessWorkNumber === undefined || isNaN(formTwoVals.businessWorkNumber) || formTwoVals.businessWorkNumber.length !== 10 ){
+        if(formTwoVals.businessWorkNumber === '' || formTwoVals.businessWorkNumber === null || formTwoVals.businessWorkNumber === undefined || formTwoVals.businessWorkNumber.length !== 14 ){
             setFormTwoErrors(prevState => ({...prevState, businessWorkNumber:'Phone number invalid'}))
         }else{
             setFormTwoErrors(prevState => ({...prevState, businessWorkNumber:false}))

@@ -10,8 +10,8 @@ const UploadImageInput = ({id, required, width, title, placeholder, warning, onC
     const [sizeWarning, setsizeWarning] = useState(warning)
 
     const hanldleFileUpload = (e) => {
-        console.log(e.target)
-
+        // console.log(e.target)
+        console.log(e.target.files[0])
         if(imgSize){
             if(sizeRule === 'lt'){
                 if(e.target.files[0].size < imgSize){

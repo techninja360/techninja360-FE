@@ -133,16 +133,16 @@ const MerchantDetails = () => {
                                     <h5 className='font-medium text-base text-white'>Add a review</h5>
                                 </button> */}
                                 <button className='flex justify-center items-center px-4 gap-x-3 border-2 border-[#E82327] rounded-sm'>
-                                    <h5 className='font-medium text-base  text-[#E82327]'>Bookmark</h5>
+                                    <h5 className='font-medium text-sm  text-[#E82327]'>Bookmark</h5>
                                     <Heart/>
                                 </button>
                                 <button className='flex justify-center items-center px-4 gap-x-3 bg-[#00900E] rounded-sm'>
-                                    <h5 className='font-medium text-base  text-white'>Share</h5>
+                                    <h5 className='font-medium text-sm  text-white'>Share</h5>
                                     <Share/>
                                 </button>
                                 <button className='flex items-center gap-x-2 px-[18px] h-12 bg-[#747474]  rounded-sm'>
                                     <Flag/>
-                                    <h5 className='font-medium text-base text-white'>Report Error</h5>
+                                    <h5 className='font-medium text-sm text-white'>Report Error</h5>
                                 </button>
                             </div>
                             <div className='flex gap-x-5 justify-end mt-5'>
@@ -150,13 +150,13 @@ const MerchantDetails = () => {
                                     <div className='flex justify-center items-center bg-white h-8 w-8 rounded-sm'>
                                         <MessageIcon/>
                                     </div>
-                                    <h5 className='font-medium text-base text-white'>Live Chat</h5>
+                                    <h5 className='font-medium text-sm text-white'>Live Chat</h5>
                                 </button>
                                 <button className='flex items-center gap-x-2 px-[18px] h-12 bg-[#0079E9]  rounded-sm'>
                                     <div className='flex justify-center items-center bg-white h-8 w-8 rounded-sm'>
                                         <PhoneCall/>
                                     </div>
-                                    <h5 className='font-medium text-base text-white'>Request a Callback</h5>
+                                    <h5 className='font-medium text-sm text-white'>Request a Callback</h5>
                                 </button>
                             </div>
                         </div>

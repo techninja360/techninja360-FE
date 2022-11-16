@@ -84,7 +84,7 @@ const MerchantDetails = () => {
                 
                 <div className='absolute left-0 -top-60 '>
                     <div className='w-[500px] h-32 bg-white flex justify-center items-center'>
-                        {/* <img src="./assets/images/home/reviewBusiness.png" alt="" className='object-cover h-[60%] w-[60%] rounded-t-sm' /> */}
+                        <img src="./assets/images/home/reviewBusiness.png" alt="" className='object-contain h-[60%] w-[60%] rounded-t-sm' />
                     </div>
                     <div className='pt-5  bg-[#0079E9] text-white rounded-b-sm'>
                         <div className='flex w-full justify-between items-center pl-9 pr-6'>

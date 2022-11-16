@@ -76,15 +76,15 @@ const TabAbout = () => {
           <div className='flex justify-between mt-3'>
             <div className='flex items-center gap-x-2  min-w-[38%]'>
               <Checked/>
-              <p className='font-normal text-[15px] text-[#8D8D8D]'>Remote Support</p>
+              <p className='font-normal text-[15px] text-[#5d5d5d]'>Remote Support</p>
             </div>
             <div className='flex items-center gap-x-2  min-w-[38%]'>
               <Unchecked/>
-              <p className='font-normal text-[15px] text-[#8D8D8D]'>Local Instore Support</p>
+              <p className='font-normal text-[15px] text-[#5d5d5d]'>Local Instore Support</p>
             </div>
             <div className='flex items-center gap-x-2  min-w-[38%]'>
               <Checked/>
-              <p className='font-normal text-[15px] text-[#8D8D8D]'>House Call</p>
+              <p className='font-normal text-[15px] text-[#5d5d5d]'>House Call</p>
             </div>
           </div>
 
@@ -97,7 +97,7 @@ const TabAbout = () => {
           <div className='flex justify-between mt-3'>
             <div className='flex items-center gap-x-2'>
               <Checked/>
-              <p className='font-normal text-[15px] text-[#8D8D8D]'>Yes</p>
+              <p className='font-normal text-[15px] text-[#5d5d5d]'>Yes</p>
             </div>
            
           </div>
@@ -111,15 +111,15 @@ const TabAbout = () => {
           <div className='flex mt-3'>
             <div className='flex items-center gap-x-2 min-w-[38%]'>
               <Checked/>
-              <p className='font-normal text-[15px] text-[#8D8D8D]'>One Time</p>
+              <p className='font-normal text-[15px] text-[#5d5d5d]'>One Time</p>
             </div>
             <div className='flex items-center gap-x-2 min-w-[38%]'>
               <Unchecked/>
-              <p className='font-normal text-[15px] text-[#8D8D8D]'>Monthly Unlimited</p>
+              <p className='font-normal text-[15px] text-[#5d5d5d]'>Monthly Unlimited</p>
             </div>
             <div className='flex items-center gap-x-2 min-w-[38%]'>
               <Checked/>
-              <p className='font-normal text-[15px] text-[#8D8D8D]'>Yearly Unlimited </p>
+              <p className='font-normal text-[15px] text-[#5d5d5d]'>Yearly Unlimited </p>
             </div>
           </div>
 
@@ -132,11 +132,11 @@ const TabAbout = () => {
           <div className='flex justify-start mt-3'>
             <div className='flex items-center gap-x-2 min-w-[38%]'>
               <Checked/>
-              <p className='font-normal text-[15px] text-[#8D8D8D]'>Personal</p>
+              <p className='font-normal text-[15px] text-[#5d5d5d]'>Personal</p>
             </div>
             <div className='flex items-center gap-x-2 min-w-[38%]'>
               <Unchecked/>
-              <p className='font-normal text-[15px] text-[#8D8D8D]'>Business</p>
+              <p className='font-normal text-[15px] text-[#5d5d5d]'>Business</p>
             </div>
             
           </div>

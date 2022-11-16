@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Footer from '../../components/Footer'
 import DetailsTabs from '../../components/merchantDetails/DetailsTabs'
 import LocationBreadcrum from '../../components/merchantDetails/LocationBreadcrum'
@@ -27,6 +27,8 @@ import { useMerchantDetailsContext } from '../../context/merchantDetails_context
 const MerchantDetails = () => {
 
     const {active, setActive} = useMerchantDetailsContext()
+
+    const [readMore, setReadMore] = useState(false)
   return (
     <>
         {/* <MerchantLogIn/> */}
@@ -42,7 +44,7 @@ const MerchantDetails = () => {
             <div className='absolute max-w-[1100px] w-full'>
                 <div className=' h-40 w-[550px] absolute right-0 top-10'>
                     
-                    <div className='relative w-full h-full'>
+                    <div className='relative w-full h-full mt-3'>
                         <div className='absolute w-full h-[70%] bg-white drop-shadow-md top-[50%] left-[50%] -translate-y-1/2 -translate-x-1/2'></div>
                         <div className='absolute w-[95%] h-[80%] bg-white drop-shadow-md top-[50%] left-[50%] -translate-y-1/2 -translate-x-1/2'></div>
                         <div className='absolute w-[90%] h-[100%] bg-white drop-shadow-md top-[50%] left-[50%] -translate-y-1/2 -translate-x-1/2'>
@@ -80,30 +82,30 @@ const MerchantDetails = () => {
         <div className='flex justify-center w-full'>
             <div className='relative max-w-[1100px] w-full flex justify-center flex-wrap mb-10'>
                 
-                <div className='absolute left-0 -top-52 '>
-                    <div className='w-[500px] h-44'>
-                        <img src="./assets/images/home/reviewBusiness.png" alt="" className='object-cover h-full w-full rounded-t-sm' />
+                <div className='absolute left-0 -top-60 '>
+                    <div className='w-[500px] h-40 bg-white flex justify-center items-center'>
+                        <img src="./assets/images/home/reviewBusiness.png" alt="" className='object-cover h-[65%] w-[65%] rounded-t-sm' />
                     </div>
                     <div className='pt-5  bg-[#0079E9] text-white rounded-b-sm'>
                         <div className='flex w-full justify-between items-center pl-9 pr-6'>
-                            <h1 className='font-semibold text-[28px]'>247 PC REPAIR</h1>
-                            <div className='flex items-center py-1 px-3 gap-x-1 bg-white text-[#0079E9]'>
+                            <h1 className='font-semibold text-[28px]'>247 PC REPAIR </h1>
+                            {/* <div className='flex items-center py-1 px-3 gap-x-1 bg-white text-[#0079E9]'>
                                 <Direction/> <p className=''> Get Direction</p>
-                            </div>
+                            </div> */}
                         </div>
                         
                         <div className='mt-4 pl-8 pb-8'>
-                            <div className='flex gap-x-3 mb-5 items-center'>
+                            <div className='flex gap-x-3 mb-[14px] items-center'>
                                 <MapPin/>
                                 <h3 className='text-lg font-normal'>141 E 62nd Street, New York, NY, 10065 </h3>
                             </div>
-                            <div className='flex gap-x-3 mb-5 items-center'>
+                            <div className='flex gap-x-3 mb-[14px] items-center'>
                                 <GlobeIcon/>
                                 <h3 className='text-lg font-normal'>https://www.247pcrepair.com </h3>
                             </div>
-                            <div className='flex gap-x-3 mb-5 items-center'>
+                            <div className='flex gap-x-3 mb-[14px] items-center'>
                                 <TollFreePhone/>
-                                <h3 className='text-lg font-normal'>1-800-346-8752  (Toll free) </h3>
+                                <h3 className='text-lg font-normal'>1-800-346-8752, (987)-654-3210 </h3>
                             </div>
                             <div className='flex gap-x-3 items-center'>
                                 <HomeIcon/>
@@ -119,21 +121,23 @@ const MerchantDetails = () => {
                     <div className='flex mt-10'>
                         <div className='w-1/2'></div>
                         <div className='w-1/2'>
-                            <div className='relative flex justify-end'>
+                            {/* <div className='relative flex justify-end'>
                                 <input  className={`placeholder-[#B0B0B0] py-3 px-4 h-fit w-[88%] font-normal text-base bg-[#F9F9F9] border border-[#E9E9E9] rounded-md`} type="text" placeholder='Search for services' />
                                 <div className='absolute top-4 right-3'>
                                     <SearchIcon/>
                                 </div>
-                            </div>
-                            <div className='flex gap-x-5 justify-end mt-7'>
-                                <button className='flex items-center gap-x-2 px-[18px] h-12 bg-[#F8B84E]  rounded-sm'>
+                            </div> */}
+                            <div className='flex gap-x-5 justify-end'>
+                                {/* <button className='flex items-center gap-x-2 px-[18px] h-12 bg-[#F8B84E]  rounded-sm'>
                                     <Review/>
                                     <h5 className='font-medium text-base text-white'>Add a review</h5>
-                                </button>
-                                <button className='flex justify-center items-center h-12 w-12 border-2 border-[#E82327] rounded-sm'>
+                                </button> */}
+                                <button className='flex justify-center items-center px-4 gap-x-3 border-2 border-[#E82327] rounded-sm'>
+                                    <h5 className='font-medium text-base  text-[#E82327]'>Bookmark</h5>
                                     <Heart/>
                                 </button>
-                                <button className='flex justify-center items-center h-12 w-12 bg-[#00900E] rounded-sm'>
+                                <button className='flex justify-center items-center px-4 gap-x-3 bg-[#00900E] rounded-sm'>
+                                    <h5 className='font-medium text-base  text-white'>Share</h5>
                                     <Share/>
                                 </button>
                                 <button className='flex items-center gap-x-2 px-[18px] h-12 bg-[#747474]  rounded-sm'>
@@ -159,7 +163,7 @@ const MerchantDetails = () => {
                     </div>
 
                     <div className='w-full mt-14'>
-                        <p className='font-normal text-lg text-[#696969]'>Technology is all around us—connecting us, entertaining us and helping us run our businesses. My Computer Works is here to keep the technology in your life running smoothly with expert solutions ranging from support to recommendations.</p>
+                        <p className='font-normal text-lg text-[#696969]'>{('Technology is all around us—connecting us, entertaining us and helping us run our businesses. My Computer Works is here to keep the technology in your life running smoothly with expert solutions ranging from support to recommendations.is all around us—connecting us, entertaining us and helping us run our businesses. My Computer Works is here to keep the technology in your life running smoothly with expert solutions ranging from support to recommendations.is all around us—connecting us, entertaining us and helping us run our businesses. My Computer Works is here to keep the technology in your life running smoothly with expert solutions ranging from support to recommendations.').slice(0,readMore? undefined : 220)}<span className='text-[#0079E9] font-medium cursor-pointer' onClick={()=>setReadMore(!readMore)}>{readMore ? ' Read less':'...Read more'}</span></p>
                     </div>
                     
                     <div>

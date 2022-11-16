@@ -7,7 +7,7 @@ import Users from '../svg/merchantDetails/Users'
 
 const bnHours = [
     {bnDays : 'Monday',bnStart:'10am',bnEnd:'9pm'},
-    {bnDays : 'Tuesday',bnStart:'10am',bnEnd:'9pm'},
+    {bnDays : 'Tuesday',bnStart:'10am',bnEnd:'12pm'},
     {bnDays : 'Wednesday',bnStart:'10am',bnEnd:'9pm'},
     {bnDays : 'Thursday',bnStart:'10am',bnEnd:'9pm'},
     {bnDays : 'Friday',bnStart:'10am',bnEnd:'9pm'},
@@ -43,7 +43,7 @@ const TabAbout = () => {
                   return(
                     <div key={day.bnDays} className='flex justify-between w-full mb-1'>
                       <h3 className='font-normal text-sm text-[#8D8D8D]'>{day.bnDays}</h3>
-                      <div className='flex font-semibold text-sm text-[#8D8D8D]'>
+                      <div className='flex font-semibold gap-x-2 text-sm text-[#8D8D8D]'>
                         <h3>{day.bnStart} - </h3>
                         <h3> {day.bnEnd}</h3>
                       </div>
@@ -129,7 +129,7 @@ const TabAbout = () => {
           
           <h1 className='text-xl font-semibold'>4. Caters</h1>
           
-          <div className='flex justify-between mt-3'>
+          <div className='flex justify-start mt-3'>
             <div className='flex items-center gap-x-2 min-w-[38%]'>
               <Checked/>
               <p className='font-normal text-[15px] text-[#8D8D8D]'>Personal</p>
@@ -138,10 +138,7 @@ const TabAbout = () => {
               <Unchecked/>
               <p className='font-normal text-[15px] text-[#8D8D8D]'>Business</p>
             </div>
-            <div className='flex items-center gap-x-2 min-w-[38%]'>
-              <Checked/>
-              <p className='font-normal text-[15px] text-[#8D8D8D]'>Enterprise</p>
-            </div>
+            
           </div>
 
         </div>

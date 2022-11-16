@@ -83,8 +83,8 @@ const MerchantDetails = () => {
             <div className='relative max-w-[1100px] w-full flex justify-center flex-wrap mb-10'>
                 
                 <div className='absolute left-0 -top-60 '>
-                    <div className='w-[500px] h-40 bg-white flex justify-center items-center'>
-                        <img src="./assets/images/home/reviewBusiness.png" alt="" className='object-cover h-[65%] w-[65%] rounded-t-sm' />
+                    <div className='w-[500px] h-32 bg-white flex justify-center items-center'>
+                        {/* <img src="./assets/images/home/reviewBusiness.png" alt="" className='object-cover h-[60%] w-[60%] rounded-t-sm' /> */}
                     </div>
                     <div className='pt-5  bg-[#0079E9] text-white rounded-b-sm'>
                         <div className='flex w-full justify-between items-center pl-9 pr-6'>
@@ -95,15 +95,15 @@ const MerchantDetails = () => {
                         </div>
                         
                         <div className='mt-4 pl-8 pb-8'>
-                            <div className='flex gap-x-3 mb-[14px] items-center'>
+                            <div className='flex gap-x-3 mb-[12px] items-center'>
                                 <MapPin/>
                                 <h3 className='text-lg font-normal'>141 E 62nd Street, New York, NY, 10065 </h3>
                             </div>
-                            <div className='flex gap-x-3 mb-[14px] items-center'>
+                            <div className='flex gap-x-3 mb-[12px] items-center'>
                                 <GlobeIcon/>
                                 <h3 className='text-lg font-normal'>https://www.247pcrepair.com </h3>
                             </div>
-                            <div className='flex gap-x-3 mb-[14px] items-center'>
+                            <div className='flex gap-x-3 mb-[12px] items-center'>
                                 <TollFreePhone/>
                                 <h3 className='text-lg font-normal'>1-800-346-8752, (987)-654-3210 </h3>
                             </div>
@@ -118,7 +118,7 @@ const MerchantDetails = () => {
 
                 <div className='w-full'>
                     
-                    <div className='flex mt-10'>
+                    <div className='flex mt-5'>
                         <div className='w-1/2'></div>
                         <div className='w-1/2'>
                             {/* <div className='relative flex justify-end'>
@@ -162,7 +162,7 @@ const MerchantDetails = () => {
                         </div>
                     </div>
 
-                    <div className='w-full mt-14'>
+                    <div className='w-full mt-9'>
                         <p className='font-normal text-lg text-[#696969]'>{('Technology is all around us—connecting us, entertaining us and helping us run our businesses. My Computer Works is here to keep the technology in your life running smoothly with expert solutions ranging from support to recommendations.is all around us—connecting us, entertaining us and helping us run our businesses. My Computer Works is here to keep the technology in your life running smoothly with expert solutions ranging from support to recommendations.is all around us—connecting us, entertaining us and helping us run our businesses. My Computer Works is here to keep the technology in your life running smoothly with expert solutions ranging from support to recommendations.').slice(0,readMore? undefined : 220)}<span className='text-[#0079E9] font-medium cursor-pointer' onClick={()=>setReadMore(!readMore)}>{readMore ? ' Read less':'...Read more'}</span></p>
                     </div>
                     

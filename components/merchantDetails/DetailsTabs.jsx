@@ -7,7 +7,7 @@ const DetailsTabs = () => {
     const {active, setActive} = useMerchantDetailsContext()
   
     return (
-        <div className='flex justify-between mt-14 border-b-2 border-[#EEEEEE]'>
+        <div className='flex justify-between mt-5 border-b-2 border-[#EEEEEE]'>
             {
                 tabs.map((tab,index)=>{
                     return(

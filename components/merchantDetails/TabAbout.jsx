@@ -17,7 +17,7 @@ const bnHours = [
 
 const TabAbout = () => {
   return (
-    <div className='flex gap-x-6 mt-9 w-full'>
+    <div className='flex gap-x-6 mt-4 w-full'>
       
       <div className='w-1/3 bg-[#F6F6F6] rounded-md'>
         

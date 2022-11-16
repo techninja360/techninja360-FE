@@ -41,7 +41,7 @@ const TabAbout = () => {
               {
                 bnHours.map((day)=>{
                   return(
-                    <div className='flex justify-between w-full mb-1'>
+                    <div key={day.bnDays} className='flex justify-between w-full mb-1'>
                       <h3 className='font-normal text-sm text-[#8D8D8D]'>{day.bnDays}</h3>
                       <div className='flex font-semibold text-sm text-[#8D8D8D]'>
                         <h3>{day.bnStart} - </h3>

@@ -71,7 +71,7 @@ const MerchantLogIn = () => {
                 </div>
 
                 <div className='flex flex-wrap justify-center mt-8'>
-                    <h4 className='w-full font-normal text-sm text-center'>Don't have an account?</h4>
+                    <h4 className='w-full font-normal text-sm text-center'>Don&apos;t have an account?</h4>
                     <Link href={'/'}><p className={`text-[#0079E9] font-bold text-lg ml-2`}> SIGN UP</p></Link>
                 </div>
 

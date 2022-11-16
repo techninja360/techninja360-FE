@@ -50,7 +50,7 @@ const MerchantSignUp = () => {
                 "phone_no" : phnNo
             }
 
-            const rawRes = await fetch('http://localhost:8000/api/auth/signup',{method:'POST', body: JSON.stringify(formBody),headers: {
+            const rawRes = await fetch('http://localhost:8000/api/merchant/signup',{method:'POST', body: JSON.stringify(formBody),headers: {
                 "Content-Type": "application/json",
                 // "Authorization": "Bearer " + auth.token,
               },})
@@ -58,15 +58,15 @@ const MerchantSignUp = () => {
             console.log(data)
             setAuthRes(data)
 
-            if(data.status === 'ok'){
-                const userDetail = await fetch('http://localhost:8000/api/user/profile/details',{method:'GET',headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": "Bearer " + data.user_data.token,
-                },})
-                const userDetailData = await userDetail.json()
-                console.log('userDetailData',userDetailData);
-                Router.push('http://localhost:3000/UserProfile')
-            }
+            // if(data.status === 'ok'){
+            //     const userDetail = await fetch('http://localhost:8000/api/user/profile/details',{method:'GET',headers: {
+            //         "Content-Type": "application/json",
+            //         "Authorization": "Bearer " + data.user_data.token,
+            //     },})
+            //     const userDetailData = await userDetail.json()
+            //     console.log('userDetailData',userDetailData);
+            //     Router.push('http://localhost:3000/UserProfile')
+            // }
 
         }
         else{
@@ -74,10 +74,6 @@ const MerchantSignUp = () => {
         }
     }
 
-    // const handleGoogleSignUp = (e) => {
-    //     e.preventDefault();
-    //     window.open("http://localhost:8000/api/auth/google", "_self");
-    // }
     const googleAuth = (e) => {
         e.preventDefault();
 		window.open(

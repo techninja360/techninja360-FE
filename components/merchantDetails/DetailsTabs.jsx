@@ -11,7 +11,7 @@ const DetailsTabs = () => {
             {
                 tabs.map((tab,index)=>{
                     return(
-                        <div className={`pb-3 w-full flex justify-center cursor-pointer ${index===active ? 'border-b-4 border-[#0079E9]':'' }`} onClick={e=>setActive(index)}>
+                        <div key={index} className={`pb-3 w-full flex justify-center cursor-pointer ${index===active ? 'border-b-4 border-[#0079E9]':'' }`} onClick={e=>setActive(index)}>
                             <h2 className={`font-medium text-xl  ${index===active ? ' text-[#0079E9]':'text-[#AEAEAE]' }`}>{tab}</h2>
                         </div>
                     )

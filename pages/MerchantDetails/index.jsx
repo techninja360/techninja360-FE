@@ -4,18 +4,23 @@ import DetailsTabs from '../../components/merchantDetails/DetailsTabs'
 import LocationBreadcrum from '../../components/merchantDetails/LocationBreadcrum'
 import TabAbout from '../../components/merchantDetails/TabAbout'
 import TabServices from '../../components/merchantDetails/TabServices'
+import MerchantLogIn from '../../components/MerchantLogIn'
 import Navbar from '../../components/Navbar'
 import SearchIcon from '../../components/svg/home/SearchIcon'
+import ActiveSlide from '../../components/svg/merchantDetails/ActiveSlide'
 import Direction from '../../components/svg/merchantDetails/Direction'
 import Flag from '../../components/svg/merchantDetails/Flag'
 import GlobeIcon from '../../components/svg/merchantDetails/GlobeIcon'
 import Heart from '../../components/svg/merchantDetails/Heart'
 import HomeIcon from '../../components/svg/merchantDetails/HomeIcon'
+import InactiveSlide from '../../components/svg/merchantDetails/InactiveSlide'
 import MapPin from '../../components/svg/merchantDetails/MapPin'
 import MessageIcon from '../../components/svg/merchantDetails/MessageIcon'
 import PhoneCall from '../../components/svg/merchantDetails/PhoneCall'
 import Review from '../../components/svg/merchantDetails/Review'
 import Share from '../../components/svg/merchantDetails/Share'
+import StarEmpty from '../../components/svg/merchantDetails/StarEmpty'
+import StarFill from '../../components/svg/merchantDetails/StarFill'
 import TollFreePhone from '../../components/svg/merchantDetails/TollFreePhone'
 import { useMerchantDetailsContext } from '../../context/merchantDetails_context'
 
@@ -24,6 +29,7 @@ const MerchantDetails = () => {
     const {active, setActive} = useMerchantDetailsContext()
   return (
     <>
+        {/* <MerchantLogIn/> */}
         <Navbar/>
         <div className='flex bg-[#F3FAFC] justify-center w-full'>
             <LocationBreadcrum/>
@@ -34,8 +40,39 @@ const MerchantDetails = () => {
                 <img src="./assets/images/merchantDetails/merchantBg.png" alt="" className='object-cover w-full h-full blur-xl' />
             </div>
             <div className='absolute max-w-[1100px] w-full'>
-                <div className='bg-red-400 h-40 w-[550px] absolute right-0 top-10'>
-                    Reviews
+                <div className=' h-40 w-[550px] absolute right-0 top-10'>
+                    
+                    <div className='relative w-full h-full'>
+                        <div className='absolute w-full h-[70%] bg-white drop-shadow-md top-[50%] left-[50%] -translate-y-1/2 -translate-x-1/2'></div>
+                        <div className='absolute w-[95%] h-[80%] bg-white drop-shadow-md top-[50%] left-[50%] -translate-y-1/2 -translate-x-1/2'></div>
+                        <div className='absolute w-[90%] h-[100%] bg-white drop-shadow-md top-[50%] left-[50%] -translate-y-1/2 -translate-x-1/2'>
+                            <div className='w-full h-full flex justify-between gap-x-4 p-7'>
+                                <div className='w-1/5 flex flex-col justify-center items-center gap-y-3'>
+                                    <div className='w-24 h-24'>
+                                        <img src="./assets/images/home/reviewClient.png" alt="client" className='object-cover h-full w-full' />
+                                    </div>
+                                    <div className='flex justify-between gap-x-1'><StarFill/> <StarFill/> <StarFill/> <StarFill/> <StarEmpty/> </div>
+                                </div>
+                                <div className='w-4/5'>
+                                    <div className='flex gap-x-4 w-full items-center'>
+                                        <h1 className='font-medium text-xl'>Hannah Schmitt</h1>
+                                        <h3 className='font-normal text-base italic text-[#A3A3A3]'>Lead Designer</h3>
+                                    </div>
+                                    <div className='mt-3'>
+                                        <p className='font-light text-sm text-[#3D3D3D]'>
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cursus nibh mauris, nec turpis orci lectus maecenas. Suspendisse sed magna eget nibh in turpis. 
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className='absolute w-full -bottom-5'>
+                            <div className='flex w-full justify-center items-center gap-x-1'>
+                                <ActiveSlide/><InactiveSlide/><InactiveSlide/>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -44,7 +81,7 @@ const MerchantDetails = () => {
             <div className='relative max-w-[1100px] w-full flex justify-center flex-wrap mb-10'>
                 
                 <div className='absolute left-0 -top-52 '>
-                    <div className='w-[526px] h-44'>
+                    <div className='w-[500px] h-44'>
                         <img src="./assets/images/home/reviewBusiness.png" alt="" className='object-cover h-full w-full rounded-t-sm' />
                     </div>
                     <div className='pt-5  bg-[#0079E9] text-white rounded-b-sm'>
@@ -82,8 +119,8 @@ const MerchantDetails = () => {
                     <div className='flex mt-10'>
                         <div className='w-1/2'></div>
                         <div className='w-1/2'>
-                            <div className='relative'>
-                                <input  className={`placeholder-[#B0B0B0] py-3 px-4 h-fit w-full font-normal text-base bg-[#F9F9F9] border border-[#E9E9E9] rounded-md`} type="text" placeholder='Search for services' />
+                            <div className='relative flex justify-end'>
+                                <input  className={`placeholder-[#B0B0B0] py-3 px-4 h-fit w-[88%] font-normal text-base bg-[#F9F9F9] border border-[#E9E9E9] rounded-md`} type="text" placeholder='Search for services' />
                                 <div className='absolute top-4 right-3'>
                                     <SearchIcon/>
                                 </div>

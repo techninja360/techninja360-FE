@@ -9,7 +9,7 @@ const Navbar = () => {
     <div className='flex justify-center w-full'>
       <nav className='flex justify-between items-center w-full h-24 max-w-[1100px]'>
           <Link href={'/'}>
-              <img src="./assets/images/home/baldgenie.png" alt="logo" className='h-10 cursor-pointer' />
+              <img src="./assets/images/home/logo.png" alt="logo" className='h-6 cursor-pointer' />
           </Link>
           
           <div className='min-w-2/5 h-11  drop-shadow-md '>

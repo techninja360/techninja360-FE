@@ -4,9 +4,10 @@ const MerchantDetailsContext = createContext()
 export const MerchantDetailsProvider = ({ children }) => {
 
     const [active, setActive] = useState(0)
+    const [reqCallback, setReqCallback] = useState(false)
     
     return (
-        <MerchantDetailsContext.Provider value={{active, setActive}}>{children}</MerchantDetailsContext.Provider>
+        <MerchantDetailsContext.Provider value={{active, setActive, reqCallback, setReqCallback}}>{children}</MerchantDetailsContext.Provider>
     )
 }
 

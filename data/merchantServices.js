@@ -1,6 +1,15 @@
+import AvIcon, { AvIconSelected } from "../components/svg/merchantDetails/AvIcon";
+import ComputerIcon, { ComputerIconSelected } from "../components/svg/merchantDetails/ComputerIcon";
+import MobileIcon, { MobileIconSelected } from "../components/svg/merchantDetails/MobileIcon";
+import NetworkIcon, { NetworkIconSelected } from "../components/svg/merchantDetails/NetworkIcon";
+import PrinterIcon, { PrinterIconSelected } from "../components/svg/merchantDetails/PrinterIcon";
+import SmartHomeIcon, { SmartHomeIconSelected } from "../components/svg/merchantDetails/SmartHomeIcon";
+
 export const services = [
     {
         'mainCategory':'Computers',
+        'icon':<ComputerIcon/>,
+        'selectedIcon':<ComputerIconSelected/>,
         'subCategories':[
             {
                 'subCategoryName':'Software Support',
@@ -15,6 +24,8 @@ export const services = [
     },
     {
         'mainCategory':'Printers',
+        'icon':<PrinterIcon/>,
+        'selectedIcon':<PrinterIconSelected/>,
         'subCategories':[
             {
                 'subCategoryName':'',
@@ -25,6 +36,8 @@ export const services = [
     },
     {
         'mainCategory':'Wifi and Network',
+        'icon':<NetworkIcon/>,
+        'selectedIcon':<NetworkIconSelected/>,
         'subCategories':[
             {
                 'subCategoryName':'',
@@ -35,6 +48,8 @@ export const services = [
     },
     {
         'mainCategory':'Mobile Support',
+        'icon':<MobileIcon/>,
+        'selectedIcon':<MobileIconSelected/>,
         'subCategories':[
             {
                 'subCategoryName':'Software Support',
@@ -49,6 +64,8 @@ export const services = [
     },
     {
         'mainCategory':'Smart Home',
+        'icon':<SmartHomeIcon/>,
+        'selectedIcon':<SmartHomeIconSelected/>,
         'subCategories':[
             {
                 'subCategoryName':'Thermostats',
@@ -79,6 +96,8 @@ export const services = [
     },
     {
         'mainCategory':'Audio/ Video & TV Mounting',
+        'icon':<AvIcon/>,
+        'selectedIcon':<AvIconSelected/>,
         'subCategories':[
             {
                 'subCategoryName':'TV Mounting',

@@ -7,7 +7,7 @@ const MerchantSignUpContext = React.createContext()
 export const MerchantSignUpProvider = ({ children }) => {
 
     const [merchantSignUpOpen, setMerchantSignUpOpen] = useState(false)
-    const [step, setStep] = useState(2)
+    const [step, setStep] = useState(1)
 //--------------------------------------------Form 1 processing-------------------------------------------------------------------------------------
     const [formOneVals, setFormOneVals] = useState({
       primSalut:'',

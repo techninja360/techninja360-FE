@@ -13,7 +13,7 @@ const RadioInput = ({id, required, width, title, placeholder, items, warning, on
         <div className={`flex flex-wrap ${width} relative`}>
             {title ? <h3 className='font-semibold text-sm uppercase'>{title} {required?<span className='text-red-500'>*</span>:null}</h3> : null}
 
-            <div className={`${title ? 'mt-2':'mt-0'} flex w-full gap-x-12`}>
+            <div className={`${title ? 'mt-2':'mt-0'} flex flex-wrap gap-y-5 w-full gap-x-12`}>
                 {
                     items.map((item)=>{
                         return (

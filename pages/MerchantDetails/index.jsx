@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import Footer from '../../components/Footer'
 import DetailsTabs from '../../components/merchantDetails/DetailsTabs'
 import LocationBreadcrum from '../../components/merchantDetails/LocationBreadcrum'
+import RequestCallback from '../../components/merchantDetails/RequestCallback'
 import TabAbout from '../../components/merchantDetails/TabAbout'
 import TabServices from '../../components/merchantDetails/TabServices'
 import MerchantLogIn from '../../components/MerchantLogIn'
@@ -26,12 +27,13 @@ import { useMerchantDetailsContext } from '../../context/merchantDetails_context
 
 const MerchantDetails = () => {
 
-    const {active, setActive} = useMerchantDetailsContext()
+    const {active, setActive, reqCallback, setReqCallback} = useMerchantDetailsContext()
 
     const [readMore, setReadMore] = useState(false)
   return (
     <>
         {/* <MerchantLogIn/> */}
+        {reqCallback && <RequestCallback/>}
         <Navbar/>
         <div className='flex bg-[#F3FAFC] justify-center w-full'>
             <LocationBreadcrum/>
@@ -152,7 +154,7 @@ const MerchantDetails = () => {
                                     </div>
                                     <h5 className='font-medium text-sm text-white'>Live Chat</h5>
                                 </button>
-                                <button className='flex items-center gap-x-2 px-[18px] h-12 bg-[#0079E9]  rounded-sm'>
+                                <button className='flex items-center gap-x-2 px-[18px] h-12 bg-[#0079E9]  rounded-sm' onClick={()=>setReqCallback(true)}>
                                     <div className='flex justify-center items-center bg-white h-8 w-8 rounded-sm'>
                                         <PhoneCall/>
                                     </div>

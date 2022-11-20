@@ -26,7 +26,7 @@ const TabReviews = () => {
                         <h5 className='font-normal text-sm italic text-[#77838F]'>john@example.com</h5>
                     </div>
                     <div>
-                        <p className='font-normal text-sm mt-1 text-[#77838F]'>Ce module est bien expliqué grâce aux exemples concrets que Monsieur Hassan utilise à chaque fois quand il s'agit du terrain. La structure du module est cohérente. Je félicite notre formateur pour son intelligence et sa passion.</p>
+                        <p className='font-normal text-sm mt-1 text-[#77838F]'>Ce module est bien expliqué grâce aux exemples concrets que Monsieur Hassan utilise à chaque fois quand il sagit du terrain. La structure du module est cohérente. Je félicite notre formateur pour son intelligence et sa passion.</p>
                     </div>
                     <div className='flex gap-x-5 mt-5'>
                         <div className='h-24 w-24'>
@@ -53,7 +53,7 @@ const TabReviews = () => {
                         <h5 className='font-normal text-sm italic text-[#77838F]'>john@example.com</h5>
                     </div>
                     <div>
-                        <p className='font-normal text-sm mt-1 text-[#77838F]'>Ce module est bien expliqué grâce aux exemples concrets que Monsieur Hassan utilise à chaque fois quand il s'agit du terrain. La structure du module est cohérente. Je félicite notre formateur pour son intelligence et sa passion.</p>
+                        <p className='font-normal text-sm mt-1 text-[#77838F]'>Ce module est bien expliqué grâce aux exemples concrets que Monsieur Hassan utilise à chaque fois quand il sagit du terrain. La structure du module est cohérente. Je félicite notre formateur pour son intelligence et sa passion.</p>
                     </div>
                     
                 </div>

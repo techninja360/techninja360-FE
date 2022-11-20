@@ -4,6 +4,11 @@ import DetailsTabs from '../../components/merchantDetails/DetailsTabs'
 import LocationBreadcrum from '../../components/merchantDetails/LocationBreadcrum'
 import RequestCallback from '../../components/merchantDetails/RequestCallback'
 import TabAbout from '../../components/merchantDetails/TabAbout'
+import TabCertificates from '../../components/merchantDetails/TabCertificates'
+import TabMap from '../../components/merchantDetails/TabMap'
+import TabOffers from '../../components/merchantDetails/TabOffers'
+import TabPhotos from '../../components/merchantDetails/TabPhotos'
+import TabReviews from '../../components/merchantDetails/TabReviews'
 import TabServices from '../../components/merchantDetails/TabServices'
 import MerchantLogIn from '../../components/MerchantLogIn'
 import Navbar from '../../components/Navbar'
@@ -179,7 +184,21 @@ const MerchantDetails = () => {
                     {
                         active === 1 && <TabServices/>   
                     }
-                    
+                    {
+                        active === 2 && <TabReviews/>
+                    }
+                    {
+                        active === 3 && <TabPhotos/>
+                    }
+                    {
+                        active === 4 && <TabMap/>
+                    }
+                    {
+                        active === 5 && <TabOffers/>
+                    }
+                    {
+                        active === 6 && <TabCertificates/>
+                    }
                     </div>
                 </div>
 

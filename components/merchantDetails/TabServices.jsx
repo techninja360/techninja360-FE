@@ -17,7 +17,7 @@ const TabServices = () => {
           {
             services.map((service,index)=>{
               return(
-                <ServiceCategories categoryName={service.mainCategory} icon={service.icon} selectedIcon={service.selectedIcon} selected={selected} setSelected={setSelected} index={index}/>
+                <ServiceCategories key={index} categoryName={service.mainCategory} icon={service.icon} selectedIcon={service.selectedIcon} selected={selected} setSelected={setSelected} index={index}/>
               )
             })
           }

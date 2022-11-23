@@ -315,7 +315,7 @@ const Listing = () => {
                                     </div>
                                     <div className='w-[65%]'>
                                         <p className='font-normal text-sm text-[#797979]'>
-                                        247PCRepair is about your computer's health! We remotely provide instant top-notch solutions to computer hardware and software related problems received...
+                                        247PCRepair is about your computers health! We remotely provide instant top-notch solutions to computer hardware and software related problems received...
                                         </p>
                                     </div>
                                     <div className='flex justify-center items-center m-3 ml-0 w-[15%] min-w-[120px] h-[90px] '>
@@ -349,7 +349,7 @@ const Listing = () => {
                                     </div>
                                     <div className='w-[65%]'>
                                         <p className='font-normal text-sm text-[#797979]'>
-                                        247PCRepair is about your computer's health! We remotely provide instant top-notch solutions to computer hardware and software related problems received...
+                                        247PCRepair is about your computers health! We remotely provide instant top-notch solutions to computer hardware and software related problems received...
                                         </p>
                                     </div>
                                     <div className='flex justify-center items-center m-3 ml-0 w-[15%] min-w-[120px] h-[90px] '>
@@ -383,7 +383,7 @@ const Listing = () => {
                                     </div>
                                     <div className='w-[65%]'>
                                         <p className='font-normal text-sm text-[#797979]'>
-                                        247PCRepair is about your computer's health! We remotely provide instant top-notch solutions to computer hardware and software related problems received...
+                                        247PCRepair is about your computers health! We remotely provide instant top-notch solutions to computer hardware and software related problems received...
                                         </p>
                                     </div>
                                     <div className='flex justify-center items-center m-3 ml-0 w-[15%] min-w-[120px] h-[90px] '>

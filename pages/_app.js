@@ -1,3 +1,4 @@
+import { ListingProvider } from '../context/listing_context'
 import { MerchantDetailsProvider } from '../context/merchantDetails_context'
 import { MerchantSignUpProvider } from '../context/merchantSignUp_context'
 import { SignUpProvider } from '../context/signUp_context'
@@ -8,7 +9,9 @@ function MyApp({ Component, pageProps }) {
     <MerchantSignUpProvider>
       <SignUpProvider>
         <MerchantDetailsProvider>
-          <Component {...pageProps} />
+          <ListingProvider>
+            <Component {...pageProps} />
+          </ListingProvider>
         </MerchantDetailsProvider>
       </SignUpProvider>
     </MerchantSignUpProvider>

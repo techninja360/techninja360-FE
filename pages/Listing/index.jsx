@@ -31,6 +31,7 @@ const FilterTitle = ({title}) => {
 const Listing = () => {
     const {filters, setFilters} = useListingContext()
 
+    const [subMenu, setSubMenu] = useState(0)
    const [flatMax, setFlatMax] = useState('')
    const [hourlyMax, setHourlyMax] = useState('')
 
@@ -110,12 +111,40 @@ const Listing = () => {
         <div className='flex justify-center pb-20 w-full relative'>
             <div className=' max-w-[1100px] w-full'>
                 
-                <div className='flex justify-between bg-[#00AEEF] py-4 px-5'>
+                <div className='flex justify-between bg-[#00AEEF] px-5'>
                     {
                         services.map((service,index)=>{
                             return (
-                                <div key={index}>
-                                    <h2 className='text-white'>{service.mainCategory}</h2>
+                                /* onClick={()=>setSubMenu(subMenu === 0 || subMenu !== service.mainCategory ? service.mainCategory : 0)} */
+                                /* onMouseOver={()=>setSubMenu(service.mainCategory)} onMouseOut={()=>setSubMenu(0)} */
+                                <div className='relative w-auto py-4' key={index} onMouseOver={()=>setSubMenu(service.mainCategory)} onMouseOut={()=>setSubMenu(0)} >
+                                    <h2 className='text-white cursor-pointer'>{service.mainCategory}</h2>
+                                    {
+                                        subMenu === service.mainCategory &&
+                                        
+                                        <div className={`absolute top-14 ${ index>3 ? '-left-36' : '-left-5' } z-10 flex flex-wrap gap-x-8 w-max max-w-[600px] px-8 py-7 bg-white drop-shadow-md rounded-b-md`}>
+                                            {
+                                                service.subCategories.map((subCategory,subCategoryIndex)=>{
+                                                    return(
+                                                        <>
+
+                                                        <div className='w-max max-w-[250px] '>
+                                                            {subCategory.subCategoryName && <h2 className='font-medium text-[15px] mb-[18px] text-[#454444]'>{subCategory.subCategoryName}</h2>}
+                                                            {
+                                                                subCategory.subCategoryServices.map((subCategoryService)=>{
+                                                                    return (
+                                                                        <h5 className='font-normal text-sm text-[#6F6F6F] mb-3'>{subCategoryService}</h5>
+                                                                    )
+                                                                })
+                                                            }
+                                                        </div>
+                                                        {/* {subCategoryIndex % 2 === 0 && <div className='w-full'></div>} */}
+                                                        </>
+                                                    )
+                                                })
+                                            }
+                                        </div>
+                                    }
                                 </div>
                             )
                         })

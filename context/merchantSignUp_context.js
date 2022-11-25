@@ -7,7 +7,7 @@ const MerchantSignUpContext = React.createContext()
 export const MerchantSignUpProvider = ({ children }) => {
 
     const [merchantSignUpOpen, setMerchantSignUpOpen] = useState(false)
-    const [step, setStep] = useState(1)
+    const [step, setStep] = useState(2)
 //--------------------------------------------Form 1 processing-------------------------------------------------------------------------------------
     const [formOneVals, setFormOneVals] = useState({
       primSalut:'',
@@ -65,13 +65,20 @@ export const MerchantSignUpProvider = ({ children }) => {
         }else{
             setFormOneErrors(prevState => ({...prevState, primEmail:false}))
         }
-        if(formOneVals.primPhone === '' || formOneVals.primPhone === null || formOneVals.primPhone === undefined || isNaN(formOneVals.primPhone) || formOneVals.primPhone.length !== 10 ){
+
+        if(formTwoVals.businessWorkNumber === '' || formTwoVals.businessWorkNumber === null || formTwoVals.businessWorkNumber === undefined || formTwoVals.businessWorkNumber.length !== 14 ){
+            setFormTwoErrors(prevState => ({...prevState, businessWorkNumber:'Phone number invalid'}))
+        }else{
+            setFormTwoErrors(prevState => ({...prevState, businessWorkNumber:false}))
+        }
+
+        if(formOneVals.primPhone === '' || formOneVals.primPhone === null || formOneVals.primPhone === undefined || formOneVals.primPhone.length !== 14 ){
             setFormOneErrors(prevState => ({...prevState, primPhone:'Phone number invalid'}))
         }else{
             setFormOneErrors(prevState => ({...prevState, primPhone:false}))
         }
         if(formOneVals.primAltPh !== ''){
-            if(isNaN(formOneVals.primAltPh) || formOneVals.primAltPh.length !== 10 ){
+            if(formOneVals.primAltPh.length !== 14 ){
                 setFormOneErrors(prevState => ({...prevState, primAltPh:'Phone number invalid'}))
             }
             else{
@@ -84,7 +91,7 @@ export const MerchantSignUpProvider = ({ children }) => {
         
 
         if(formOneVals.altAltPh !== ''){
-            if(isNaN(formOneVals.altAltPh) || formOneVals.altAltPh.length !== 10 ){
+            if(formOneVals.altAltPh.length !== 14 ){
                 setFormOneErrors(prevState => ({...prevState, altAltPh:'Phone number invalid'}))
             }
             else{
@@ -95,7 +102,7 @@ export const MerchantSignUpProvider = ({ children }) => {
             setFormOneErrors(prevState => ({...prevState, altAltPh:false}))
         }
         if(formOneVals.altPhone !== ''){
-            if(isNaN(formOneVals.altPhone) || formOneVals.altPhone.length !== 10 ){
+            if(formOneVals.altPhone.length !== 14 ){
                 setFormOneErrors(prevState => ({...prevState, altPhone:'Phone number invalid'}))
             }
             else{

@@ -61,7 +61,7 @@ const TabReviews = () => {
 
         </div>
 
-        <div className='w-full mt-11'>
+        {/* <div className='w-full mt-11'>
             <div className='py-6 px-10 w-[770px] bg-[#F6F6F6] border border-[#E7E7E7]'>
                 <div className='w-full'>
                     <h1 className='font-semibold text-[22px]'>Add Your Comment</h1>
@@ -100,7 +100,7 @@ const TabReviews = () => {
                     <button className='font-bold text-base text-white bg-[#0079E9] py-4 px-9 rounded-sm'>Submit Comment</button>
                 </div>
             </div>
-        </div>
+        </div> */}
         
     </div>
   )

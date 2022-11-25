@@ -111,60 +111,6 @@ const StepTwo = () => {
         // console.log(e.target.type)
 
         if(e.target.id === 'businessWorkNumber'){
-            const isNumericInput = (event) => {
-                const key = event.keyCode;
-                return ((key >= 48 && key <= 57) || // Allow number line
-                    (key >= 96 && key <= 105) // Allow number pad
-                );
-            };
-            
-            const isModifierKey = (event) => {
-                const key = event.keyCode;
-                return (event.shiftKey === true || key === 35 || key === 36) || // Allow Shift, Home, End
-                    (key === 8 || key === 9 || key === 13 || key === 46) || // Allow Backspace, Tab, Enter, Delete
-                    (key > 36 && key < 41) || // Allow left, up, right, down
-                    (
-                        // Allow Ctrl/Command + A,C,V,X,Z
-                        (event.ctrlKey === true || event.metaKey === true) &&
-                        (key === 65 || key === 67 || key === 86 || key === 88 || key === 90)
-                    )
-            };
-            
-            const enforceFormat = (event) => {
-                // Input must be of a valid number format or a modifier key, and not longer than ten digits
-                if(!isNumericInput(event) && !isModifierKey(event)){
-                    console.log('here');
-                    event.preventDefault();
-                }
-                else{
-                    console.log('else here')
-                    formatToPhone(event)
-                }
-            };
-            
-            const formatToPhone = (event) => {
-                if(isModifierKey(event)) {return;}
-            
-                const input = event.target.value.replace(/\D/g,'').substring(0,10); // First ten digits of input only
-                const areaCode = input.substring(0,3);
-                const middle = input.substring(3,6);
-                const last = input.substring(6,10);
-            
-                if(input.length > 6){
-                    // event.target.value = `(${areaCode}) ${middle} - ${last}`;
-                    setFormTwoVals(prevState => ({...prevState, [e.target.id]:`(${areaCode}) ${middle} - ${last}`}))
-                }
-                else if(input.length > 3){
-                    // event.target.value = `(${areaCode}) ${middle}`;
-                    setFormTwoVals(prevState => ({...prevState, [e.target.id]: `(${areaCode}) ${middle}`}))
-                }
-                else if(input.length > 0){
-                    // event.target.value = `(${areaCode}`;
-                    setFormTwoVals(prevState => ({...prevState, [e.target.id]: `(${areaCode}`}))
-                }
-            };
-
-            // enforceFormat(e)
 
             function phoneFormat(input) {//returns (###) ###-####
                 input = input.replace(/\D/g,'');
@@ -184,7 +130,7 @@ const StepTwo = () => {
             if(businessHoursService247 === false){
                 setBnHours([0])
                 setFormTwoBusinessHours({bn0 : {bnDays:formTwoBusinessHours.bn0.bnDays,bnStart:formTwoBusinessHours.bn0.bnStart,bnEnd:formTwoBusinessHours.bn0.bnEnd}})
-                setFormTwoBusinessHoursError({bn0 : {bnDays:setFormTwoBusinessHoursError.bn0.bnDays,bnStart:setFormTwoBusinessHoursError.bn0.bnStart,bnEnd:setFormTwoBusinessHoursError.bn0.bnEnd}})
+                setFormTwoBusinessHoursError({bn0 : {bnDays:formTwoBusinessHoursError.bn0.bnDays,bnStart:formTwoBusinessHoursError.bn0.bnStart,bnEnd:formTwoBusinessHoursError.bn0.bnEnd}})
             }
             setFormTwoVals(prevState => ({...prevState, [e.target.name]:!prevState[e.target.name] }))
         }
@@ -341,11 +287,11 @@ const StepTwo = () => {
                         certifications.map((cert,index)=>{
                             return (
                                 <div key={index} className='mt-7 flex w-full gap-x-4 items-start'>
-                                    <TextInput id={`certificateTitle${cert}`} width='w-1/3' title={`${parseInt(cert)+1} certificate title`} placeholder='Enter title' required={true} value={formTwoCertificates[ `cert${cert}`]?.certTitle} onChange={(e)=>onChangeCerti(e,cert)} error={formTwoCertificatesError[ `cert${cert}`]?.certTitle}/>
+                                    <TextInput id={`certificateTitle${cert}`} width='w-1/3' title={`${parseInt(cert)+1} certificate title`} placeholder='Enter title' value={formTwoCertificates[ `cert${cert}`]?.certTitle} onChange={(e)=>onChangeCerti(e,cert)} error={formTwoCertificatesError[ `cert${cert}`]?.certTitle}/>
                                     
-                                    <TextInput id={`certificateURL${cert}`} width='w-1/3' title='certificate url link' placeholder='Enter Website Address' required={true} value={formTwoCertificates[ `cert${cert}`]?.certUrl} onChange={(e)=>onChangeCerti(e,cert)} error={formTwoCertificatesError[ `cert${cert}`]?.certUrl}/>
+                                    <TextInput id={`certificateURL${cert}`} width='w-1/3' title='certificate url link' placeholder='Enter Website Address' value={formTwoCertificates[ `cert${cert}`]?.certUrl} onChange={(e)=>onChangeCerti(e,cert)} error={formTwoCertificatesError[ `cert${cert}`]?.certUrl}/>
                                     
-                                    <UploadImageInput id={`certificateImage${cert}`}  title='UPLOAD LOGO' placeholder='Upload Image here' width='w-1/3' onChange={(e)=>onChangeCerti(e,cert)} required={true} error={formTwoCertificatesError[ `cert${cert}`]?.certFile} /> 
+                                    <UploadImageInput id={`certificateImage${cert}`}  title='UPLOAD LOGO' placeholder='Upload Image here' width='w-1/3' onChange={(e)=>onChangeCerti(e,cert)} error={formTwoCertificatesError[ `cert${cert}`]?.certFile} /> 
                                 </div> 
                                 
                             )
@@ -378,7 +324,7 @@ const StepTwo = () => {
                 <div className='py-7 px-7'>
                     
                     <div className='mt-7 flex w-full gap-x-4 items-start'>
-                        <RadioInput id='businessLocationAddressType' items={[{value:'remoteAdd',name:'Remote support'},{value:'inHouseAdd',name:'In House call'},{value:'pickAdd',name:'Pick up and drop'}]} required={true} title='What type of business address you have ?' width='w-3/5' onChange={onChange} error={formTwoErrors.businessLocationAddressType} value={businessLocationAddressType}/>
+                        <RadioInput id='businessLocationAddressType' items={[{value:'businessAdd',name:'Business Address'},{value:'residentialAdd',name:'Residential Address'}]} required={true} title='What type of address you have ?' width='w-3/5' onChange={onChange} error={formTwoErrors.businessLocationAddressType} value={businessLocationAddressType}/>
                     </div>
 
                     <div className='mt-7 flex w-full gap-x-4 items-start'>

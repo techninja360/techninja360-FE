@@ -15,7 +15,7 @@ const SelectInput = ({id, required, width, title, placeholder, warning, items, o
           
               <option value="" disabled className='text-gray-300'>{placeholder}</option>
               {
-                  items.map((item)=>{
+                  items?.map((item)=>{
                       return <option key={item.value} value={item.value}>{item.name}</option>
                   })
               }

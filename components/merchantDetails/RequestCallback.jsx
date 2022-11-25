@@ -1,18 +1,22 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import SelectInput from '../merchantSignUp/SelectInput'
 import XWhite from '../svg/XWhite'
 import { services } from '../../data/merchantServices'
 import RadioInput from '../merchantSignUp/RadioInput'
 import CbCalender from '../svg/merchantDetails/CbCalender'
 import { useMerchantDetailsContext } from '../../context/merchantDetails_context'
+import Server from 'next/dist/server/base-server'
 
 const RequestCallback = () => {
 
     const {reqCallback, setReqCallback} = useMerchantDetailsContext()
 
+    const calenderRef = useRef()
+
     const [cbData, setCbData] = useState({
         category:'',
         subCategory:'',
+        subCategoryService:'',
         callbackNow:'',
         callbackDate:'',
         callbackTime:''
@@ -20,6 +24,8 @@ const RequestCallback = () => {
 
 
     const [subCategoryItems, setSubCategoryItems] = useState([{name:'',value:''}])
+    const [subCategoryServiceItems, setSubCategoryServiceItems] = useState([{name:'',value:''}])
+
     const handleChange = (e) => {
         if(e.target.type === 'select'){
             setCbData(prevState => ({...prevState, [e.target.id]:e.target.value}))
@@ -37,20 +43,69 @@ const RequestCallback = () => {
 
     useEffect(()=>{
 
+        let singleCategory = false
+        let logArr = services.filter((service)=>{
+            if(service.mainCategory === cbData.category){
+                if(service.subCategories[0].subCategoryName ===''){
+                    singleCategory = service.mainCategory
+                    return service
+                }
+                else{
+                    return service
+                }
+            }
+        })
+
+        if(singleCategory){
+            console.log(logArr)
+            logArr = logArr[0]?.subCategories[0]?.subCategoryServices
+            logArr = logArr?.map((item)=>{
+                return {name:item,value:item}
+            })
+            setSubCategoryItems(cbData.category === '' ? [{name:'',value:''}] : logArr)
+        }
+        else{
+            logArr = logArr[0]?.subCategories  
+            logArr = logArr?.map((item)=>{
+                return {name:item.subCategoryName,value:item.subCategoryName}
+            })
+            setSubCategoryItems(cbData.category === '' ? [{name:'',value:''}] : logArr)
+        }
+
+
+        setCbData(prevState => ({...prevState, subCategory:''}))
+    },[cbData.category])
+
+    useEffect(()=>{
+        
         let logArr = services.filter((service)=>{
             if(service.mainCategory === cbData.category){
                 return service
             }
         })[0]?.subCategories
 
-        logArr = logArr?.map((item)=>{
-            return {name:item.subCategoryName,value:item.subCategoryName}
-        })
-        console.log(logArr);
+        logArr = logArr?.filter((subCategory)=>{
+            if(subCategory.subCategoryName === ''){
+                return subCategory
+            }
+            else if(subCategory.subCategoryName === cbData.subCategory){
+                return subCategory
+            }
+        })[0]?.subCategoryServices
 
-        setSubCategoryItems(cbData.category === '' ? [{name:'',value:''}] : logArr)
+        
+        if(logArr === undefined){
+            logArr = []
+        }
+        else{
+            logArr = logArr.map((item)=>{
+                return {name:item,value:item}
+            })
+        }
 
-    },[cbData.category])
+        setSubCategoryServiceItems(cbData.subCategory === '' ? [{name:'',value:''}] : logArr)
+        setCbData(prevState => ({...prevState, subCategoryService:''}))
+    },[cbData.subCategory,cbData.category])
   return (
     <div className='justify-center items-center w-full h-screen flex overflow-x-hidden overflow-y-auto fixed z-50 outline-none focus:outline-none bg-[#0009]'>
         <div className='h-full w-full flex justify-center items-center '>
@@ -62,7 +117,7 @@ const RequestCallback = () => {
                     </div>
                 </div>
                 <div>
-                    <div className='flex gap-x-7 p-7 '>
+                    <div className='flex gap-x-7 px-7 py-4 '>
                         <SelectInput 
                             title='Category'
                             required={true}
@@ -87,7 +142,21 @@ const RequestCallback = () => {
                             />
                     </div>
 
-                    <div className='flex gap-x-7 p-7 '>
+                    <div className='flex gap-x-7 px-7 py-4 '>
+                        <SelectInput 
+                                title='Sub Category Services'
+                                required={true}
+                                id='subCategoryService' 
+                                items={subCategoryServiceItems}
+                                placeholder='Select Sub Category Services'
+                                width={'w-1/2'}
+                                value={cbData.subCategoryService}
+                                onChange={handleChange}
+                                />
+                        <div className='w-1/2'></div>
+                    </div>
+
+                    <div className='flex gap-x-7 px-7 py-4 '>
                         <RadioInput 
                             id='callbackNow' 
                             items={[{value:'hour',name:'Within an Hour'},{value:'later',name:'Select a different time '}]} 
@@ -97,21 +166,28 @@ const RequestCallback = () => {
                             onChange={handleChange} 
                             value={cbData.callbackNow}/>
                     </div>
-
-                    <div className='flex gap-x-7 p-7 '>
+                    {
+                        cbData.callbackNow === 'later' &&
+                    
+                    <div className='flex gap-x-7 px-7 py-4 '>
                         <div className={`flex flex-wrap w-1/2 relative`}>
                             <h3 className='font-semibold text-sm uppercase'>select date<span className='text-red-500'>*</span></h3>
                         
-                            <input value={cbData.callbackDate} className={`placeholder-[#B0B0B0] py-3 px-4 h-fit mt-2 w-full font-normal text-base bg-[#F9F9F9] border border-[#E9E9E9] rounded-md`} placeholder={'Select Date'} type="date" id={'callbackDate'} min={new Date().toISOString().slice(0, 10)} required={true} onChange={handleChange}/>
+                            <input ref={calenderRef} value={cbData.callbackDate} className={`placeholder-[#B0B0B0] py-3 px-4 h-fit mt-2 w-full font-normal text-base bg-[#F9F9F9] border border-[#E9E9E9] rounded-md`} placeholder={'Select Date'} type="date" id={'callbackDate'} min={new Date().toISOString().slice(0, 10)} required={true} onClick={()=>calenderRef.current.showPicker()} onChange={handleChange}/>
                             
-                            <div className='absolute right-4 top-11'>
+                            <div className='absolute right-4 top-11' onClick={()=>{
+                                calenderRef.current.showPicker()
+                            }}>
                                 <CbCalender/>
                             </div>
                             {/* {warning || error!==false ? <p className={`font-normal text-[10px] italic ${error ?'text-red-500':'text-[#6A6A6A]'}  mt-2`}>{error ? error : warning}</p> : null} */}
                         </div>
                     </div>
-
-                    <div className='flex gap-x-7 p-7 '>
+                    }
+                    {
+                        cbData.callbackNow === 'later' &&
+                    
+                    <div className='flex gap-x-7 px-7 py-4 '>
                     <RadioInput 
                             id='callbackTime' 
                             items={[{value:'6am-9am',name:'Early morning 6am-9am'},{value:'9am-12pm',name:'Morning 9am -12pm'},{value:'12pm-3pm',name:'Afternoon 12pm - 3pm'},{value:'3pm-6pm',name:'Late afternoon 3pm -6pm'},{value:'6pm-9pm ',name:'Evening 6pm - 9pm '}]} 
@@ -121,8 +197,8 @@ const RequestCallback = () => {
                             onChange={handleChange} 
                             value={cbData.callbackTime}/>
                     </div>
-
-                    <div className='flex gap-x-7 p-7 '>
+                    }
+                    <div className='flex gap-x-7 px-7 py-4 '>
                         <button className='py-5 px-7 font-bold text-lg text-white bg-[#0079E9] rounded-sm'>Submit request</button>
                     </div>
                 </div>

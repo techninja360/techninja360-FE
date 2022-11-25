@@ -1,7 +1,9 @@
+import { useRouter } from 'next/dist/client/router'
 import React, { useState } from 'react'
 import Footer from '../../components/Footer'
 import DetailsTabs from '../../components/merchantDetails/DetailsTabs'
 import LocationBreadcrum from '../../components/merchantDetails/LocationBreadcrum'
+import ReportError from '../../components/merchantDetails/ReportError'
 import RequestCallback from '../../components/merchantDetails/RequestCallback'
 import TabAbout from '../../components/merchantDetails/TabAbout'
 import TabCertificates from '../../components/merchantDetails/TabCertificates'
@@ -29,16 +31,40 @@ import StarEmpty from '../../components/svg/merchantDetails/StarEmpty'
 import StarFill from '../../components/svg/merchantDetails/StarFill'
 import TollFreePhone from '../../components/svg/merchantDetails/TollFreePhone'
 import { useMerchantDetailsContext } from '../../context/merchantDetails_context'
+import { ToastContainer, toast, Slide } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const MerchantDetails = () => {
 
-    const {active, setActive, reqCallback, setReqCallback} = useMerchantDetailsContext()
+    const {active, setActive, reqCallback, reportError, setReportError, setReqCallback} = useMerchantDetailsContext()
 
     const [readMore, setReadMore] = useState(false)
+    const router = useRouter()
+    const handleShare = () => {
+        let url = 'http://localhost:3000' + router.pathname
+        navigator.clipboard.writeText(url)
+        toast("Copied to clip board",);
+        console.log(url)
+    }
   return (
     <>
         {/* <MerchantLogIn/> */}
         {reqCallback && <RequestCallback/>}
+        {reportError && <ReportError/>}
+        <ToastContainer
+            position="bottom-center"
+            transition={Slide}
+            autoClose={4000}
+            hideProgressBar
+            newestOnTop
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme='colored'
+            toastStyle={{ backgroundColor: "#0079E9", color:"#fff", fontWeight:400, fontSize:'18px' }}
+            />
         <Navbar/>
         <div className='flex bg-[#F3FAFC] justify-center w-full'>
             <LocationBreadcrum/>
@@ -55,17 +81,17 @@ const MerchantDetails = () => {
                         <div className='absolute w-full h-[70%] bg-white drop-shadow-md top-[50%] left-[50%] -translate-y-1/2 -translate-x-1/2'></div>
                         <div className='absolute w-[95%] h-[80%] bg-white drop-shadow-md top-[50%] left-[50%] -translate-y-1/2 -translate-x-1/2'></div>
                         <div className='absolute w-[90%] h-[100%] bg-white drop-shadow-md top-[50%] left-[50%] -translate-y-1/2 -translate-x-1/2'>
-                            <div className='w-full h-full flex justify-between gap-x-4 p-7'>
-                                <div className='w-1/5 flex flex-col justify-center items-center gap-y-3'>
+                            <div className='w-full h-full flex justify-between gap-x-4 px-7 py-4'>
+                                {/* <div className='w-1/5 flex flex-col justify-center items-center gap-y-3'>
                                     <div className='w-24 h-24'>
                                         <img src="./assets/images/home/reviewClient.png" alt="client" className='object-cover h-full w-full' />
                                     </div>
                                     <div className='flex justify-between gap-x-1'><StarFill/> <StarFill/> <StarFill/> <StarFill/> <StarEmpty/> </div>
-                                </div>
-                                <div className='w-4/5'>
-                                    <div className='flex gap-x-4 w-full items-center'>
-                                        <h1 className='font-medium text-xl'>Hannah Schmitt</h1>
-                                        <h3 className='font-normal text-base italic text-[#A3A3A3]'>Lead Designer</h3>
+                                </div> */}
+                                <div className='w-full'>
+                                    <div className='flex flex-wrap gap-x-4 w-full items-center'>
+                                        <h1 className='font-medium text-xl text-center w-full'>Hannah Schmitt</h1>
+                                        <h3 className='w-full font-normal text-sm text-center italic text-[#A3A3A3]'>Verified</h3>
                                     </div>
                                     <div className='mt-3'>
                                         <p className='font-light text-sm text-[#3D3D3D]'>
@@ -143,11 +169,11 @@ const MerchantDetails = () => {
                                     <h5 className='font-medium text-sm  text-[#E82327]'>Bookmark</h5>
                                     <Heart/>
                                 </button>
-                                <button className='flex justify-center items-center px-4 gap-x-3 bg-[#00900E] rounded-sm'>
+                                <button className='flex justify-center items-center px-4 gap-x-3 bg-[#00900E] rounded-sm' onClick={()=>handleShare()}>
                                     <h5 className='font-medium text-sm  text-white'>Share</h5>
                                     <Share/>
                                 </button>
-                                <button className='flex items-center gap-x-2 px-[18px] h-12 bg-[#747474]  rounded-sm'>
+                                <button className='flex items-center gap-x-2 px-[18px] h-12 bg-[#747474]  rounded-sm' onClick={()=>setReportError(true)}>
                                     <Flag/>
                                     <h5 className='font-medium text-sm text-white'>Report Error</h5>
                                 </button>

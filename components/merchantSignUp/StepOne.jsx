@@ -8,8 +8,22 @@ const StepOne = () => {
     const {step, setStep, formOneVals, setFormOneVals , formOneErrors, setFormOneErrors, formOneValidate } = useMerchantSignUpContext()
     const [initial, setInitial] = useState(true)
 
+    function phoneFormat(input) {//returns (###) ###-####
+        input = input.replace(/\D/g,'');
+        var size = input.length;
+        if (size>0) {input="("+input}
+        if (size>3) {input=input.slice(0,4)+") "+input.slice(4,11)}
+        if (size>6) {input=input.slice(0,9)+"-" +input.slice(9)}
+        return input;
+    }
+
     const onChange = (e) =>{
-        setFormOneVals({...formOneVals, [e.target.id]:e.target.value})
+        if(e.target.id === 'primPhone' || e.target.id === 'primAltPh' || e.target.id === 'altPhone' || e.target.id === 'altAltPhone'){
+            setFormOneVals(prevState => ({...prevState, [e.target.id]: phoneFormat(e.target.value)}))
+        }
+        else{
+            setFormOneVals({...formOneVals, [e.target.id]:e.target.value})
+        }
     }
     
     const handleFormOne = (e) => {

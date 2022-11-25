@@ -131,9 +131,9 @@ const Listing = () => {
                                                         <div key={subCategoryIndex} className='w-max max-w-[250px] '>
                                                             {subCategory.subCategoryName && <h2 className='font-medium text-[15px] mb-[18px] text-[#454444]'>{subCategory.subCategoryName}</h2>}
                                                             {
-                                                                subCategory.subCategoryServices.map((subCategoryService)=>{
+                                                                subCategory.subCategoryServices.map((subCategoryService, subCategoryServiceIndex)=>{
                                                                     return (
-                                                                        <h5 className='font-normal text-sm text-[#6F6F6F] mb-3'>{subCategoryService}</h5>
+                                                                        <h5 key={subCategoryServiceIndex} className='font-normal text-sm text-[#6F6F6F] mb-3'>{subCategoryService}</h5>
                                                                     )
                                                                 })
                                                             }

@@ -98,3 +98,12 @@ input.errorCheckbox{
   width: 34vw;
   padding: 30px 20px;
 }
+
+.map-container-merchantDetails{
+  width: 100%;
+  height: 100%;
+}
+.map-container-merchantSignUp{
+  width: 100%;
+  height: 100%;
+}

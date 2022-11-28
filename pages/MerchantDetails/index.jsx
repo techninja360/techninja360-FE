@@ -1,5 +1,5 @@
 import { useRouter } from 'next/dist/client/router'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Footer from '../../components/Footer'
 import DetailsTabs from '../../components/merchantDetails/DetailsTabs'
 import LocationBreadcrum from '../../components/merchantDetails/LocationBreadcrum'
@@ -39,6 +39,11 @@ const MerchantDetails = () => {
     const {active, setActive, reqCallback, reportError, setReportError, setReqCallback} = useMerchantDetailsContext()
 
     const [readMore, setReadMore] = useState(false)
+    const [latLng, setLatLng] = useState({lat:0,lng:0})
+
+    const address = 'SCO No. 1003, Sector 17 Chandigarh, Pin Code 160017'
+    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}`
+
     const router = useRouter()
     const handleShare = () => {
         let url = 'http://localhost:3000' + router.pathname
@@ -46,6 +51,30 @@ const MerchantDetails = () => {
         toast("Copied to clip board",);
         console.log(url)
     }
+    
+    useEffect(()=>{
+        
+    
+        const fetchLatLng = async () => {
+          const res = await fetch(url)
+          const resData = await res.json()
+    
+          if(resData.status === "OK"){
+            console.log("OK");
+            console.log(resData);
+            const lat = resData.results[0].geometry.location.lat
+            const lng = resData.results[0].geometry.location.lng
+            setLatLng({lat:lat,lng:lng})
+          }
+          else{
+            console.log("error")
+            console.log(resData)
+          }
+        }
+    
+        fetchLatLng()
+    
+      },[])
   return (
     <>
         {/* <MerchantLogIn/> */}
@@ -217,7 +246,7 @@ const MerchantDetails = () => {
                         active === 3 && <TabPhotos/>
                     }
                     {
-                        active === 4 && <TabMap/>
+                        active === 4 && <TabMap latLng={latLng} address={address}/>
                     }
                     {
                         active === 5 && <TabOffers/>

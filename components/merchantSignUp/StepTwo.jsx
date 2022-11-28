@@ -6,10 +6,12 @@ import TextInput from './TextInput'
 import UploadImageInput from './UploadImageInput'
 import { timeZones } from '../../data/timeZones'
 import { businessDays, businessTime } from '../../data/businessHoursVals'
+import { USStates } from '../../data/usStates'
 import XWhite from '../svg/XWhite'
 import RadioInput from './RadioInput'
 import { useMerchantSignUpContext } from '../../context/merchantSignUp_context'
 import TextareaInput from './TextareaInput'
+import StepTwoMap from './StepTwoMap'
 
 // const StepTwoMap = dynamic(() => import("./StepTwoMap"), { ssr:false })
 
@@ -21,6 +23,8 @@ const StepTwo = () => {
     const [bnHours, setBnHours] = useState([0])
 
     const [initial, setInitial] = useState(true)
+    const [fullAdd, setFullAdd] = useState('')
+    const [latLng, setLatLng] = useState({lat:40.77,lng:-74})
 
     const {
         businessSmallLogo ,
@@ -225,6 +229,36 @@ const StepTwo = () => {
         }
     }
 
+    const handleAddress = () => {
+        console.log('here')
+        setFullAdd(`${businessLocationStreetName}, ${businessLocationCityName}, ${businessLocationStateName}, ${businessLocationCountryName}, ${businessLocationZipCodeName}`)
+    }
+
+    useEffect(()=>{
+        
+        console.log(fullAdd);
+        const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${fullAdd}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}`
+    
+        const fetchLatLng = async () => {
+          const res = await fetch(url)
+          const resData = await res.json()
+    
+          if(resData.status === "OK"){
+            console.log("OK");
+            console.log(resData);
+            const lat = resData.results[0].geometry.location.lat
+            const lng = resData.results[0].geometry.location.lng
+            setLatLng({lat:lat,lng:lng})
+          }
+          else{
+            console.log("error")
+            console.log(resData)
+          }
+        }
+    
+        fetchLatLng()
+    
+      },[fullAdd])
   return (
     <div className='w-full mt-16'>
         <form className='px-10'>
@@ -328,18 +362,18 @@ const StepTwo = () => {
                     </div>
 
                     <div className='mt-7 flex w-full gap-x-4 items-start'>
-                        <TextInput id='businessLocationStreetName' placeholder='Enter Street Address' title='street' width='w-3/4' onChange={onChange} error={formTwoErrors.businessLocationStreetName} value={businessLocationStreetName}/>
-                        <TextInput id='businessLocationCityName' placeholder='Enter City Name' title='City' width='w-1/4' onChange={onChange} error={formTwoErrors.businessLocationCityName} value={businessLocationCityName}/>
+                        <TextInput id='businessLocationStreetName' placeholder='Enter Street Address' title='street' width='w-3/4' onChange={onChange} error={formTwoErrors.businessLocationStreetName} value={businessLocationStreetName} onBlur={handleAddress}/>
+                        <TextInput id='businessLocationCityName' placeholder='Enter City Name' title='City' width='w-1/4' onChange={onChange} error={formTwoErrors.businessLocationCityName} value={businessLocationCityName} onBlur={handleAddress}/>
                     </div>
                     
                     <div className='mt-7 flex w-full gap-x-4 items-start'>
-                        <SelectInput id='businessLocationStateName' items={[{name:'gujarat',value:'gj'},{name:'Delhi',value:'dl'},{name:'Maharashtra',value:'mh'},]} placeholder='Select State' title='state' width='w-1/3' onChange={onChange} error={formTwoErrors.businessLocationStateName} value={businessLocationStateName}/>
-                        <SelectInput id='businessLocationCountryName' items={[{name:'India',value:'in'},{name:'USA',value:'usa'},{name:'Canada',value:'ca'},]} placeholder='Select Country' title='Country' width='w-1/3' onChange={onChange} error={formTwoErrors.businessLocationCountryName} value={businessLocationCountryName}/>
-                        <TextInput id='businessLocationZipCodeName' placeholder='Enter Zip Code' title='zip code' width='w-1/3' onChange={onChange} error={formTwoErrors.businessLocationZipCodeName} value={businessLocationZipCodeName}/>
+                        <SelectInput id='businessLocationStateName' items={USStates} placeholder='Select State' title='state' width='w-1/3' onChange={onChange} error={formTwoErrors.businessLocationStateName} value={businessLocationStateName} onBlur={handleAddress}/>
+                        <SelectInput id='businessLocationCountryName' items={[{name:'USA',value:'usa'}]} placeholder='Select Country' title='Country' width='w-1/3' onChange={onChange} error={formTwoErrors.businessLocationCountryName} value={businessLocationCountryName} onBlur={handleAddress}/>
+                        <TextInput id='businessLocationZipCodeName' placeholder='Enter Zip Code' title='zip code' width='w-1/3' onChange={onChange} error={formTwoErrors.businessLocationZipCodeName} value={businessLocationZipCodeName} onBlur={handleAddress}/> 
                     </div>
                     
                     
-                    {/* <StepTwoMap/> */}
+                    <StepTwoMap latLng={latLng} address={fullAdd}/>
                     
                     <div className='mt-7 flex w-full gap-x-4 items-start'>
                         <div className={`flex flex-wrap w-1/3 relative`}>

@@ -371,7 +371,7 @@ const Listing = () => {
                                         </p>
                                     </div>
                                     <div className='flex justify-center items-center m-3 ml-0 w-[15%] min-w-[120px] h-[90px] '>
-                                        <a target='_blank' href="https://transparencyreport.google.com/safe-browsing/search?url=247pcrepair.com"><img src="./assets/images/listing/cert1.png" alt="" className='object-contain h-[95%] w-[95%] rounded-t-sm' /></a>
+                                        <a target='_blank' rel="noreferrer" href="https://transparencyreport.google.com/safe-browsing/search?url=247pcrepair.com"><img src="./assets/images/listing/cert1.png" alt="" className='object-contain h-[95%] w-[95%] rounded-t-sm' /></a>
                                     </div>
                                 </div>
                                 <div className='flex h-[50px] px-7 justify-between items-center'>

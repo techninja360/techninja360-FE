@@ -18,6 +18,7 @@ import XWhite from '../../components/svg/XWhite'
 import XWhiteSmall from '../../components/svg/XWhiteSmall'
 import SelectInputListing from '../../components/listing/SelectInputListing'
 import { listingItems } from '../../data/listingData'
+import MessageIcon from '../../components/svg/merchantDetails/MessageIcon'
 
 
 const FilterTitle = ({title}) => {
@@ -201,7 +202,9 @@ const Listing = () => {
                                     </div>
                                     <p className='font-normal text-sm text-[#605F5F]'>& Up</p>
                                 </div>
-                                <div className='relative h-5 w-5 bg-red-500 rounded-full ml-5 flex justify-center items-center text-white cursor-pointer' onClick={()=>handleReviews('')}><XWhiteSmall/></div>
+                                {filters.filterReviews !== '' && <div className='relative h-5 w-5  rounded-full ml-5 flex justify-center items-center text-black cursor-pointer' onClick={()=>handleReviews('')}>
+                                    <p className='text-sm flex gap-x-2 items-center mr-8'>X <span className=' text-[#605F5F]'> Clear</span></p>
+                                </div>}
                             </div>
                         </div>
 
@@ -230,8 +233,8 @@ const Listing = () => {
                                     </div>
                                     
                                     <div className='flex  gap-x-3 w-1/2'>
-                                        <input onChange={(e)=>setFlatMax(e.target.value)} value={flatMax} className={`placeholder-[#B0B0B0] py-px px-5 h-fit mt-0 w-full font-normal text-[10px] bg-[#fff] border border-[#DBDBDB] rounded-sm`} placeholder={'Max'} type="text" id={'filterMaxFlat'}/>
-                                        <button className='font-normal text-[10px] bg-[#0079E9] text-white px-2 py-px rounded-sm' onClick={()=>handlePrice('filterPricingFlat',flatMax)}>Go</button>
+                                        <input onChange={(e)=>setFlatMax(e.target.value)} value={flatMax} className={`placeholder-[#B0B0B0] py-px px-5 h-fit mt-0 w-full font-normal text-[12px] bg-[#fff] border border-[#DBDBDB] rounded-sm`} placeholder={'Max'} type="text" id={'filterMaxFlat'}/>
+                                        <button className='font-normal text-[12px] bg-[#0079E9] text-white px-2 py-px rounded-sm' onClick={()=>handlePrice('filterPricingFlat',flatMax)}>Go</button>
                                     </div>
                                 </div>
                                 <div className='flex gap-x-3 w-full'>
@@ -240,8 +243,8 @@ const Listing = () => {
                                         <label htmlFor={'filterPricingHourly'} className='font-normal text-sm text-[#605F5F]'>Hourly Fee</label>
                                     </div>
                                     <div className='flex  gap-x-3 w-1/2'>
-                                        <input onChange={(e)=>setHourlyMax(e.target.value)} value={hourlyMax} className={`placeholder-[#B0B0B0] py-px px-5 h-fit mt-0 w-full font-normal text-[10px] bg-[#fff] border border-[#DBDBDB] rounded-sm`} placeholder={'Max'} type="text" id={'filterMaxHourly'}/>
-                                        <button className='font-normal text-[10px] bg-[#0079E9] text-white px-2 py-px rounded-sm' onClick={()=>handlePrice('filterPricingHourly',hourlyMax)}>Go</button>
+                                        <input onChange={(e)=>setHourlyMax(e.target.value)} value={hourlyMax} className={`placeholder-[#B0B0B0] py-px px-5 h-fit mt-0 w-full font-normal text-[12px] bg-[#fff] border border-[#DBDBDB] rounded-sm`} placeholder={'Max'} type="text" id={'filterMaxHourly'}/>
+                                        <button className='font-normal text-[12px] bg-[#0079E9] text-white px-2 py-px rounded-sm' onClick={()=>handlePrice('filterPricingHourly',hourlyMax)}>Go</button>
                                     </div>
                                 </div>
                                 <div className='flex gap-x-3 w-full' onChange={e=>handlePrice('filterPricingCustom')}>
@@ -334,29 +337,29 @@ const Listing = () => {
                             <button id='sortByDistance' className='flex items-center gap-x-2 bg-[#F6F6F6] border border-[#E7E7E7] py-2 px-4 pr-3 rounded-sm font-normal text-sm text-[#707070]' onClick={e=>handleSorted(e)}>
                                 <SortByDistance/>
                                 Distance
-                                {sortedBy === 'sortByDistance' && <div className='relative h-5 w-5 bg-red-500 rounded-full ml-5 flex justify-center items-center text-white cursor-pointer' onClick={()=>setSortedBy('')}><XWhiteSmall/></div>}
+                                {sortedBy === 'sortByDistance' && <div className='relative h-5 w-5  rounded-full ml-5 flex justify-center items-center text-white cursor-pointer' onClick={()=>setSortedBy('')}><XWhiteSmall/></div>}
                             </button>
                             <button id='sortByRating' className='flex items-center gap-x-2 bg-[#F6F6F6] border border-[#E7E7E7] py-2 px-4 pr-3 rounded-sm font-normal text-sm text-[#707070]' onClick={e=>handleSorted(e)}>
                                 <SortByRating/>
                                 Rating
-                                {sortedBy === 'sortByRating' && <div className='relative h-5 w-5 bg-red-500 rounded-full ml-5 flex justify-center items-center text-white cursor-pointer' onClick={()=>setSortedBy('')}><XWhiteSmall/></div>}
+                                {sortedBy === 'sortByRating' && <div className='relative h-5 w-5  rounded-full ml-5 flex justify-center items-center text-white cursor-pointer' onClick={()=>setSortedBy('')}><XWhiteSmall/></div>}
                             </button>
                             <button id='sortByReview' className='flex items-center gap-x-2 bg-[#F6F6F6] border border-[#E7E7E7] py-2 px-4 pr-3 rounded-sm font-normal text-sm text-[#707070]' onClick={e=>handleSorted(e)}>
                                 <SortByReview/>
                                 No. of Reviews
-                                {sortedBy === 'sortByReview' && <div className='relative h-5 w-5 bg-red-500 rounded-full ml-5 flex justify-center items-center text-white cursor-pointer' onClick={()=>setSortedBy('')}><XWhiteSmall/></div>}
+                                {sortedBy === 'sortByReview' && <div className='relative h-5 w-5  rounded-full ml-5 flex justify-center items-center text-white cursor-pointer' onClick={()=>setSortedBy('')}><XWhiteSmall/></div>}
                             </button>
                             <button id='sortByRelevence' className='flex items-center gap-x-2 bg-[#F6F6F6] border border-[#E7E7E7] py-2 px-4 pr-3 rounded-sm font-normal text-sm text-[#707070]' onClick={e=>handleSorted(e)}>
                                 Relavance
-                                {sortedBy === 'sortByRelevence' && <div className='relative h-5 w-5 bg-red-500 rounded-full ml-5 flex justify-center items-center text-white cursor-pointer' onClick={()=>setSortedBy('')}><XWhiteSmall/></div>}
+                                {sortedBy === 'sortByRelevence' && <div className='relative h-5 w-5  rounded-full ml-5 flex justify-center items-center text-white cursor-pointer' onClick={()=>setSortedBy('')}><XWhiteSmall/></div>}
                             </button>
                         </div>
 
                         <div className='flex flex-wrap gap-y-[26px] mt-7'>
                             
                             <div className='relative border border-[#E4E4E4] rounded-sm '>
-                                <div className='absolute -top-4 left-3 px-2 py-1 bg-[#F9F9F9] rounded-md w-fit border border-[#E4E4E4]'>
-                                    <p className='font-light text-xs w-fit'>Sponsored</p>
+                                <div className='absolute top-0 right-0 px-2 py-1 bg-[#F9F9F9] rounded-md w-fit border border-[#E4E4E4]'>
+                                    <p className='font-light text-[8px] w-fit'>Sponsored</p>
                                 </div>
                                 <div className='flex items-center gap-x-6 bg-[#F9F9F9] border-b border-b-[#E4E4E4]'>
                                     <div className='flex justify-center items-center m-3 mt-4 mr-0 w-[20%] min-w-[196px] h-[90px] bg-white border border-[#EFEFEF] rounded-sm'>
@@ -368,7 +371,7 @@ const Listing = () => {
                                         </p>
                                     </div>
                                     <div className='flex justify-center items-center m-3 ml-0 w-[15%] min-w-[120px] h-[90px] '>
-                                        <img src="./assets/images/listing/cert1.png" alt="" className='object-contain h-[95%] w-[95%] rounded-t-sm' />
+                                        <a target='_blank' href="https://transparencyreport.google.com/safe-browsing/search?url=247pcrepair.com"><img src="./assets/images/listing/cert1.png" alt="" className='object-contain h-[95%] w-[95%] rounded-t-sm' /></a>
                                     </div>
                                 </div>
                                 <div className='flex h-[50px] px-7 justify-between items-center'>
@@ -377,17 +380,17 @@ const Listing = () => {
                                         <p  className='font-normal text-sm text-[#707070]'>&nbsp;&nbsp;Remote Support</p>
                                     </div>
                                     <div className='flex'>
-                                        <h4 className='font-medium text-sm text-[#404040]'>Price&nbsp;&nbsp;:</h4>
+                                        <h4 className='font-medium text-sm text-[#404040]'>Flat Fee&nbsp;&nbsp;:</h4>
                                         <p  className='flex items-center font-normal text-sm text-[#707070]'>&nbsp;&nbsp;$21</p>
                                     </div>
                                     <div className='flex'>
                                         <h4 className='font-medium text-sm text-[#404040]'>Rating&nbsp;&nbsp;:</h4>
                                         <p  className='flex items-center font-normal text-sm text-[#707070]'>&nbsp;&nbsp;4.9&nbsp;<StarFill/>&nbsp;&nbsp;(7895)</p>
                                     </div>
-                                    {/* <div className='flex'>
-                                        <h4 className='font-medium text-sm text-[#404040]'><Heart/></h4>
-                                        <p  className='flex items-center font-normal text-sm text-[#707070]'>&nbsp;&nbsp;Like</p>
-                                    </div> */}
+                                    <div className='flex'>
+                                        <h4 className='font-medium text-sm text-[#404040]'><MessageIcon/></h4>
+                                        <p  className='flex items-center font-normal text-sm text-[#707070]'>&nbsp;&nbsp;Live Chat</p>
+                                    </div>
                                 </div>
                             </div>
                             

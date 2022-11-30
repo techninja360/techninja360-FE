@@ -10,7 +10,7 @@ const MapPin = (props) => (
   >
     <g
       clipPath="url(#a)"
-      stroke="#464646"
+      stroke="#fff"
       strokeWidth={2}
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -20,7 +20,7 @@ const MapPin = (props) => (
     </g>
     <defs>
       <clipPath id="a">
-        <path fill="#464646" d="M0 0h20v20H0z" />
+        <path fill="#fff" d="M0 0h20v20H0z" />
       </clipPath>
     </defs>
   </svg>

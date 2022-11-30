@@ -6,9 +6,10 @@ export const MerchantDetailsProvider = ({ children }) => {
     const [active, setActive] = useState(1)
     const [reqCallback, setReqCallback] = useState(false)
     const [reportError, setReportError] = useState(false)
+    const [chatOpen, setChatOpen] = useState(false)
     
     return (
-        <MerchantDetailsContext.Provider value={{active, setActive, reqCallback, setReqCallback, reportError, setReportError}}>{children}</MerchantDetailsContext.Provider>
+        <MerchantDetailsContext.Provider value={{active, setActive, reqCallback, setReqCallback, reportError, setReportError,chatOpen, setChatOpen}}>{children}</MerchantDetailsContext.Provider>
     )
 }
 

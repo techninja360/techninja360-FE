@@ -6,7 +6,7 @@ export const listingItems = [
         distance : 'Remote Support',
         rating : '4.9',
         ratingCount : '3214', 
-        priceType : 'Flat',
+        priceType : 'Flat Fee',
         price : '29',
     },
     {
@@ -16,7 +16,7 @@ export const listingItems = [
         distance : 'In Store Service',
         rating : '4.2',
         ratingCount : '535', 
-        priceType : 'Hourly',
+        priceType : 'Hourly Fee',
         price : '12',
     },
     {
@@ -26,7 +26,7 @@ export const listingItems = [
         distance : 'House Call',
         rating : '3.1',
         ratingCount : '323', 
-        priceType : 'Custom',
+        priceType : 'Starting At',
         price : '49',
     },
     {
@@ -46,7 +46,7 @@ export const listingItems = [
         distance : '5.0mi',
         rating : '4.9',
         ratingCount : '3214', 
-        priceType : 'Hourly',
+        priceType : 'Hourly Fee',
         price : '29',
     },
     {
@@ -66,7 +66,7 @@ export const listingItems = [
         distance : 'House Call',
         rating : '4.9',
         ratingCount : '3214', 
-        priceType : 'Hourly',
+        priceType : 'Hourly Fee',
         price : '29',
     },
     {
@@ -76,7 +76,7 @@ export const listingItems = [
         distance : 'Remote Support',
         rating : '4.9',
         ratingCount : '3214', 
-        priceType : 'Flat',
+        priceType : 'Flat Fee',
         price : '29',
     },
     {
@@ -86,7 +86,7 @@ export const listingItems = [
         distance : 'In Store Service',
         rating : '4.9',
         ratingCount : '3214', 
-        priceType : 'Custom',
+        priceType : 'Starting At',
         price : '292',
     },
     {
@@ -96,7 +96,7 @@ export const listingItems = [
         distance : 'Remote Support',
         rating : '4.9',
         ratingCount : '3214', 
-        priceType : 'Flat',
+        priceType : 'Flat Fee',
         price : '29',
     },
     {
@@ -106,7 +106,7 @@ export const listingItems = [
         distance : 'Remote Support',
         rating : '4.9',
         ratingCount : '3214', 
-        priceType : 'Flat',
+        priceType : 'Flat Fee',
         price : '29',
     },
     {
@@ -116,7 +116,7 @@ export const listingItems = [
         distance : 'Remote Support',
         rating : '4.9',
         ratingCount : '3214', 
-        priceType : 'Hourly',
+        priceType : 'Hourly Fee',
         price : '29',
     },
 ]

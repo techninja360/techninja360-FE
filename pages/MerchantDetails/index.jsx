@@ -33,10 +33,11 @@ import TollFreePhone from '../../components/svg/merchantDetails/TollFreePhone'
 import { useMerchantDetailsContext } from '../../context/merchantDetails_context'
 import { ToastContainer, toast, Slide } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ChatMerchant from '../../components/merchantDetails/ChatMerchant'
 
 const MerchantDetails = () => {
 
-    const {active, setActive, reqCallback, reportError, setReportError, setReqCallback} = useMerchantDetailsContext()
+    const {active, setActive, reqCallback, reportError, setReportError, setReqCallback, chatOpen, setChatOpen} = useMerchantDetailsContext()
 
     const [readMore, setReadMore] = useState(false)
     const [latLng, setLatLng] = useState({lat:0,lng:0})
@@ -80,6 +81,7 @@ const MerchantDetails = () => {
         {/* <MerchantLogIn/> */}
         {reqCallback && <RequestCallback/>}
         {reportError && <ReportError/>}
+        {chatOpen && <ChatMerchant/>}
         <ToastContainer
             position="bottom-center"
             transition={Slide}
@@ -122,7 +124,7 @@ const MerchantDetails = () => {
                                         <h1 className='font-medium text-xl text-center w-full'>Hannah Schmitt</h1>
                                         <div className='w-full justify-center items-center gap-x-3 flex'>
                                             <h3 className=' font-normal text-sm text-center italic text-[#A3A3A3]'>New York</h3>
-                                            <h3 className='flex items-center gap-x-1'>4.5 <StarFill/></h3>
+                                            <h3 className='flex items-center gap-x-1'><StarFill/><StarFill/><StarFill/><StarFill/><StarEmpty/></h3>
                                         </div>
                                     </div>
                                     <div className='mt-3'>
@@ -151,8 +153,8 @@ const MerchantDetails = () => {
                     <div className='w-[500px] h-32 bg-white flex justify-center items-center'>
                         <img src="./assets/images/home/reviewBusiness.png" alt="" className='object-contain h-[60%] w-[60%] rounded-t-sm' />
                     </div>
-                    {/* <div className='pt-5  bg-[#0079E9] text-white rounded-b-sm'> */}
-                    <div className='pt-5  bg-[#F6F6F6] text-[#464646] border-t border-t-[#e4e4e4] rounded-b-sm'>
+                    <div className='pt-5  bg-[#0079E9] text-white rounded-b-sm'>
+                    {/* <div className='pt-5  bg-[#F6F6F6] text-[#464646] border-t border-t-[#e4e4e4] rounded-b-sm'> */}
                         <div className='flex w-full justify-between items-center pl-9 pr-6'>
                             <h1 className='font-semibold text-[28px]'>247 PC REPAIR </h1>
                             {/* <div className='flex items-center py-1 px-3 gap-x-1 bg-white text-[#0079E9]'>
@@ -165,17 +167,17 @@ const MerchantDetails = () => {
                                 <MapPin/>
                                 <h3 className='text-lg font-normal'>141 E 62nd Street, New York, NY, 10065 </h3>
                             </div>
-                            <div className='flex gap-x-3 mb-[12px] items-center'>
+                            {/* <div className='flex gap-x-3 mb-[12px] items-center'>
                                 <GlobeIcon/>
                                 <h3 className='text-lg font-normal'>https://www.247pcrepair.com </h3>
-                            </div>
+                            </div> */}
                             <div className='flex gap-x-3 mb-[12px] items-center'>
                                 <TollFreePhone/>
                                 <h3 className='text-lg font-normal'>1-800-346-8752, (987)-654-3210 </h3>
                             </div>
                             <div className='flex gap-x-3 items-center'>
                                 <HomeIcon/>
-                                <h3 className='text-lg font-normal'><span className='text-[#0079E9] font-semibold'> Open Now </span>(9am - 10pm) Today </h3>
+                                <h3 className='text-lg font-normal'><span className='text-[#FFEF5C] font-semibold'> Open Now </span>(9am - 10pm) Today </h3>
                             </div>
                         </div>
                     </div>
@@ -210,7 +212,7 @@ const MerchantDetails = () => {
                                     <Flag/>
                                     {/* <h5 className='font-medium text-sm text-white'>Report Error</h5> */}
                                 </button>
-                                <button className='flex justify-center items-center gap-x-2 w-[50px] h-12 border-2 border-[#F88B4E]  rounded-sm'>
+                                <button className='flex justify-center items-center gap-x-2 w-[50px] h-12 border-2 border-[#F88B4E]  rounded-sm' onClick={()=>setChatOpen(true)}>
                                     <div className='flex justify-center items-center bg-white h-8 rounded-sm'>
                                         <MessageIcon/>
                                     </div>
@@ -226,7 +228,7 @@ const MerchantDetails = () => {
                         </div>
                     </div>
 
-                    <div className='w-full mt-[105px]'>
+                    <div className='w-full mt-[80px]'>
                         <p className='font-normal text-lg text-[#696969]'>{('Technology is all around us—connecting us, entertaining us and helping us run our businesses. My Computer Works is here to keep the technology in your life running smoothly with expert solutions ranging from support to recommendations.is all around us—connecting us, entertaining us and helping us run our businesses. My Computer Works is here to keep the technology in your life running smoothly with expert solutions ranging from support to recommendations.is all around us—connecting us, entertaining us and helping us run our businesses. My Computer Works is here to keep the technology in your life running smoothly with expert solutions ranging from support to recommendations.').slice(0,readMore? undefined : 220)}<span className='text-[#0079E9] font-medium cursor-pointer' onClick={()=>setReadMore(!readMore)}>{readMore ? ' Read less':'...Read more'}</span></p>
                     </div>
                     

@@ -47,15 +47,19 @@ const ReportError = () => {
                 <div>
                     <div className='flex items-center gap-x-3 px-7 py-4 '>
                         <input id='functionalError' type='checkbox' name='functionalError' className='errorCheckbox' onClick={(e)=>handleChange(e)} checked={reportData.functionalError}/>
-                        <label htmlFor='functionalError' className='font-medium text-sm'>Functional Error</label> 
+                        <label htmlFor='functionalError' className='font-medium text-sm'>Website not working</label> 
                     </div>
                     <div className='flex items-center gap-x-3 px-7 py-4 '>
                         <input id='styleError' type='checkbox' name='styleError' className='errorCheckbox' onClick={(e)=>handleChange(e)} checked={reportData.styleError}/>
-                        <label htmlFor='styleError' className='font-medium text-sm'>Styling Error</label> 
+                        <label htmlFor='styleError' className='font-medium text-sm'>Phone not reachable</label> 
                     </div>
                     <div className='flex items-center gap-x-3 px-7 py-4 '>
                         <input id='offensiveContent' type='checkbox' name='offensiveContent' className='errorCheckbox' onClick={(e)=>handleChange(e)} checked={reportData.offensiveContent}/>
-                        <label htmlFor='offensiveContent' className='font-medium text-sm'>Offensive Content</label> 
+                        <label htmlFor='offensiveContent' className='font-medium text-sm'>Business hours updated</label> 
+                    </div>
+                    <div className='flex items-center gap-x-3 px-7 py-4 '>
+                        <input id='otherError' type='checkbox' name='otherError' className='errorCheckbox' onClick={(e)=>handleChange(e)} checked={reportData.otherError}/>
+                        <label htmlFor='otherError' className='font-medium text-sm'>Out of business</label> 
                     </div>
                     <div className='flex items-center gap-x-3 px-7 py-4 '>
                         <input id='otherError' type='checkbox' name='otherError' className='errorCheckbox' onClick={(e)=>handleChange(e)} checked={reportData.otherError}/>

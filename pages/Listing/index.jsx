@@ -14,6 +14,10 @@ import SortByDistance from '../../components/svg/listing/SortByDistance'
 import SortByRating from '../../components/svg/listing/SortByRating'
 import SortByReview from '../../components/svg/listing/SortByReview'
 import Heart from '../../components/svg/merchantDetails/Heart'
+import XWhite from '../../components/svg/XWhite'
+import XWhiteSmall from '../../components/svg/XWhiteSmall'
+import SelectInputListing from '../../components/listing/SelectInputListing'
+import { listingItems } from '../../data/listingData'
 
 
 const FilterTitle = ({title}) => {
@@ -35,6 +39,8 @@ const Listing = () => {
    const [flatMax, setFlatMax] = useState('')
    const [hourlyMax, setHourlyMax] = useState('')
 
+   const [sortedBy, setSortedBy] = useState('')
+
    const clearFilters = () => {
     setFilters({filterAvailability : 'all',
     filterReviews : '',
@@ -53,6 +59,11 @@ const Listing = () => {
     filterPayment : '',})
    }
 
+
+    const handleSorted = (e)=> {
+        setSortedBy(e.target.id)
+    }
+
     const handleCheck = (id,vals)=>{
         setFilters(prevState => ({...prevState, [id]: vals}))
     }
@@ -60,11 +71,11 @@ const Listing = () => {
     const handleRaio = (e)=>{
         setFilters(prevState => ({...prevState, [e.target.name]:e.target.value}))
     }
-    
+
     const handleSelect = (e)=> {
         setFilters(prevState => ({...prevState, [e.target.id]:e.target.value}))
     }
-    
+
     const handleReviews = (star) => {
         setFilters(prevState => ({...prevState, filterReviews:star}))
     }
@@ -122,7 +133,7 @@ const Listing = () => {
                                     {
                                         subMenu === service.mainCategory &&
                                         
-                                        <div className={`absolute top-14 ${ index>3 ? '-left-36' : '-left-5' } z-10 flex flex-wrap gap-x-8 w-max max-w-[600px] px-8 py-7 bg-white drop-shadow-md rounded-b-md`}>
+                                        <div className={`absolute top-14 ${ index>3 ? '-right-5' : '-left-5' } z-10 flex flex-wrap gap-x-8 w-max max-w-[600px] px-8 py-7 bg-white drop-shadow-md rounded-b-md`}>
                                             {
                                                 service.subCategories.map((subCategory,subCategoryIndex)=>{
                                                     return(
@@ -169,25 +180,28 @@ const Listing = () => {
                         
                         <div className='w-full'>
                             <FilterTitle title={'Customer Reviews'}/>
-                            <div className='flex items-center gap-x-2 mt-3'>
-                                <div id='filterReviews' className='flex gap-x-2'>
-                                    <div onClick={()=>handleReviews(1)}>
-                                        {filters.filterReviews > 0 ? <StarFill/> : <StarEmpty/>}
+                            <div className='flex items-center justify-between gap-x-2 mt-3'>
+                                <div className='flex items-center gap-x-2 '>
+                                    <div id='filterReviews' className='flex gap-x-1'>
+                                        <div onClick={()=>handleReviews(1)}>
+                                            {filters.filterReviews > 0 ? <StarFill/> : <StarEmpty/>}
+                                        </div>
+                                        <div onClick={()=>handleReviews(2)}>
+                                            {filters.filterReviews > 1 ? <StarFill/> : <StarEmpty/>}
+                                        </div>
+                                        <div onClick={()=>handleReviews(3)}>
+                                            {filters.filterReviews > 2 ? <StarFill/> : <StarEmpty/>}
+                                        </div>
+                                        <div onClick={()=>handleReviews(4)}>
+                                            {filters.filterReviews > 3 ? <StarFill/> : <StarEmpty/>}
+                                        </div>
+                                        <div onClick={()=>handleReviews(5)}>
+                                            {filters.filterReviews > 4 ? <StarFill/> : <StarEmpty/>}
+                                        </div>
                                     </div>
-                                    <div onClick={()=>handleReviews(2)}>
-                                        {filters.filterReviews > 1 ? <StarFill/> : <StarEmpty/>}
-                                    </div>
-                                    <div onClick={()=>handleReviews(3)}>
-                                        {filters.filterReviews > 2 ? <StarFill/> : <StarEmpty/>}
-                                    </div>
-                                    <div onClick={()=>handleReviews(4)}>
-                                        {filters.filterReviews > 3 ? <StarFill/> : <StarEmpty/>}
-                                    </div>
-                                    <div onClick={()=>handleReviews(5)}>
-                                        {filters.filterReviews > 4 ? <StarFill/> : <StarEmpty/>}
-                                    </div>
+                                    <p className='font-normal text-sm text-[#605F5F]'>& Up</p>
                                 </div>
-                                <p className='font-normal text-sm text-[#605F5F]'>& Up</p>
+                                <div className='relative h-5 w-5 bg-red-500 rounded-full ml-5 flex justify-center items-center text-white cursor-pointer' onClick={()=>handleReviews('')}><XWhiteSmall/></div>
                             </div>
                         </div>
 
@@ -216,7 +230,7 @@ const Listing = () => {
                                     </div>
                                     
                                     <div className='flex  gap-x-3 w-1/2'>
-                                        <input onChange={(e)=>setFlatMax(e.target.value)} value={flatMax} className={`placeholder-[#B0B0B0] py-px px-5 h-fit mt-0 w-full font-normal text-[10px] bg-[#EAEAEA] border border-[#DBDBDB] rounded-sm`} placeholder={'Max'} type="text" id={'filterMaxFlat'}/>
+                                        <input onChange={(e)=>setFlatMax(e.target.value)} value={flatMax} className={`placeholder-[#B0B0B0] py-px px-5 h-fit mt-0 w-full font-normal text-[10px] bg-[#fff] border border-[#DBDBDB] rounded-sm`} placeholder={'Max'} type="text" id={'filterMaxFlat'}/>
                                         <button className='font-normal text-[10px] bg-[#0079E9] text-white px-2 py-px rounded-sm' onClick={()=>handlePrice('filterPricingFlat',flatMax)}>Go</button>
                                     </div>
                                 </div>
@@ -226,7 +240,7 @@ const Listing = () => {
                                         <label htmlFor={'filterPricingHourly'} className='font-normal text-sm text-[#605F5F]'>Hourly Fee</label>
                                     </div>
                                     <div className='flex  gap-x-3 w-1/2'>
-                                        <input onChange={(e)=>setHourlyMax(e.target.value)} value={hourlyMax} className={`placeholder-[#B0B0B0] py-px px-5 h-fit mt-0 w-full font-normal text-[10px] bg-[#EAEAEA] border border-[#DBDBDB] rounded-sm`} placeholder={'Max'} type="text" id={'filterMaxHourly'}/>
+                                        <input onChange={(e)=>setHourlyMax(e.target.value)} value={hourlyMax} className={`placeholder-[#B0B0B0] py-px px-5 h-fit mt-0 w-full font-normal text-[10px] bg-[#fff] border border-[#DBDBDB] rounded-sm`} placeholder={'Max'} type="text" id={'filterMaxHourly'}/>
                                         <button className='font-normal text-[10px] bg-[#0079E9] text-white px-2 py-px rounded-sm' onClick={()=>handlePrice('filterPricingHourly',hourlyMax)}>Go</button>
                                     </div>
                                 </div>
@@ -267,11 +281,10 @@ const Listing = () => {
                         <div className='w-full'>
                             <FilterTitle title={'Years in Business'}/>
                             <div className='flex items-center gap-x-4 mt-3'>
-                                <SelectInput
+                                <SelectInputListing
                                         id={'filterYearsInBusiness'} 
                                         items={[{name:'1',value:1},{name:'2',value:2},{name:'3',value:3},{name:'4',value:4},{name:'5',value:5},{name:'6',value:6},{name:'7',value:7},{name:'8',value:8},{name:'9',value:9},{name:'10',value:10},{name:'11',value:11},{name:'12',value:12},{name:'13',value:13},{name:'14',value:14},{name:'15',value:15},{name:'16',value:16},{name:'17',value:17},{name:'18',value:18},{name:'19',value:19},{name:'20+',value:20},]}
                                         width='w-1/2'
-                                        // placeholder={'25'}
                                         onChange={handleSelect} 
                                         value={filters.filterYearsInBusiness}
                                         />
@@ -284,7 +297,7 @@ const Listing = () => {
                             <div className='mt-3'>
                                 <RadioInputListing 
                                     id={'filterEmployeeStrength'} 
-                                    items={[{name:'Show All', value:'all'},{name:'Solo', value:'1'},{name:'2 - 5', value:'5'},{name:'6 - 10', value:'10'},{name:'11 - 20', value:'20'},{name:'20 - 50', value:'50'},{name:'50+', value:'51'},]}
+                                    items={[{name:'Show All', value:'all'},{name:'Solo', value:'1'},{name:'2 - 5', value:'5'},{name:'6 - 10', value:'10'},{name:'11 - 20', value:'20'},{name:'20+', value:'21'}]}
                                     width='w-full'
                                     onChange={handleRaio} 
                                     value={filters.filterEmployeeStrength}
@@ -314,32 +327,39 @@ const Listing = () => {
                     </div>
                     <div className='p-[30px] w-3/4'>
                         <div className='flex items-center gap-x-5'>
-                            <button className='flex items-center gap-x-2 bg-[#F6F6F6] border border-[#E7E7E7] py-2 px-4 rounded-sm font-normal text-sm text-[#454444]'>
+                            {/* <button className='flex items-center gap-x-2 bg-[#F6F6F6] border border-[#E7E7E7] py-2 px-4 rounded-sm font-normal text-sm text-[#454444]'>
                                 <SortBy/>
                                 Sort By
-                            </button>
-                            <button className='flex items-center gap-x-2 bg-[#F6F6F6] border border-[#E7E7E7] py-2 px-4 rounded-sm font-normal text-sm text-[#707070]'>
+                            </button> */}
+                            <button id='sortByDistance' className='flex items-center gap-x-2 bg-[#F6F6F6] border border-[#E7E7E7] py-2 px-4 pr-3 rounded-sm font-normal text-sm text-[#707070]' onClick={e=>handleSorted(e)}>
                                 <SortByDistance/>
                                 Distance
+                                {sortedBy === 'sortByDistance' && <div className='relative h-5 w-5 bg-red-500 rounded-full ml-5 flex justify-center items-center text-white cursor-pointer' onClick={()=>setSortedBy('')}><XWhiteSmall/></div>}
                             </button>
-                            <button className='flex items-center gap-x-2 bg-[#F6F6F6] border border-[#E7E7E7] py-2 px-4 rounded-sm font-normal text-sm text-[#707070]'>
+                            <button id='sortByRating' className='flex items-center gap-x-2 bg-[#F6F6F6] border border-[#E7E7E7] py-2 px-4 pr-3 rounded-sm font-normal text-sm text-[#707070]' onClick={e=>handleSorted(e)}>
                                 <SortByRating/>
                                 Rating
+                                {sortedBy === 'sortByRating' && <div className='relative h-5 w-5 bg-red-500 rounded-full ml-5 flex justify-center items-center text-white cursor-pointer' onClick={()=>setSortedBy('')}><XWhiteSmall/></div>}
                             </button>
-                            <button className='flex items-center gap-x-2 bg-[#F6F6F6] border border-[#E7E7E7] py-2 px-4 rounded-sm font-normal text-sm text-[#707070]'>
+                            <button id='sortByReview' className='flex items-center gap-x-2 bg-[#F6F6F6] border border-[#E7E7E7] py-2 px-4 pr-3 rounded-sm font-normal text-sm text-[#707070]' onClick={e=>handleSorted(e)}>
                                 <SortByReview/>
                                 No. of Reviews
+                                {sortedBy === 'sortByReview' && <div className='relative h-5 w-5 bg-red-500 rounded-full ml-5 flex justify-center items-center text-white cursor-pointer' onClick={()=>setSortedBy('')}><XWhiteSmall/></div>}
                             </button>
-                            <button className='flex items-center gap-x-2 bg-[#F6F6F6] border border-[#E7E7E7] py-2 px-4 rounded-sm font-normal text-sm text-[#707070]'>
+                            <button id='sortByRelevence' className='flex items-center gap-x-2 bg-[#F6F6F6] border border-[#E7E7E7] py-2 px-4 pr-3 rounded-sm font-normal text-sm text-[#707070]' onClick={e=>handleSorted(e)}>
                                 Relavance
+                                {sortedBy === 'sortByRelevence' && <div className='relative h-5 w-5 bg-red-500 rounded-full ml-5 flex justify-center items-center text-white cursor-pointer' onClick={()=>setSortedBy('')}><XWhiteSmall/></div>}
                             </button>
                         </div>
 
                         <div className='flex flex-wrap gap-y-[26px] mt-7'>
                             
-                            <div className='border border-[#E4E4E4] rounded-sm '>
+                            <div className='relative border border-[#E4E4E4] rounded-sm '>
+                                <div className='absolute -top-4 left-3 px-2 py-1 bg-[#F9F9F9] rounded-md w-fit border border-[#E4E4E4]'>
+                                    <p className='font-light text-xs w-fit'>Sponsored</p>
+                                </div>
                                 <div className='flex items-center gap-x-6 bg-[#F9F9F9] border-b border-b-[#E4E4E4]'>
-                                    <div className='flex justify-center items-center m-3 mr-0 w-[20%] min-w-[196px] h-[90px] bg-white border border-[#EFEFEF] rounded-sm'>
+                                    <div className='flex justify-center items-center m-3 mt-4 mr-0 w-[20%] min-w-[196px] h-[90px] bg-white border border-[#EFEFEF] rounded-sm'>
                                         <img src="./assets/images/listing/logo1.png" alt="" className='object-contain h-[95%] w-[95%] rounded-t-sm' />
                                     </div>
                                     <div className='w-[65%]'>
@@ -357,23 +377,26 @@ const Listing = () => {
                                         <p  className='font-normal text-sm text-[#707070]'>&nbsp;&nbsp;Remote Support</p>
                                     </div>
                                     <div className='flex'>
-                                        <h4 className='font-medium text-sm text-[#404040]'>Rating&nbsp;&nbsp;:</h4>
-                                        <p  className='flex items-center font-normal text-sm text-[#707070]'>&nbsp;&nbsp;4.9&nbsp;<StarFill/>&nbsp;&nbsp;(7895)</p>
-                                    </div>
-                                    <div className='flex'>
                                         <h4 className='font-medium text-sm text-[#404040]'>Price&nbsp;&nbsp;:</h4>
                                         <p  className='flex items-center font-normal text-sm text-[#707070]'>&nbsp;&nbsp;$21</p>
                                     </div>
                                     <div className='flex'>
+                                        <h4 className='font-medium text-sm text-[#404040]'>Rating&nbsp;&nbsp;:</h4>
+                                        <p  className='flex items-center font-normal text-sm text-[#707070]'>&nbsp;&nbsp;4.9&nbsp;<StarFill/>&nbsp;&nbsp;(7895)</p>
+                                    </div>
+                                    {/* <div className='flex'>
                                         <h4 className='font-medium text-sm text-[#404040]'><Heart/></h4>
                                         <p  className='flex items-center font-normal text-sm text-[#707070]'>&nbsp;&nbsp;Like</p>
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
                             
-                            <div className='border border-[#E4E4E4] rounded-sm '>
+                            <div className='relative border border-[#E4E4E4] rounded-sm '>
+                                <div className='absolute -top-4 right-3 px-2 py-1 bg-[#F9F9F9] rounded-md w-fit border border-[#E4E4E4]'>
+                                    <p className='font-light text-xs w-fit'>Sponsored</p>
+                                </div>
                                 <div className='flex items-center gap-x-6 bg-[#F9F9F9] border-b border-b-[#E4E4E4]'>
-                                    <div className='flex justify-center items-center m-3 mr-0 w-[20%] min-w-[196px] h-[90px] bg-white border border-[#EFEFEF] rounded-sm'>
+                                    <div className='flex justify-center items-center m-3 mt-4 mr-0 w-[20%] min-w-[196px] h-[90px] bg-white border border-[#EFEFEF] rounded-sm'>
                                         <img src="./assets/images/listing/logo2.png" alt="" className='object-contain h-[95%] w-[95%] rounded-t-sm' />
                                     </div>
                                     <div className='w-[65%]'>
@@ -391,53 +414,51 @@ const Listing = () => {
                                         <p  className='font-normal text-sm text-[#707070]'>&nbsp;&nbsp;Remote Support</p>
                                     </div>
                                     <div className='flex'>
-                                        <h4 className='font-medium text-sm text-[#404040]'>Rating&nbsp;&nbsp;:</h4>
-                                        <p  className='flex items-center font-normal text-sm text-[#707070]'>&nbsp;&nbsp;4.9&nbsp;<StarFill/>&nbsp;&nbsp;(7895)</p>
-                                    </div>
-                                    <div className='flex'>
                                         <h4 className='font-medium text-sm text-[#404040]'>Price&nbsp;&nbsp;:</h4>
                                         <p  className='flex items-center font-normal text-sm text-[#707070]'>&nbsp;&nbsp;$21</p>
                                     </div>
                                     <div className='flex'>
-                                        <h4 className='font-medium text-sm text-[#404040]'><Heart/></h4>
-                                        <p  className='flex items-center font-normal text-sm text-[#707070]'>&nbsp;&nbsp;Like</p>
+                                        <h4 className='font-medium text-sm text-[#404040]'>Rating&nbsp;&nbsp;:</h4>
+                                        <p  className='flex items-center font-normal text-sm text-[#707070]'>&nbsp;&nbsp;4.9&nbsp;<StarFill/>&nbsp;&nbsp;(7895)</p>
                                     </div>
                                 </div>
                             </div>
                             
-                            <div className='border border-[#E4E4E4] rounded-sm '>
-                                <div className='flex items-center gap-x-6 bg-[#F9F9F9] border-b border-b-[#E4E4E4]'>
-                                    <div className='flex justify-center items-center m-3 mr-0 w-[20%] min-w-[196px] h-[90px] bg-white border border-[#EFEFEF] rounded-sm'>
-                                        <img src="./assets/images/listing/logo3.png" alt="" className='object-contain h-[95%] w-[95%] rounded-t-sm' />
-                                    </div>
-                                    <div className='w-[65%]'>
-                                        <p className='font-normal text-sm text-[#797979]'>
-                                        247PCRepair is about your computers health! We remotely provide instant top-notch solutions to computer hardware and software related problems received...
-                                        </p>
-                                    </div>
-                                    <div className='flex justify-center items-center m-3 ml-0 w-[15%] min-w-[120px] h-[90px] '>
-                                        <img src="./assets/images/listing/cert3.png" alt="" className='object-contain h-[95%] w-[95%] rounded-t-sm' />
-                                    </div>
-                                </div>
-                                <div className='flex h-[50px] px-7 justify-between items-center'>
-                                    <div className='flex'>
-                                        <h4 className='font-medium text-sm text-[#404040]'>Distance&nbsp;&nbsp;:</h4>
-                                        <p  className='font-normal text-sm text-[#707070]'>&nbsp;&nbsp;Remote Support</p>
-                                    </div>
-                                    <div className='flex'>
-                                        <h4 className='font-medium text-sm text-[#404040]'>Rating&nbsp;&nbsp;:</h4>
-                                        <p  className='flex items-center font-normal text-sm text-[#707070]'>&nbsp;&nbsp;4.9&nbsp;<StarFill/>&nbsp;&nbsp;(7895)</p>
-                                    </div>
-                                    <div className='flex'>
-                                        <h4 className='font-medium text-sm text-[#404040]'>Price&nbsp;&nbsp;:</h4>
-                                        <p  className='flex items-center font-normal text-sm text-[#707070]'>&nbsp;&nbsp;$21</p>
-                                    </div>
-                                    <div className='flex'>
-                                        <h4 className='font-medium text-sm text-[#404040]'><Heart/></h4>
-                                        <p  className='flex items-center font-normal text-sm text-[#707070]'>&nbsp;&nbsp;Like</p>
-                                    </div>
-                                </div>
-                            </div>
+                            {
+                                listingItems.map((item,index)=> {
+                                    return(
+                                        <div className='border border-[#E4E4E4] rounded-sm '>
+                                            <div className='flex items-center gap-x-6 bg-[#F9F9F9] border-b border-b-[#E4E4E4]'>
+                                                <div className='flex justify-center items-center m-3 mr-0 w-[20%] min-w-[196px] h-[90px] bg-white border border-[#EFEFEF] rounded-sm'>
+                                                    <img src={item.logo} alt="" className='object-contain h-[95%] w-[95%] rounded-t-sm' />
+                                                </div>
+                                                <div className='w-[65%]'>
+                                                    <p className='font-normal text-sm text-[#797979]'>
+                                                    {item.desc}
+                                                    </p>
+                                                </div>
+                                                <div className='flex justify-center items-center m-3 ml-0 w-[15%] min-w-[120px] h-[90px] '>
+                                                    <img src={item.certLogo} alt="" className='object-contain h-[95%] w-[95%] rounded-t-sm' />
+                                                </div>
+                                            </div>
+                                            <div className='flex h-[50px] px-7 justify-between items-center'>
+                                                <div className='flex'>
+                                                    <h4 className='font-medium text-sm text-[#404040]'>Distance&nbsp;&nbsp;:</h4>
+                                                    <p  className='font-normal text-sm text-[#707070]'>&nbsp;&nbsp;{item.distance}</p>
+                                                </div>
+                                                <div className='flex'>
+                                                    <h4 className='font-medium text-sm text-[#404040]'>{item.priceType}&nbsp;&nbsp;</h4>
+                                                    {item.price && <p  className='flex items-center font-normal text-sm text-[#707070]'>:&nbsp;&nbsp;${item.price}</p>}
+                                                </div>
+                                                <div className='flex'>
+                                                    <h4 className='font-medium text-sm text-[#404040]'>Rating&nbsp;&nbsp;:</h4>
+                                                    <p  className='flex items-center font-normal text-sm text-[#707070]'>&nbsp;&nbsp;{item.rating}&nbsp;<StarFill/>&nbsp;&nbsp;({item.ratingCount})</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )
+                                })
+                            }
 
                         </div>
                     </div>

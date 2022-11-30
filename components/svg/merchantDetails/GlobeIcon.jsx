@@ -10,7 +10,7 @@ const GlobeIcon = (props) => (
   >
     <g
       clipPath="url(#a)"
-      stroke="#fff"
+      stroke="#464646"
       strokeWidth={2}
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -20,7 +20,7 @@ const GlobeIcon = (props) => (
     </g>
     <defs>
       <clipPath id="a">
-        <path fill="#fff" d="M0 0h20v20H0z" />
+        <path fill="#464646" d="M0 0h20v20H0z" />
       </clipPath>
     </defs>
   </svg>

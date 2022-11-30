@@ -10,10 +10,11 @@ export const services = [
         'mainCategory':'Computers',
         'icon':<ComputerIcon/>,
         'selectedIcon':<ComputerIconSelected/>,
+        'noSubCategories': false,
         'subCategories':[
             {
                 'subCategoryName':'Software Support',
-                'subCategoryServices':['Computer Diagnosis','Computer Repair & Help','Slow Computer Fix/Computer Tune-up','Virus Removal','Email Support','No Boot','New Computer Setup','OS Upgrade/Reinstall','Browser Support','Software Uninstall/Reinstall','No Sound','Data Backup or Transfer','Computer Training','Printer Setup','Printer Troubleshooting','add A new Service (Subject to Approval)'],
+                'subCategoryServices':['Computer Diagnosis','Computer Repair & Help','Slow Computer Fix/Computer Tune-up','Virus Removal','Email Support','No Boot','New Computer Setup','OS Upgrade/Reinstall','Browser Support','Software Uninstall/Reinstall','No Sound','Data Backup or Transfer','Computer Training','Printer Setup','Printer Troubleshooting',],
             },
             {
                 'subCategoryName':'Hardware Support',
@@ -26,10 +27,11 @@ export const services = [
         'mainCategory':'Printers',
         'icon':<PrinterIcon/>,
         'selectedIcon':<PrinterIconSelected/>,
+        'noSubCategories': true,
         'subCategories':[
             {
                 'subCategoryName':'',
-                'subCategoryServices':['New Printer Setup','Wireless Printer Support','Printer Offline Fix','Printer Hardware Repair','add A new Service (Subject to Approval)']
+                'subCategoryServices':['New Printer Setup','Wireless Printer Support','Printer Offline Fix','Printer Hardware Repair',]
             }
         ],
         
@@ -38,10 +40,11 @@ export const services = [
         'mainCategory':'Wifi and Network',
         'icon':<NetworkIcon/>,
         'selectedIcon':<NetworkIconSelected/>,
+        'noSubCategories': true,
         'subCategories':[
             {
                 'subCategoryName':'',
-                'subCategoryServices':['New Wifi Connection Setup','Wifi & network support','Wifi Signal Extension','add A new Service (Subject to Approval)']
+                'subCategoryServices':['New Wifi Connection Setup','Wifi & network support','Wifi Signal Extension',]
             }
         ],
         
@@ -50,14 +53,15 @@ export const services = [
         'mainCategory':'Mobile Support',
         'icon':<MobileIcon/>,
         'selectedIcon':<MobileIconSelected/>,
+        'noSubCategories': false,
         'subCategories':[
             {
                 'subCategoryName':'Software Support',
-                'subCategoryServices':['New Mobile/Tablet Device Setup','Mobile/Tablet Device Support','add A new Service (Subject to Approval)'],
+                'subCategoryServices':['New Mobile/Tablet Device Setup','Mobile/Tablet Device Support',],
             },
             {
                 'subCategoryName':'Hardware Support',
-                'subCategoryServices':['Screen Replacement','Water Damage','Sound Issue','Touch Screen Not Working','Mobile / Tablet Others','add A new Service (Subject to Approval)']
+                'subCategoryServices':['Screen Replacement','Water Damage','Sound Issue','Touch Screen Not Working','Mobile / Tablet Others',]
             }
         ],
         
@@ -66,10 +70,11 @@ export const services = [
         'mainCategory':'Smart Home',
         'icon':<SmartHomeIcon/>,
         'selectedIcon':<SmartHomeIconSelected/>,
+        'noSubCategories': false,
         'subCategories':[
             {
                 'subCategoryName':'Thermostats',
-                'subCategoryServices':['Smart Thermostat Setup & Installation','Smart Thermostat Support','add A new Service (Subject to Approval)'],
+                'subCategoryServices':['Smart Thermostat Setup & Installation','Smart Thermostat Support',],
             },
             {
                 'subCategoryName':'Video Doorbells',
@@ -98,6 +103,7 @@ export const services = [
         'mainCategory':'Audio/ Video & TV Mounting',
         'icon':<AvIcon/>,
         'selectedIcon':<AvIconSelected/>,
+        'noSubCategories': false,
         'subCategories':[
             {
                 'subCategoryName':'TV Mounting',

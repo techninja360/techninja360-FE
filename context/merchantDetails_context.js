@@ -3,7 +3,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react'
 const MerchantDetailsContext = createContext()
 export const MerchantDetailsProvider = ({ children }) => {
 
-    const [active, setActive] = useState(0)
+    const [active, setActive] = useState(1)
     const [reqCallback, setReqCallback] = useState(false)
     const [reportError, setReportError] = useState(false)
     

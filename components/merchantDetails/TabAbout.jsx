@@ -26,8 +26,8 @@ const TabAbout = () => {
             <Calender/>
           </div>
           <div>
-            <h1 className='font-semibold text-xl capitalize mt-1'>years in Business</h1>
-            <h4 className='font-normal text-base text-[#8D8D8D] mt-1'>25 Years</h4>
+            <h1 className='font-semibold text-xl text-[#464646] capitalize mt-1'>years in Business</h1>
+            <h4 className='font-[350px] text-base text-[#8D8D8D] mt-1'>25 Years</h4>
           </div>
         </div>
 
@@ -36,13 +36,13 @@ const TabAbout = () => {
             <Clock/>
           </div>
           <div className='w-full'>
-            <h1 className='font-semibold text-xl capitalize mt-2'>Business hours</h1>
+            <h1 className='font-semibold text-xl text-[#464646] capitalize mt-2'>Business hours</h1>
             <div className='mt-1'>
               {
                 bnHours.map((day)=>{
                   return(
                     <div key={day.bnDays} className='flex justify-between w-full mb-1'>
-                      <h3 className='font-normal text-sm text-[#8D8D8D]'>{day.bnDays}</h3>
+                      <h3 className='font-[350px] text-sm text-[#8D8D8D]'>{day.bnDays}</h3>
                       <div className='flex font-semibold gap-x-2 text-sm text-[#8D8D8D]'>
                         <h3>{day.bnStart} - </h3>
                         <h3> {day.bnEnd}</h3>
@@ -60,8 +60,8 @@ const TabAbout = () => {
             <Users/>
           </div>
           <div>
-            <h1 className='font-semibold text-xl capitalize mt-1'>Employee Strength</h1>
-            <h4 className='font-normal text-base text-[#8D8D8D] mt-1'>500+ Employees</h4>
+            <h1 className='font-semibold text-xl text-[#464646] capitalize mt-1'>Employee Strength</h1>
+            <h4 className='font-[350px] text-base text-[#8D8D8D] mt-1'>500+ Employees</h4>
           </div>
         </div>
 
@@ -71,7 +71,7 @@ const TabAbout = () => {
       <div className='w-2/3  px-8 bg-[#F6F6F6] rounded-md'>
         <div className='mt-9'>
           
-          <h1 className='text-xl font-semibold'>1. Support type</h1>
+          <h1 className='text-xl font-semibold text-[#464646]'>1. Support type</h1>
           
           <div className='flex justify-between mt-3'>
             <div className='flex items-center gap-x-2  min-w-[38%]'>
@@ -92,7 +92,7 @@ const TabAbout = () => {
         
         <div className='mt-8'>
           
-          <h1 className='text-xl font-semibold'>2. Pick and Drop </h1>
+          <h1 className='text-xl font-semibold text-[#464646]'>2. Pick and Drop </h1>
           
           <div className='flex justify-between mt-3'>
             <div className='flex items-center gap-x-2'>
@@ -106,7 +106,7 @@ const TabAbout = () => {
 
         <div className='mt-9'>
           
-          <h1 className='text-xl font-semibold'>3. Plan Type</h1>
+          <h1 className='text-xl font-semibold text-[#464646]'>3. Plan Type</h1>
           
           <div className='flex mt-3'>
             <div className='flex items-center gap-x-2 min-w-[38%]'>
@@ -127,7 +127,7 @@ const TabAbout = () => {
         
         <div className='mt-9'>
           
-          <h1 className='text-xl font-semibold'>4. Caters</h1>
+          <h1 className='text-xl font-semibold text-[#464646]'>4. Caters</h1>
           
           <div className='flex justify-start mt-3'>
             <div className='flex items-center gap-x-2 min-w-[38%]'>

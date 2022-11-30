@@ -23,7 +23,7 @@ const StepTwo = () => {
     const [bnHours, setBnHours] = useState([0])
 
     const [initial, setInitial] = useState(true)
-    const [fullAdd, setFullAdd] = useState('')
+    const [fullAdd, setFullAdd] = useState(' ')
     const [latLng, setLatLng] = useState({lat:40.77,lng:-74})
 
     const {

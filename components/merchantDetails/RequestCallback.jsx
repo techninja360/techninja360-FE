@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import SelectInput from '../merchantSignUp/SelectInput'
 import XWhite from '../svg/XWhite'
-import { services } from '../../data/merchantServices'
+import { services } from '../../data/merchantServicesDisplay'
 import RadioInput from '../merchantSignUp/RadioInput'
 import CbCalender from '../svg/merchantDetails/CbCalender'
 import { useMerchantDetailsContext } from '../../context/merchantDetails_context'
@@ -22,6 +22,8 @@ const RequestCallback = () => {
         callbackTime:''
     })
 
+    const [agree, setAgree] = useState(false)
+
 
     const [subCategoryItems, setSubCategoryItems] = useState([{name:'',value:''}])
     const [subCategoryServiceItems, setSubCategoryServiceItems] = useState([{name:'',value:''}])
@@ -41,71 +43,139 @@ const RequestCallback = () => {
         }
     }
 
+    // useEffect(()=>{
+
+    //     let singleCategory = false
+    //     let logArr = services.filter((service)=>{
+    //         if(service.mainCategory === cbData.category){
+    //             if(service.subCategories[0].subCategoryName ===''){
+    //                 singleCategory = service.mainCategory
+    //                 return service
+    //             }
+    //             else{
+    //                 return service
+    //             }
+    //         }
+    //     })
+
+    //     if(singleCategory){
+    //         console.log(logArr)
+    //         logArr = logArr[0]?.subCategories[0]?.subCategoryServices
+    //         logArr = logArr?.map((item)=>{
+    //             return {name:item,value:item}
+    //         })
+    //         setSubCategoryItems(cbData.category === '' ? [{name:'',value:''}] : logArr)
+    //     }
+    //     else{
+    //         logArr = logArr[0]?.subCategories  
+    //         logArr = logArr?.map((item)=>{
+    //             return {name:item.subCategoryName,value:item.subCategoryName}
+    //         })
+    //         setSubCategoryItems(cbData.category === '' ? [{name:'',value:''}] : logArr)
+    //     }
+
+
+    //     setCbData(prevState => ({...prevState, subCategory:''}))
+    // },[cbData.category])
+
+    // useEffect(()=>{
+        
+    //     let logArr = services.filter((service)=>{
+    //         if(service.mainCategory === cbData.category){
+    //             return service
+    //         }
+    //     })[0]?.subCategories
+
+    //     logArr = logArr?.filter((subCategory)=>{
+    //         if(subCategory.subCategoryName === ''){
+    //             return subCategory
+    //         }
+    //         else if(subCategory.subCategoryName === cbData.subCategory){
+    //             return subCategory
+    //         }
+    //     })[0]?.subCategoryServices
+
+        
+    //     if(logArr === undefined){
+    //         logArr = []
+    //     }
+    //     else{
+    //         logArr = logArr.map((item)=>{
+    //             return {name:item,value:item}
+    //         })
+    //     }
+
+    //     setSubCategoryServiceItems(cbData.subCategory === '' ? [{name:'',value:''}] : logArr)
+    //     setCbData(prevState => ({...prevState, subCategoryService:''}))
+    // },[cbData.subCategory,cbData.category])
+    
     useEffect(()=>{
 
-        let singleCategory = false
-        let logArr = services.filter((service)=>{
+        let singleService = services.filter((service)=> {
             if(service.mainCategory === cbData.category){
-                if(service.subCategories[0].subCategoryName ===''){
-                    singleCategory = service.mainCategory
-                    return service
-                }
-                else{
-                    return service
-                }
+                return service
             }
         })
 
-        if(singleCategory){
-            console.log(logArr)
-            logArr = logArr[0]?.subCategories[0]?.subCategoryServices
-            logArr = logArr?.map((item)=>{
-                return {name:item,value:item}
+        // console.log(singleService);
+        if(singleService[0]?.noSubCategories === false){
+            let subCategories = singleService[0]?.subCategories
+    
+            subCategories = subCategories?.map((subCategory)=>{
+                return {name:subCategory.subCategoryName,value:subCategory.subCategoryName}
             })
-            setSubCategoryItems(cbData.category === '' ? [{name:'',value:''}] : logArr)
+    
+            setSubCategoryItems(subCategories)
         }
         else{
-            logArr = logArr[0]?.subCategories  
-            logArr = logArr?.map((item)=>{
-                return {name:item.subCategoryName,value:item.subCategoryName}
+            let subCategories = singleService[0]?.subCategories[0]?.subCategoryServices
+            
+            subCategories = subCategories?.map((subCategory)=>{
+                return {name:subCategory,value:subCategory}
             })
-            setSubCategoryItems(cbData.category === '' ? [{name:'',value:''}] : logArr)
+            setSubCategoryItems(subCategories)
         }
 
-
         setCbData(prevState => ({...prevState, subCategory:''}))
+        // console.log(subCategories)
     },[cbData.category])
 
     useEffect(()=>{
         
-        let logArr = services.filter((service)=>{
+        let singleService = services.filter((service)=> {
             if(service.mainCategory === cbData.category){
                 return service
             }
-        })[0]?.subCategories
+        })
 
-        logArr = logArr?.filter((subCategory)=>{
-            if(subCategory.subCategoryName === ''){
-                return subCategory
-            }
-            else if(subCategory.subCategoryName === cbData.subCategory){
-                return subCategory
-            }
-        })[0]?.subCategoryServices
+        // console.log(singleService);
+        if(singleService[0]?.noSubCategories === false){
+            let subCategories = singleService[0]?.subCategories
+    
+            let singleSubCategory = subCategories?.filter((subCategory)=>{
+                if(subCategory.subCategoryName === cbData.subCategory){
+                    return subCategory
+                }
+            })
 
-        
-        if(logArr === undefined){
-            logArr = []
+            let subCategoryServices = singleSubCategory[0]?.subCategoryServices
+
+            subCategoryServices = subCategoryServices?.map((subCategoryService)=>{
+                return {name:subCategoryService,value:subCategoryService}
+            })
+
+            setSubCategoryServiceItems(subCategoryServices)
+            console.log(subCategoryServices)
+    
+            // setSubCategoryItems(subCategories)
         }
         else{
-            logArr = logArr.map((item)=>{
-                return {name:item,value:item}
-            })
+            setSubCategoryServiceItems(undefined)
         }
 
-        setSubCategoryServiceItems(cbData.subCategory === '' ? [{name:'',value:''}] : logArr)
         setCbData(prevState => ({...prevState, subCategoryService:''}))
     },[cbData.subCategory,cbData.category])
+
   return (
     <div className='justify-center items-center w-full h-screen flex overflow-x-hidden overflow-y-auto fixed z-50 outline-none focus:outline-none bg-[#0009]'>
         <div className='h-full w-full flex justify-center items-center '>
@@ -120,7 +190,7 @@ const RequestCallback = () => {
                     <div className='flex gap-x-7 px-7 py-4 '>
                         <SelectInput 
                             title='Category'
-                            required={true}
+                            // required={true}
                             id='category' 
                             items={services.map((service)=>{
                                 return {name:service.mainCategory, value:service.mainCategory}
@@ -132,7 +202,7 @@ const RequestCallback = () => {
                             />
                         <SelectInput 
                             title='Sub Category'
-                            required={true}
+                            // required={true}
                             id='subCategory' 
                             items={subCategoryItems}
                             placeholder='Select Sub Category'
@@ -145,7 +215,7 @@ const RequestCallback = () => {
                     <div className='flex gap-x-7 px-7 py-4 '>
                         <SelectInput 
                                 title='Sub Category Services'
-                                required={true}
+                                // required={true}
                                 id='subCategoryService' 
                                 items={subCategoryServiceItems}
                                 placeholder='Select Sub Category Services'
@@ -160,7 +230,7 @@ const RequestCallback = () => {
                         <RadioInput 
                             id='callbackNow' 
                             items={[{value:'hour',name:'Within an Hour'},{value:'later',name:'Select a different time '}]} 
-                            required={true} 
+                            // required={true} 
                             title='Call back time' 
                             width='w-1/2' 
                             onChange={handleChange} 
@@ -198,8 +268,13 @@ const RequestCallback = () => {
                             value={cbData.callbackTime}/>
                     </div>
                     }
+
+                    <div className='flex gap-x-3 ml-7 mt-4 '>
+                        <input id='cbAgree' type="checkbox" checked={agree} onClick={()=>setAgree(!agree)}/>
+                        <label htmlFor="cbAgree" className='text-sm font-light text-[#605F5F]'>I agree to share my phonenumber and name with the merchant</label>
+                    </div>
                     <div className='flex gap-x-7 px-7 py-4 '>
-                        <button className='py-5 px-7 font-bold text-lg text-white bg-[#0079E9] rounded-sm'>Submit request</button>
+                        <button className={`py-5 px-7 font-bold text-lg bg-[#0079E9] text-white ${agree? '': 'hidden' } rounded-sm`}>Submit request</button>
                     </div>
                 </div>
             </div>

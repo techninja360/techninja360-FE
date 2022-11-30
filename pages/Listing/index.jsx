@@ -427,7 +427,7 @@ const Listing = () => {
                             {
                                 listingItems.map((item,index)=> {
                                     return(
-                                        <div className='border border-[#E4E4E4] rounded-sm '>
+                                        <div key={index} className='border border-[#E4E4E4] rounded-sm '>
                                             <div className='flex items-center gap-x-6 bg-[#F9F9F9] border-b border-b-[#E4E4E4]'>
                                                 <div className='flex justify-center items-center m-3 mr-0 w-[20%] min-w-[196px] h-[90px] bg-white border border-[#EFEFEF] rounded-sm'>
                                                     <img src={item.logo} alt="" className='object-contain h-[95%] w-[95%] rounded-t-sm' />

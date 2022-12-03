@@ -177,10 +177,10 @@ const MerchantDetails = () => {
                             {
                                 displayReviews.map((review, index)=>{
                                     if(index === currReview){
-                                        return <ActiveSlide/>
+                                        return <ActiveSlide key={index}/>
                                     }
                                     else{
-                                        return <InactiveSlide/>
+                                        return <InactiveSlide key={index}/>
                                     }
                                 })
                             }

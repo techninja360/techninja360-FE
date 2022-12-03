@@ -173,10 +173,10 @@ const MainSection = () => {
           {localityList.length > 0 &&
           <div className='w-[412px] max-w-[412px] max-h-[200px] overflow-y-scroll flex flex-wrap mt-2 border border-gray-200 shadow-md rounded-sm md:px-5 md:mb-5 sm:w-full'>
             {
-              localityList.map((lacality)=>{
+              localityList.map((locality, index)=>{
                 return(
-                  <div className='bg-white w-full p-4 hover:bg-gray-100 cursor-pointer' onClick={()=>handleLocalityList(lacality.formatted_address)}>
-                    <p>{lacality.formatted_address}</p>
+                  <div key={index} className='bg-white w-full p-4 hover:bg-gray-100 cursor-pointer' onClick={()=>handleLocalityList(locality.formatted_address)}>
+                    <p>{locality.formatted_address}</p>
                   </div>
                 )
               })

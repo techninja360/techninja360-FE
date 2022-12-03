@@ -1,7 +1,7 @@
 export const listingItems = [
     {
         logo : './assets/images/listing/logo1.png',
-        desc : '247PCRepair is about your computers health! We remotely provide instant top-notch solutions to computer hardware and software related problems received...',
+        desc : '247PCRepair is about your computers health! We remotely provide instant top-notch solutions to computer hardware and software related problems received...s',
         certLogo : './assets/images/listing/cert1.png',
         distance : 'Remote Support',
         rating : '4.9',

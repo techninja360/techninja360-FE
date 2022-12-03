@@ -41,7 +41,7 @@ const CheckboxInput = ({id, required, width, title, placeholder, items, warning,
                         return (
                             <div key={id + item.value} className='flex gap-x-3 w-full' onChange={e=>handleChange(e)}>
                                 <input type="checkbox" id={id + item.value} name={id} value={item.value} checked={selected.includes(item.value) && value.includes(item.value)} />
-                                <label htmlFor={id + item.value} className='font-normal text-sm text-[#605F5F]'>{item.name}</label>
+                                <label htmlFor={id + item.value} className='font-normal text-[.9rem] text-[#605F5F]'>{item.name}</label>
                             </div>
                         )
                     })

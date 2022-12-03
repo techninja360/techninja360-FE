@@ -34,6 +34,7 @@ import { useMerchantDetailsContext } from '../../context/merchantDetails_context
 import { ToastContainer, toast, Slide } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ChatMerchant from '../../components/merchantDetails/ChatMerchant'
+import { displayReviews } from '../../data/MerchantDetailsReviews'
 
 const MerchantDetails = () => {
 
@@ -41,6 +42,15 @@ const MerchantDetails = () => {
 
     const [readMore, setReadMore] = useState(false)
     const [latLng, setLatLng] = useState({lat:0,lng:0})
+    const [currReview, setCurrReview] = useState(0)
+
+    const [tooltip, setTooltip] = useState({
+        bookmark : false,
+        share : false,
+        report : false,
+        chat : false,
+        callback : false
+    })
 
     const address = 'SCO No. 1003, Sector 17 Chandigarh, Pin Code 160017'
     const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}`
@@ -76,6 +86,19 @@ const MerchantDetails = () => {
         fetchLatLng()
     
       },[])
+
+      useEffect(()=>{
+        const interval = setInterval(()=>{
+            if(currReview > (displayReviews.length - 2)){
+                setCurrReview(0)
+            }
+            else{
+                setCurrReview(prev => prev + 1)
+            }
+        },2000)
+
+        return () => clearInterval(interval);
+      },[currReview])
   return (
     <>
         {/* <MerchantLogIn/> */}
@@ -111,33 +134,56 @@ const MerchantDetails = () => {
                     <div className='relative w-full h-full mt-3'>
                         <div className='absolute w-full h-[70%] bg-white drop-shadow-md top-[50%] left-[50%] -translate-y-1/2 -translate-x-1/2'></div>
                         <div className='absolute w-[95%] h-[80%] bg-white drop-shadow-md top-[50%] left-[50%] -translate-y-1/2 -translate-x-1/2'></div>
-                        <div className='absolute w-[90%] h-[100%] bg-white drop-shadow-md top-[50%] left-[50%] -translate-y-1/2 -translate-x-1/2'>
-                            <div className='w-full h-full flex justify-between gap-x-4 px-7 py-4'>
-                                {/* <div className='w-1/5 flex flex-col justify-center items-center gap-y-3'>
-                                    <div className='w-24 h-24'>
-                                        <img src="./assets/images/home/reviewClient.png" alt="client" className='object-cover h-full w-full' />
-                                    </div>
-                                    <div className='flex justify-between gap-x-1'><StarFill/> <StarFill/> <StarFill/> <StarFill/> <StarEmpty/> </div>
-                                </div> */}
-                                <div className='w-full'>
-                                    <div className='flex flex-wrap gap-x-4 w-full items-center'>
-                                        <h1 className='font-medium text-xl text-center w-full'>Hannah Schmitt</h1>
-                                        <div className='w-full justify-center items-center gap-x-3 flex'>
-                                            <h3 className=' font-normal text-sm text-center italic text-[#A3A3A3]'>New York</h3>
-                                            <h3 className='flex items-center gap-x-1'><StarFill/><StarFill/><StarFill/><StarFill/><StarEmpty/></h3>
+                        {
+                            displayReviews.map((review,index)=>{
+                                return (
+                                    currReview === index &&
+                                    <div key={index} className='absolute w-[90%] h-[100%] bg-white drop-shadow-md top-[50%] left-[50%] -translate-y-1/2 -translate-x-1/2'>
+                                        <div className='w-full h-full flex justify-between gap-x-4 px-7 py-4'>
+                                            {/* <div className='w-1/5 flex flex-col justify-center items-center gap-y-3'>
+                                                <div className='w-24 h-24'>
+                                                    <img src="./assets/images/home/reviewClient.png" alt="client" className='object-cover h-full w-full' />
+                                                </div>
+                                                <div className='flex justify-between gap-x-1'><StarFill/> <StarFill/> <StarFill/> <StarFill/> <StarEmpty/> </div>
+                                            </div> */}
+                                            <div className='w-full'>
+                                                <div className='flex flex-wrap gap-x-4 w-full items-center'>
+                                                    <h1 className='font-medium text-xl text-center w-full'>{review.name}</h1>
+                                                    <div className='w-full justify-center items-center gap-x-3 flex'>
+                                                        <h3 className=' font-normal text-sm text-center italic text-[#A3A3A3]'>{review.place}</h3>
+                                                        <h3 className='flex items-center gap-x-1'>
+                                                            {review.rating > 0 ? <StarFill/> : <StarEmpty/>}
+                                                            {review.rating > 1 ? <StarFill/> : <StarEmpty/>}
+                                                            {review.rating > 2 ? <StarFill/> : <StarEmpty/>}
+                                                            {review.rating > 3 ? <StarFill/> : <StarEmpty/>}
+                                                            {review.rating > 4 ? <StarFill/> : <StarEmpty/>}
+                                                        </h3>
+                                                    </div>
+                                                </div>
+                                                <div className='mt-3'>
+                                                    <p className='font-light text-sm text-[#3D3D3D]'>
+                                                    {review.review < 150 ? review.review : (review.review).slice(0,150) + '...'}
+                                                    </p>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div className='mt-3'>
-                                        <p className='font-light text-sm text-[#3D3D3D]'>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cursus nibh mauris, nec turpis orci lectus maecenas. Suspendisse sed magna eget nibh in turpis. 
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                                )
+                            })
+                        }
+                        
                         <div className='absolute w-full -bottom-5'>
                             <div className='flex w-full justify-center items-center gap-x-1'>
-                                <ActiveSlide/><InactiveSlide/><InactiveSlide/>
+                            {
+                                displayReviews.map((review, index)=>{
+                                    if(index === currReview){
+                                        return <ActiveSlide/>
+                                    }
+                                    else{
+                                        return <InactiveSlide/>
+                                    }
+                                })
+                            }
                             </div>
                         </div>
                     </div>
@@ -200,29 +246,34 @@ const MerchantDetails = () => {
                                     <Review/>
                                     <h5 className='font-medium text-base text-white'>Add a review</h5>
                                 </button> */}
-                                <button className='flex justify-center items-center w-[50px] gap-x-3 border-2 border-[#E82327] rounded-sm'>
+                                <button className='relative flex justify-center items-center w-[50px] gap-x-3 border-2 border-[#E82327] rounded-sm' onMouseOver={()=>setTooltip(prev=>({...prev, bookmark : true}))} onMouseOut={()=>setTooltip(prev=>({...prev, bookmark : false}))}>
                                     {/* <h5 className='font-medium text-sm  text-[#E82327]'>Bookmark</h5> */}
                                     <Heart/>
+                                    {tooltip.bookmark && <h1 className='absolute top-14 border border-gray-200 px-2 py-1 shadow-md'>Bookmark</h1>}
                                 </button>
-                                <button className='flex justify-center items-center w-[50px] gap-x-3 border-2 border-[#00900E] rounded-sm' onClick={()=>handleShare()}>
+                                <button className='relative flex justify-center items-center w-[50px] gap-x-3 border-2 border-[#00900E] rounded-sm' onMouseOver={()=>setTooltip(prev=>({...prev, share : true}))} onMouseOut={()=>setTooltip(prev=>({...prev, share : false}))} onClick={()=>handleShare()}>
                                     {/* <h5 className='font-medium text-sm  text-white'>Share</h5> */}
                                     <Share/>
+                                    {tooltip.share && <h1 className='absolute top-14 border border-gray-200 px-2 py-1 shadow-md'>Share</h1>}
                                 </button>
-                                <button className='flex justify-center items-center w-[50px] gap-x-2 h-12  border-2 border-[#747474]  rounded-sm' onClick={()=>setReportError(true)}>
+                                <button className='relative flex justify-center items-center w-[50px] gap-x-2 h-12  border-2 border-[#747474]  rounded-sm' onMouseOver={()=>setTooltip(prev=>({...prev, report : true}))} onMouseOut={()=>setTooltip(prev=>({...prev, report : false}))} onClick={()=>setReportError(true)}>
                                     <Flag/>
+                                    {tooltip.report && <h1 className='absolute top-14 border border-gray-200 px-2 py-1 shadow-md'>Report</h1>}
                                     {/* <h5 className='font-medium text-sm text-white'>Report Error</h5> */}
                                 </button>
-                                <button className='flex justify-center items-center gap-x-2 w-[50px] h-12 border-2 border-[#F88B4E]  rounded-sm' onClick={()=>setChatOpen(true)}>
+                                <button className='relative flex justify-center items-center gap-x-2 w-[50px] h-12 border-2 border-[#F88B4E]  rounded-sm' onMouseOver={()=>setTooltip(prev=>({...prev, chat : true}))} onMouseOut={()=>setTooltip(prev=>({...prev, chat : false}))} onClick={()=>setChatOpen(!chatOpen)}>
                                     <div className='flex justify-center items-center bg-white h-8 rounded-sm'>
                                         <MessageIcon/>
                                     </div>
                                     {/* <h5 className='font-medium text-sm text-white'>Live Chat</h5> */}
+                                    {tooltip.chat && <h1 className='absolute top-14 border border-gray-200 px-2 py-1 shadow-md'>Chat</h1>}
                                 </button>
-                                <button className='flex justify-center items-center gap-x-2 w-[50px] h-12 border-2 border-[#0079E9]  rounded-sm' onClick={()=>setReqCallback(true)}>
+                                <button className='relative flex justify-center items-center gap-x-2 w-[50px] h-12 border-2 border-[#0079E9]  rounded-sm' onMouseOver={()=>setTooltip(prev=>({...prev, callback : true}))} onMouseOut={()=>setTooltip(prev=>({...prev, callback : false}))} onClick={()=>setReqCallback(true)}>
                                     <div className='flex justify-center items-center bg-white h-8 rounded-sm'>
                                         <PhoneCall/>
                                     </div>
                                     {/* <h5 className='font-medium text-sm text-white'>Request a Callback</h5> */}
+                                    {tooltip.callback && <h1 className='absolute top-14 border border-gray-200 px-2 py-1 shadow-md'>Callback</h1>}
                                 </button>
                             </div>
                         </div>

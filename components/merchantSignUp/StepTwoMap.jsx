@@ -95,7 +95,7 @@ const StepTwoMap = ({latLng, address}) => {
         else{
             console.log('error');
         }
-      }
+    }
 
     
       

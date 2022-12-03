@@ -117,7 +117,7 @@ const Listing = () => {
   return (
     <>
         <Navbar/>
-        <div className='flex bg-[#F3FAFC] justify-center w-full'>
+        <div className='flex relative bg-[#F3FAFC] justify-center w-full'>
             <LocationBreadcrum/>
         </div>
         <div className='flex justify-center pb-20 w-full relative'>
@@ -291,7 +291,7 @@ const Listing = () => {
                                         onChange={handleSelect} 
                                         value={filters.filterYearsInBusiness}
                                         />
-                                <h4 className='font-normal text-[15px] text-[#605F5F]'>Years</h4>
+                                <h4 className='font-normal text-[15px] text-[#605F5F]'>Years & up</h4>
                             </div>
                         </div>
                         
@@ -334,30 +334,30 @@ const Listing = () => {
                                 <SortBy/>
                                 Sort By
                             </button> */}
-                            <button id='sortByDistance' className='flex items-center gap-x-2 bg-[#F6F6F6] border border-[#E7E7E7] py-2 px-4 pr-3 rounded-sm font-normal text-sm text-[#707070]' onClick={e=>handleSorted(e)}>
+                            <button id='sortByDistance' className='flex items-center gap-x-1 bg-[#F6F6F6] border border-[#E7E7E7] py-2 px-4 pr-3 rounded-sm font-normal text-sm text-[#707070]' onClick={e=>handleSorted(e)}>
                                 <SortByDistance/>
                                 Distance
-                                {sortedBy === 'sortByDistance' && <div className='relative h-5 w-5  rounded-full ml-5 flex justify-center items-center text-white cursor-pointer' onClick={()=>setSortedBy('')}><XWhiteSmall/></div>}
+                                {sortedBy === 'sortByDistance' && <div className='relative h-5 w-5  rounded-full ml-2 flex justify-center items-center text-white cursor-pointer' onClick={()=>setSortedBy('')}><XWhiteSmall/></div>}
                             </button>
-                            <button id='sortByRating' className='flex items-center gap-x-2 bg-[#F6F6F6] border border-[#E7E7E7] py-2 px-4 pr-3 rounded-sm font-normal text-sm text-[#707070]' onClick={e=>handleSorted(e)}>
+                            <button id='sortByRating' className='flex items-center gap-x-1 bg-[#F6F6F6] border border-[#E7E7E7] py-2 px-4 pr-3 rounded-sm font-normal text-sm text-[#707070]' onClick={e=>handleSorted(e)}>
                                 <SortByRating/>
                                 Rating
-                                {sortedBy === 'sortByRating' && <div className='relative h-5 w-5  rounded-full ml-5 flex justify-center items-center text-white cursor-pointer' onClick={()=>setSortedBy('')}><XWhiteSmall/></div>}
+                                {sortedBy === 'sortByRating' && <div className='relative h-5 w-5  rounded-full ml-2 flex justify-center items-center text-white cursor-pointer' onClick={()=>setSortedBy('')}><XWhiteSmall/></div>}
                             </button>
-                            <button id='sortByReview' className='flex items-center gap-x-2 bg-[#F6F6F6] border border-[#E7E7E7] py-2 px-4 pr-3 rounded-sm font-normal text-sm text-[#707070]' onClick={e=>handleSorted(e)}>
+                            <button id='sortByReview' className='flex items-center gap-x-1 bg-[#F6F6F6] border border-[#E7E7E7] py-2 px-4 pr-3 rounded-sm font-normal text-sm text-[#707070]' onClick={e=>handleSorted(e)}>
                                 <SortByReview/>
                                 No. of Reviews
-                                {sortedBy === 'sortByReview' && <div className='relative h-5 w-5  rounded-full ml-5 flex justify-center items-center text-white cursor-pointer' onClick={()=>setSortedBy('')}><XWhiteSmall/></div>}
+                                {sortedBy === 'sortByReview' && <div className='relative h-5 w-5  rounded-full ml-2 flex justify-center items-center text-white cursor-pointer' onClick={()=>setSortedBy('')}><XWhiteSmall/></div>}
                             </button>
-                            <button id='sortByRelevence' className='flex items-center gap-x-2 bg-[#F6F6F6] border border-[#E7E7E7] py-2 px-4 pr-3 rounded-sm font-normal text-sm text-[#707070]' onClick={e=>handleSorted(e)}>
+                            <button id='sortByRelevence' className='flex items-center gap-x-1 bg-[#F6F6F6] border border-[#E7E7E7] py-2 px-4 pr-3 rounded-sm font-normal text-sm text-[#707070]' onClick={e=>handleSorted(e)}>
                                 Relavance
-                                {sortedBy === 'sortByRelevence' && <div className='relative h-5 w-5  rounded-full ml-5 flex justify-center items-center text-white cursor-pointer' onClick={()=>setSortedBy('')}><XWhiteSmall/></div>}
+                                {sortedBy === 'sortByRelevence' && <div className='relative h-5 w-5  rounded-full ml-2 flex justify-center items-center text-white cursor-pointer' onClick={()=>setSortedBy('')}><XWhiteSmall/></div>}
                             </button>
                         </div>
 
                         <div className='flex flex-wrap gap-y-[26px] mt-7'>
                             
-                            <div className='relative border border-[#E4E4E4] rounded-sm '>
+                            <div className='relative border border-[#E4E4E4] rounded-sm cursor-pointer'>
                                 <div className='absolute top-0 right-0 px-2 py-1 bg-[#F9F9F9] rounded-md w-fit border border-[#E4E4E4]'>
                                     <p className='font-light text-[8px] w-fit'>Sponsored</p>
                                 </div>
@@ -367,7 +367,7 @@ const Listing = () => {
                                     </div>
                                     <div className='w-[65%]'>
                                         <p className='font-normal text-sm text-[#797979]'>
-                                        247PCRepair is about your computers health! We remotely provide instant top-notch solutions to computer hardware and software related problems received...
+                                        247PCRepair is about your computers health! We remotely provide instant top-notch solutions to computer hardware and software related problems received... <span className='text-[#0079E9]'>More Info</span>
                                         </p>
                                     </div>
                                     <div className='flex justify-center items-center m-3 ml-0 w-[15%] min-w-[120px] h-[90px] '>
@@ -394,7 +394,7 @@ const Listing = () => {
                                 </div>
                             </div>
                             
-                            <div className='relative border border-[#E4E4E4] rounded-sm '>
+                            {/* <div className='relative border border-[#E4E4E4] rounded-sm '>
                                 <div className='absolute -top-4 right-3 px-2 py-1 bg-[#F9F9F9] rounded-md w-fit border border-[#E4E4E4]'>
                                     <p className='font-light text-xs w-fit'>Sponsored</p>
                                 </div>
@@ -425,7 +425,7 @@ const Listing = () => {
                                         <p  className='flex items-center font-normal text-sm text-[#707070]'>&nbsp;&nbsp;4.9&nbsp;<StarFill/>&nbsp;&nbsp;(7895)</p>
                                     </div>
                                 </div>
-                            </div>
+                            </div> */}
                             
                             {
                                 listingItems.map((item,index)=> {
@@ -436,8 +436,8 @@ const Listing = () => {
                                                     <img src={item.logo} alt="" className='object-contain h-[95%] w-[95%] rounded-t-sm' />
                                                 </div>
                                                 <div className='w-[65%]'>
-                                                    <p className='font-normal text-sm text-[#797979]'>
-                                                    {item.desc}
+                                                    <p className='font-normal text-[.9rem] text-[#797979]'>
+                                                    {item.desc}<span className='text-[#0079E9]'> More Info</span>
                                                     </p>
                                                 </div>
                                                 <div className='flex justify-center items-center m-3 ml-0 w-[15%] min-w-[120px] h-[90px] '>
@@ -451,7 +451,7 @@ const Listing = () => {
                                                 </div>
                                                 <div className='flex'>
                                                     <h4 className='font-medium text-sm text-[#404040]'>{item.priceType}&nbsp;&nbsp;</h4>
-                                                    {item.price && <p  className='flex items-center font-normal text-sm text-[#707070]'>:&nbsp;&nbsp;${item.price}</p>}
+                                                    {item.price && <p  className='flex items-center font-normal text-sm text-[#707070]'>:&nbsp;&nbsp;${item.price} </p>}
                                                 </div>
                                                 <div className='flex'>
                                                     <h4 className='font-medium text-sm text-[#404040]'>Rating&nbsp;&nbsp;:</h4>

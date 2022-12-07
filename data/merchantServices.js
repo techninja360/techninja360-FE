@@ -41,7 +41,7 @@ export const services = [
         'subCategories':[
             {
                 'subCategoryName':'',
-                'subCategoryServices':['New Wifi Connection Setup','Wifi & network support','Wifi Signal Extension','add A new Service (Subject to Approval)']
+                'subCategoryServices':['New Wifi Connection Setup','Wifi & network support','Wifi Signal Extension','add A new Service (Subject to Approval)','abc']
             }
         ],
         

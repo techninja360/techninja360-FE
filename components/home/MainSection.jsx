@@ -5,14 +5,14 @@ import SearchIcon from '../svg/home/SearchIcon'
 import SearchLocation from '../svg/home/SearchLocation'
 import Link from 'next/link'
 import { useSignUpContext } from '../../context/signUp_context'
-import { useMerchantSignUpContext } from '../../context/merchantSignUp_context'
+import { useMerchantProfileContext } from '../../context/merchantProfile_context'
 
 
 
 
 const MainSection = () => {
   const {signUpOpen, setSignUpOpen} = useSignUpContext()
-  const {smerchantSignUpOpen, setMerchantSignUpOpen} = useMerchantSignUpContext()
+  const {merchantSignUpOpen, setMerchantSignUpOpen, merchantLogin, setMerchantLogin} = useMerchantProfileContext()
 
   const [openFindLocation, setOpenFindLocation] = useState(false)
   const [currAddress, setCurrAddress] = useState('Current Location')
@@ -114,7 +114,7 @@ const MainSection = () => {
         </div>
         <div className='w-full text-white relative sm:flex sm:justify-center'>
           <div className='absolute right-32 top-11 md:right-10 sm:relative sm:right-0'>
-            <button onClick={()=>setMerchantSignUpOpen(true)}>List your Business</button> | <button onClick={()=>setSignUpOpen(true)}>Sign Up</button> | <a href="">Sign In</a>
+            <button onClick={()=>setMerchantSignUpOpen(true)}>List your Business</button> | <button onClick={()=>setSignUpOpen(true)}>Sign Up</button> | <button onClick={()=>setMerchantLogin(true)}>Sign In</button>
           </div>
         </div>
         <div className='flex justify-center flex-wrap pt-56'>

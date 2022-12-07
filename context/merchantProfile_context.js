@@ -3,11 +3,48 @@ import React, { useContext, useEffect, useState } from 'react'
 import { services } from '../data/merchantServices';
 import axios from "axios";
 
-const MerchantSignUpContext = React.createContext()
-export const MerchantSignUpProvider = ({ children }) => {
+const MerchantProfileContext = React.createContext()
+export const MerchantProfileProvider = ({ children }) => {
+
+    const router = useRouter()
 
     const [merchantSignUpOpen, setMerchantSignUpOpen] = useState(false)
+    const [merchantLogin, setMerchantLogin] = useState(false)
     const [step, setStep] = useState(2)
+    const [contextAuthorized, setContextAuthorized] = useState(false)
+    const [merchantSignInDetails, setMerchantSignInDetails] = useState()
+
+    const [merchData, setMerchData] = useState()
+
+    useEffect(()=>{
+        if(!router.isReady) return;
+        const merchToken = sessionStorage.getItem('merchToken')
+        if(merchToken){
+            console.log(merchToken);
+                setContextAuthorized(true)
+
+                const getMerchData = async () => {
+                    const userRes = await fetch('http://localhost:8000/api/merchant/fetch/business-details',{method:'GET',headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": "Bearer " + merchToken,
+                        },})
+
+                const userResData = await userRes.json()
+                setMerchData(userResData)
+                console.log(userResData);
+                sessionStorage.setItem('merchData',JSON.stringify(userResData))
+            }
+
+            getMerchData()
+
+
+            }
+        else{
+            setContextAuthorized(false)
+        }
+
+    },[router.isReady])
+
 //--------------------------------------------Form 1 processing-------------------------------------------------------------------------------------
     const [formOneVals, setFormOneVals] = useState({
       primSalut:'',
@@ -683,10 +720,10 @@ export const MerchantSignUpProvider = ({ children }) => {
     }
 
     return (
-        <MerchantSignUpContext.Provider value={{merchantSignUpOpen, setMerchantSignUpOpen, step, setStep, formOneVals, setFormOneVals, formOneErrors, setFormOneErrors, formOneValidate, formTwoVals, setFormTwoVals, formTwoErrors, setFormTwoErrors, formTwoValidate,formTwoCertificates, setFormTwoCertificates,formTwoCertificatesError, setFormTwoCertificatesError,formTwoCertificatesValidate, formTwoCertificatesStatus, formTwoBusinessHours, setFormTwoBusinessHours, formTwoBusinessHoursStatus, setFormTwoBusinessHoursStatus, formTwoBusinessHoursError, setFormTwoBusinessHoursError, formTwoBusinessHoursValidate, formThreeVals, setFormThreeVals, formThreeValidate}}>{children}</MerchantSignUpContext.Provider>
+        <MerchantProfileContext.Provider value={{merchantSignInDetails, setMerchantSignInDetails, merchantLogin, setMerchantLogin, merchantSignUpOpen, setMerchantSignUpOpen, step, setStep, formOneVals, setFormOneVals, formOneErrors, setFormOneErrors, formOneValidate, formTwoVals, setFormTwoVals, formTwoErrors, setFormTwoErrors, formTwoValidate,formTwoCertificates, setFormTwoCertificates,formTwoCertificatesError, setFormTwoCertificatesError,formTwoCertificatesValidate, formTwoCertificatesStatus, formTwoBusinessHours, setFormTwoBusinessHours, formTwoBusinessHoursStatus, setFormTwoBusinessHoursStatus, formTwoBusinessHoursError, setFormTwoBusinessHoursError, formTwoBusinessHoursValidate, formThreeVals, setFormThreeVals, formThreeValidate}}>{children}</MerchantProfileContext.Provider>
   )
 }
 // make sure use
-export const useMerchantSignUpContext = () => {
-  return useContext(MerchantSignUpContext)
+export const useMerchantProfileContext = () => {
+  return useContext(MerchantProfileContext)
 }

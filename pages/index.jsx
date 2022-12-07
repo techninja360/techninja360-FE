@@ -8,12 +8,13 @@ import UserSignUp from '../components/UserSignUp'
 import { useSignUpContext } from '../context/signUp_context'
 import { useRouter } from 'next/router'
 import MerchantSignUp from '../components/MerchantSignUp'
-import { useMerchantSignUpContext } from '../context/merchantSignUp_context'
+import { useMerchantProfileContext } from '../context/merchantProfile_context'
+import MerchantLogIn from '../components/MerchantLogIn'
 
 export default function Home() {
 
   const {signUpOpen, setSignUpOpen, setToken} = useSignUpContext()
-  const {merchantSignUpOpen, setMerchantSignUpOpen, } = useMerchantSignUpContext()
+  const {merchantSignUpOpen, setMerchantSignUpOpen, merchantLogin, setMerchantLogin} = useMerchantProfileContext()
 
  
   // console.log(router.query);
@@ -34,6 +35,7 @@ export default function Home() {
     <div className={`relative ${signUpOpen ? 'overscroll-none':''}`}>
     {signUpOpen ? <UserSignUp/> : null}
     {merchantSignUpOpen ? <MerchantSignUp/> : null}
+    {merchantLogin ? <MerchantLogIn/> : null}
       <MainSection/>
       <CategorySection/>
       <SearchTermSection/>

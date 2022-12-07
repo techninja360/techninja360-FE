@@ -4,12 +4,12 @@ import BackArrow from './svg/signUp/BackArrow'
 import SignUpDivider from './svg/signUp/SignUpDivider'
 import { useSignUpContext } from '../context/signUp_context'
 import {useRouter} from 'next/router'
-import { useMerchantSignUpContext } from '../context/merchantSignUp_context'
+import { useMerchantProfileContext } from '../context/merchantProfile_context'
 
 const MerchantSignUp = () => {
 
     const Router = useRouter()
-    const {smerchantSignUpOpen, setMerchantSignUpOpen} = useMerchantSignUpContext()
+    const {merchantSignUpOpen, setMerchantSignUpOpen, merchantLogin, setMerchantLogin} = useMerchantProfileContext()
 
     const [authRes, setAuthRes] = useState()
 
@@ -58,7 +58,7 @@ const MerchantSignUp = () => {
             console.log(data)
             setAuthRes(data)
 
-            // if(data.status === 'ok'){
+            if(data.status === 'ok'){
             //     const userDetail = await fetch('http://localhost:8000/api/user/profile/details',{method:'GET',headers: {
             //         "Content-Type": "application/json",
             //         "Authorization": "Bearer " + data.user_data.token,
@@ -66,7 +66,10 @@ const MerchantSignUp = () => {
             //     const userDetailData = await userDetail.json()
             //     console.log('userDetailData',userDetailData);
             //     Router.push('http://localhost:3000/UserProfile')
-            // }
+
+                sessionStorage.setItem('merchToken',data.merchant_data.token)
+                Router.push('http://localhost:3000/MerchantProfile')
+            }
 
         }
         else{
@@ -137,7 +140,10 @@ const MerchantSignUp = () => {
                     <div className='p-16 h-fit w-2/3 bg-[#FBFBFB] md:w-full sm:p-8'>
                         <div className='flex justify-between w-full flex-wrap'>
                             <button onClick={()=>setMerchantSignUpOpen(false)}><BackArrow/></button>
-                            <p className=' w-3/4 text-right sm:hidden'>Already Have an Account? <span className='text-blue-500'> Sign In </span></p>
+                            <p className=' w-3/4 text-right cursor-pointer sm:hidden' onClick={()=>{
+                                setMerchantLogin(true)
+                                setMerchantSignUpOpen(false)
+                            }}>Already Have an Account? <span className='text-blue-500'> Sign In </span></p>
                         </div>
                         <div className='mt-16'>
                             <h1 className='font-semibold text-5xl leading-[60px] sm:text-3xl sm:text-center'>Create Your Free</h1>
@@ -161,7 +167,10 @@ const MerchantSignUp = () => {
 
                                 <button className='w-[440px] py-4 bg-blue-400 text-white rounded-sm sm:mt-5' type="submit">Create Account</button>
                                 <div className='flex justify-center w-full flex-wrap'>
-                                    <p className=' w-3/4 hidden text-center sm:block'>Already Have an Account? <span className='text-blue-500 sm:block'> Sign In </span></p>
+                                    <p className=' w-3/4 hidden text-center sm:block'>Already Have an Account? <span className='text-blue-500 sm:block'  onClick={()=>{
+                                setMerchantLogin(true)
+                                setMerchantSignUpOpen(false)
+                            }}> Sign In </span></p>
                                 </div>
                             </form>
                         </div>

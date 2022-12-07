@@ -3,12 +3,12 @@ import 'leaflet/dist/leaflet.css'
 import TextInput from './TextInput'
 import { GoogleMap, MarkerF, useLoadScript } from '@react-google-maps/api';
 import MapGetDirection from '../svg/merchantDetails/MapGetDirection';
-import { useMerchantSignUpContext } from '../../context/merchantSignUp_context';
+import { useMerchantProfileContext } from '../../context/merchantProfile_context';
 
-const StepTwoMap = ({latLng, address}) => {
+const StepTwoMap = ({latLng, address, readOnly}) => {
 
     
-    const {formTwoVals, setFormTwoVals} = useMerchantSignUpContext()
+    const {formTwoVals, setFormTwoVals} = useMerchantProfileContext()
     const {isLoaded} = useLoadScript({
         googleMapsApiKey : process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
     })
@@ -140,8 +140,8 @@ const StepTwoMap = ({latLng, address}) => {
             <div className={`flex flex-wrap w-full relative`}>
             <h3 className='font-semibold text-sm uppercase'>Or Directly enter the co-ordinates</h3>
                 <div className='mt-2 flex w-full gap-x-4'>
-                    <TextInput id='latName' type={'number'} placeholder='Latitude' width='w-1/3' value={posititonX} onChange={handlePosX}/>
-                    <TextInput id='longName' type={'number'} placeholder='Longitude' width='w-1/3' value={posititonY} onChange={handlePosY}/>
+                    <TextInput id='latName' type={'number'} placeholder='Latitude' width='w-1/3' value={posititonX} onChange={handlePosX} readOnly={readOnly}/>
+                    <TextInput id='longName' type={'number'} placeholder='Longitude' width='w-1/3' value={posititonY} onChange={handlePosY} readOnly={readOnly}/>
                 </div>
             
             </div>

@@ -4,11 +4,11 @@ import PlusSmall from '../svg/merchantSignUp/PlusSmall'
 import { services } from '../../data/merchantServices'
 import Minus from '../svg/merchantSignUp/Minus'
 import MinusSmall from '../svg/merchantSignUp/MinusSmall'
-import { useMerchantSignUpContext } from '../../context/merchantSignUp_context'
+import { useMerchantProfileContext } from '../../context/merchantProfile_context'
 
 const StepThree = () => {
 
-    const {step, setStep, formThreeVals, setFormThreeVals, formThreeValidate} = useMerchantSignUpContext()
+    const {step, setStep, formThreeVals, setFormThreeVals, formThreeValidate} = useMerchantProfileContext()
 
     const mainCategoryOpenInit =services.map((category)=>{
         return ({[category.mainCategory]: false})

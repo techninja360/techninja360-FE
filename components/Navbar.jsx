@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import React, { useEffect, useRef, useState } from 'react'
 import ArrowDown from './svg/ArrowDown'
 import GPSLocation from './svg/home/GPSLocation'
@@ -11,8 +12,9 @@ const Navbar = () => {
   const [currAddress, setCurrAddress] = useState('Current Location')
   const [addressInput, setAddressInput] = useState('')
   const [localityInput, setLocalityInput] = useState('')
-
+  const router = useRouter()
   const [localityList, setLocalityList] = useState([])
+  const [authorized, setAuthorized] = useState()
 
   function useOutsideAlerter(ref) {
     useEffect(() => {
@@ -95,6 +97,17 @@ const Navbar = () => {
     setOpenFindLocation(false)
   }
 
+  useEffect( ()=>{
+    if(!router.isReady) return;
+    const merchToken = sessionStorage.getItem('merchToken')
+    if(merchToken){
+      console.log(merchToken);
+      setAuthorized(true)
+    }
+    else{
+      setAuthorized(false)
+    }
+  },[router.isReady])
   return (
     <div className='flex justify-center w-full'>
       <nav className='relative flex justify-between items-center gap-x-10 w-full h-24 max-w-[1100px]'>
@@ -159,14 +172,21 @@ const Navbar = () => {
             </div>
             }
           </div>
-
-          <div className='flex justify-between items-center gap-x-1 w-fit'>
-            <div className='border-4 border-[#D9D9D9] rounded-full w-12 h-12'>
-              <img src="./assets/images/userProfile/userProfile.png" alt="profile" className='h-full w-full object-cover rounded-full'/>
+          {authorized ? 
+            <div className='flex justify-between items-center gap-x-1 w-fit'>
+              <div className='border-4 border-[#D9D9D9] rounded-full w-12 h-12'>
+                <img src="./assets/images/userProfile/userProfile.png" alt="profile" className='h-full w-full object-cover rounded-full'/>
+              </div>
+              <h1>Johnson</h1>
+              <ArrowDown/>
             </div>
-            <h1>Johnson</h1>
-            <ArrowDown/>
+          :
+          <div className='flex justify-between items-center gap-x-1 w-[14rem]'>
+            <div className=' w-fit'>
+                <p className='w-fit'><span>Sign Up </span> | <span>Sign In</span></p>
+            </div>
           </div>
+          }
       </nav>
     </div>
   )

@@ -15,7 +15,7 @@ const MerchantLogIn = () => {
 
     const [errorLogin, setErrorLogin] = useState('')
 
-    const {merchantSignUpOpen, setMerchantSignUpOpen, merchantLogin, setMerchantLogin, merchantSignInDetails, setMerchantSignInDetails} = useMerchantProfileContext()
+    const {contextMerchToken, setContextMerchToken,merchantSignUpOpen, setMerchantSignUpOpen, merchantLogin, setMerchantLogin, merchantSignInDetails, setMerchantSignInDetails} = useMerchantProfileContext()
     
     const Router = useRouter()
     const logInMerchant = async (e) => {
@@ -36,6 +36,7 @@ const MerchantLogIn = () => {
             console.log(data);
             setMerchantSignInDetails(data.user_details)
             sessionStorage.setItem('merchToken',data.user_details.token)
+            setContextMerchToken(data.user_details.token)
             Router.push('http://localhost:3000/MerchantProfile')
         }
         

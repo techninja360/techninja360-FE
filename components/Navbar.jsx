@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { useEffect, useRef, useState } from 'react'
+import { useMerchantProfileContext } from '../context/merchantProfile_context'
 import ArrowDown from './svg/ArrowDown'
 import GPSLocation from './svg/home/GPSLocation'
 import GPSRight from './svg/home/GPSRight'
@@ -15,6 +16,8 @@ const Navbar = () => {
   const router = useRouter()
   const [localityList, setLocalityList] = useState([])
   const [authorized, setAuthorized] = useState()
+
+  const {contextMerchToken, setContextMerchToken} = useMerchantProfileContext()
 
   function useOutsideAlerter(ref) {
     useEffect(() => {
@@ -102,6 +105,7 @@ const Navbar = () => {
     const merchToken = sessionStorage.getItem('merchToken')
     if(merchToken){
       console.log(merchToken);
+      setContextMerchToken(merchToken)
       setAuthorized(true)
     }
     else{

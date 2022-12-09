@@ -13,12 +13,12 @@ const StepTwoMap = ({latLng, address, readOnly}) => {
         googleMapsApiKey : process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
     })
     
-    const [posititonX, setPosititonX] = useState(latLng.lat)
-    const [posititonY, setPosititonY] = useState(latLng.lng)
+    // const [posititonX, setPosititonX] = useState(latLng.lat)
+    // const [posititonY, setPosititonY] = useState(latLng.lng)
     
     const [findLocation, setFindLocation] = useState(false)
     
-    const center = useMemo(()=>({lat:posititonX, lng: posititonY}),[latLng,posititonX,posititonY])
+    const center = useMemo(()=>({lat: formTwoVals.businessLocationPosititonX, lng: formTwoVals.businessLocationPosititonY}),[latLng,formTwoVals.businessLocationPosititonX,formTwoVals.businessLocationPosititonY])
 
     const handlePosY = (pos) => {
         pos = pos.target.value
@@ -31,7 +31,8 @@ const StepTwoMap = ({latLng, address, readOnly}) => {
         else{
             finalPosY = 0
         }
-        setPosititonY(finalPosY)
+        // setPosititonY(finalPosY)
+        setFormTwoVals(prevState => ({...prevState, businessLocationPosititonY:finalPosY}))
     }
 
     const handlePosX = (pos) => {
@@ -45,7 +46,8 @@ const StepTwoMap = ({latLng, address, readOnly}) => {
         else{
             finalPosX = 0
         }
-        setPosititonX(finalPosX)
+        // setPosititonX(finalPosX)
+        setFormTwoVals(prevState => ({...prevState, businessLocationPosititonX:finalPosX}))
     }
     
     const fetchAddress = async (url) => {
@@ -83,8 +85,11 @@ const StepTwoMap = ({latLng, address, readOnly}) => {
                     lat: position.coords.latitude,
                     lng: position.coords.longitude,
                 };
-                setPosititonX(pos.lat)
-                setPosititonY(pos.lng)
+                // setPosititonX(pos.lat)
+                // setPosititonY(pos.lng)
+
+                setFormTwoVals(prevState => ({...prevState, businessLocationPosititonX:pos.lat}))
+                setFormTwoVals(prevState => ({...prevState, businessLocationPosititonY:pos.lng}))
                 console.log(pos)
 
                 const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${pos.lat},${pos.lng}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}`
@@ -100,8 +105,12 @@ const StepTwoMap = ({latLng, address, readOnly}) => {
     
       
     useEffect(()=>{
-        setPosititonX(latLng.lat)
-        setPosititonY(latLng.lng)
+        // setPosititonX(latLng.lat)
+        // setPosititonY(latLng.lng)
+
+        setFormTwoVals(prevState => ({...prevState, businessLocationPosititonX:latLng.lat}))
+        setFormTwoVals(prevState => ({...prevState, businessLocationPosititonY:latLng.lng}))
+        
     },[latLng])
 
     if(!isLoaded) return <div>Loading...</div>
@@ -125,8 +134,11 @@ const StepTwoMap = ({latLng, address, readOnly}) => {
                 onClick={ev => {
                     console.log("latitide = ", ev.latLng.lat());
                     console.log("longitude = ", ev.latLng.lng());
-                    setPosititonX(ev.latLng.lat())
-                    setPosititonY(ev.latLng.lng())
+                    // setPosititonX(ev.latLng.lat())
+                    // setPosititonY(ev.latLng.lng())
+
+                    setFormTwoVals(prevState => ({...prevState, businessLocationPosititonX:ev.latLng.lat()}))
+                    setFormTwoVals(prevState => ({...prevState, businessLocationPosititonY:ev.latLng.lng()}))
                     const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${ev.latLng.lat()},${ev.latLng.lng()}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}`
 
                     fetchAddress(url)
@@ -140,8 +152,8 @@ const StepTwoMap = ({latLng, address, readOnly}) => {
             <div className={`flex flex-wrap w-full relative`}>
             <h3 className='font-semibold text-sm uppercase'>Or Directly enter the co-ordinates</h3>
                 <div className='mt-2 flex w-full gap-x-4'>
-                    <TextInput id='latName' type={'number'} placeholder='Latitude' width='w-1/3' value={posititonX} onChange={handlePosX} readOnly={readOnly}/>
-                    <TextInput id='longName' type={'number'} placeholder='Longitude' width='w-1/3' value={posititonY} onChange={handlePosY} readOnly={readOnly}/>
+                    <TextInput id='latName' type={'number'} placeholder='Latitude' width='w-1/3' value={formTwoVals.businessLocationPosititonX} onChange={handlePosX} readOnly={readOnly}/>
+                    <TextInput id='longName' type={'number'} placeholder='Longitude' width='w-1/3' value={formTwoVals.businessLocationPosititonY} onChange={handlePosY} readOnly={readOnly}/>
                 </div>
             
             </div>

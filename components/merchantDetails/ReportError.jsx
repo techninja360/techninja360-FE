@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react'
-import SelectInput from '../merchantSignUp/SelectInput'
+// import SelectInput from '../merchantSignUp/SelectInput'
 import XWhite from '../svg/XWhite'
-import { services } from '../../data/merchantServices'
-import RadioInput from '../merchantSignUp/RadioInput'
-import CbCalender from '../svg/merchantDetails/CbCalender'
+// import { services } from '../../data/merchantServices'
+// import RadioInput from '../merchantSignUp/RadioInput'
+// import CbCalender from '../svg/merchantDetails/CbCalender'
 import { useMerchantDetailsContext } from '../../context/merchantDetails_context'
-import Server from 'next/dist/server/base-server'
+// import Server from 'next/dist/server/base-server'
 
 const ReportError = () => {
 

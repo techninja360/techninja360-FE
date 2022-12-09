@@ -38,16 +38,12 @@ const StepTwo = () => {
                 "business_name":formTwoVals.businessName,
                 "web_address":formTwoVals.businessWebAddress,
                 "contact":{
-                    "toll_no":18001028080,
-                    "work_no":123456789
+                    "toll_no": (String(formTwoVals.businessTollFreePreFix) + String(formTwoVals.businessTollFreeStart) + String(formTwoVals.businessTollFreeEnd) ).replace(/\D/g,''),
+                    "work_no": String(formTwoVals.businessWorkNumber).replace(/\D/g,'')
                 },
                 "exp_years":formTwoVals.businessYearsInBusiness,
                 "emp_strength":formTwoVals.businessEmployeeStrength,
                 "description":formTwoVals.businessDescription
-            }
-
-            let logoDetails = {
-                image : [formTwoVals.businessSmallLogo, formTwoVals.businessLargeLogo]
             }
 
             const postMerchData = async () => {
@@ -74,25 +70,25 @@ const StepTwo = () => {
                 //         "Content-Type": "application/json",
                 //         "Authorization": "Bearer " + sessionStorage.getItem('merchToken'),
                 //     },})
-                    formData.append('image', formTwoVals.businessSmallLogo );
-                    formData.append('image', formTwoVals.businessLargeLogo );
-                    console.log('formData', formData);
-                    const merchResLogo = await fetch('http://localhost:8000/api/merchant/register/business-logo',
-                    {
-                        method: 'POST',
-                        body : formData,
-                        headers: {
-                                    "Content-Type": "application/json",
-                                    "Authorization": "Bearer " + sessionStorage.getItem('merchToken'),
-                                }
-                    }
-                    );
+                    // formData.append('image', formTwoVals.businessSmallLogo );
+                    // formData.append('image', formTwoVals.businessLargeLogo );
+                    // console.log('formData', formData);
+                    // const merchResLogo = await fetch('http://localhost:8000/api/merchant/register/business-logo',
+                    // {
+                    //     method: 'POST',
+                    //     body : formData,
+                    //     headers: {
+                    //                 "Content-Type": "application/json",
+                    //                 "Authorization": "Bearer " + sessionStorage.getItem('merchToken'),
+                    //             }
+                    // }
+                    // );
                     
-                    const merchResLogoData = await merchResLogo.json()
-                    console.log(merchResLogoData)
+                    // const merchResLogoData = await merchResLogo.json()
+                    // console.log(merchResLogoData)
                     // console.log(merchResLogoData)
 
-                    if(merchResLogoData.status === 'ok'){
+                    if(merchResData.status === 'ok'){
                         setBusinessDetailsRO(true)
                     }
             }
@@ -119,7 +115,46 @@ const StepTwo = () => {
         }
         else{
             //save edited
-            setBusinessLocationRO(true)
+
+            let businessLocation = {
+                "address_type":formTwoVals.businessLocationAddressType,
+                "address":{
+                    "street":formTwoVals.businessLocationStreetName,
+                    "city":formTwoVals.businessLocationCityName,
+                    "state":formTwoVals.businessLocationStateName,
+                    "country":formTwoVals.businessLocationCountryName,
+                    "zip_code":formTwoVals.businessLocationZipCodeName
+                },
+                "service_radius":{
+                    "start":formTwoVals.businessLocationServiceRadStart,
+                    "end":formTwoVals.businessLocationServiceRadEnd
+                },
+                "coordinates":{
+                    "lat":formTwoVals.businessLocationPosititonY,
+                    "long":formTwoVals.businessLocationPosititonY
+                },
+                "zip_covered":formTwoVals.businessLocationZipCoverd.split(',')
+
+            }
+            
+
+            const postMerchData = async () => {
+                const merchRes = await fetch('http://localhost:8000/api/merchant/register/business-location',{
+                    method:'POST',
+                    body : JSON.stringify(businessLocation),
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + sessionStorage.getItem('merchToken'),
+                    },})
+                    
+                const merchResData = await merchRes.json()
+                console.log(merchResData)
+                if(merchResData.status === 'ok'){
+                    setBusinessLocationRO(true)
+                }
+            }
+
+            postMerchData()
         }
 
     }
@@ -532,7 +567,7 @@ const StepTwo = () => {
                 <div className='py-7 px-7'>
                     
                     <div className='mt-7 flex w-full gap-x-4 items-start'>
-                        <RadioInput id='businessLocationAddressType' items={[{value:'businessAdd',name:'Business Address'},{value:'residentialAdd',name:'Residential Address'}]} required={true} title='What type of address you have ?' width='w-3/5' onChange={onChange} error={formTwoErrors.businessLocationAddressType} value={businessLocationAddressType}/>
+                        <RadioInput id='businessLocationAddressType' items={[{value:'businessAdd',name:'Business Address'},{value:'residentialAdd',name:'Residential Address'}]} required={true} title='What type of address you have ?' width='w-3/5' onChange={onChange} error={formTwoErrors.businessLocationAddressType} value={businessLocationAddressType} readOnly={businessLocationRO}/>
                     </div>
 
                     <div className='mt-7 flex w-full gap-x-4 items-start'>

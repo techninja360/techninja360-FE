@@ -9,7 +9,7 @@ import { useMerchantProfileContext } from '../context/merchantProfile_context'
 const MerchantSignUp = () => {
 
     const Router = useRouter()
-    const {merchantSignUpOpen, setMerchantSignUpOpen, merchantLogin, setMerchantLogin} = useMerchantProfileContext()
+    const {contextMerchToken, setContextMerchToken, merchantSignUpOpen, setMerchantSignUpOpen, merchantLogin, setMerchantLogin} = useMerchantProfileContext()
 
     const [authRes, setAuthRes] = useState()
 
@@ -68,6 +68,7 @@ const MerchantSignUp = () => {
             //     Router.push('http://localhost:3000/UserProfile')
 
                 sessionStorage.setItem('merchToken',data.merchant_data.token)
+                setContextMerchToken(data.merchant_data.token)
                 Router.push('http://localhost:3000/MerchantProfile')
             }
 

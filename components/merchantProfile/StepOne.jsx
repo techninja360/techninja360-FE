@@ -5,21 +5,12 @@ import TextInput from './TextInput'
 
 const StepOne = () => {
 
-    const {step, setStep, formOneVals, setFormOneVals , formOneErrors, setFormOneErrors, formOneValidate } = useMerchantProfileContext()
+    const {phoneFormat, step, setStep, formOneVals, setFormOneVals , formOneErrors, setFormOneErrors, formOneValidate } = useMerchantProfileContext()
     const [initial, setInitial] = useState(true)
     const [primContactRO, setPrimContactRO] = useState(true)
     const [secContactRO, setSecContactRO] = useState(true)
 
-    const [merchToken, setMerchToken] = useState()
-
-    function phoneFormat(input) {//returns (###) ###-####
-        input = input.replace(/\D/g,'');
-        var size = input.length;
-        if (size>0) {input="("+input}
-        if (size>3) {input=input.slice(0,4)+") "+input.slice(4,11)}
-        if (size>6) {input=input.slice(0,9)+"-" +input.slice(9)}
-        return input;
-    }
+    
 
     const onChange = (e) =>{
         if(e.target.id === 'primPhone' || e.target.id === 'primAltPh' || e.target.id === 'altPhone' || e.target.id === 'altAltPhone'){
@@ -49,8 +40,8 @@ const StepOne = () => {
                     "last_name":formOneVals.primLName
                 },
                 "phone_no":{
-                    "primary_ph":1236549870,
-                    "alternate_ph":1236549870
+                    "primary_ph":String(formOneVals.primPhone).replace(/\D/g,''),
+                    "alternate_ph":String(formOneVals.primAltPh).replace(/\D/g,'')
                 },
                 "primary_email": formOneVals.primEmail
             }

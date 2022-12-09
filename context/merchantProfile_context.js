@@ -15,6 +15,16 @@ export const MerchantProfileProvider = ({ children }) => {
     const [merchantSignInDetails, setMerchantSignInDetails] = useState()
 
     const [merchData, setMerchData] = useState()
+    const [contextMerchToken, setContextMerchToken] = useState()
+
+    function phoneFormat(input) {//returns (###) ###-####
+        input = input.replace(/\D/g,'');
+        var size = input.length;
+        if (size>0) {input="("+input}
+        if (size>3) {input=input.slice(0,4)+") "+input.slice(4,11)}
+        if (size>6) {input=input.slice(0,9)+"-" +input.slice(9)}
+        return input;
+    }
 
     useEffect(()=>{
         if(!router.isReady) return;
@@ -24,16 +34,31 @@ export const MerchantProfileProvider = ({ children }) => {
                 setContextAuthorized(true)
 
                 const getMerchData = async () => {
-                    const userRes = await fetch('http://localhost:8000/api/merchant/fetch/business-details',{method:'GET',headers: {
+                    const merchBusinessDetailsRes = await fetch('http://localhost:8000/api/merchant/fetch/business-details',{method:'GET',headers: {
                             "Content-Type": "application/json",
                             "Authorization": "Bearer " + merchToken,
                         },})
 
-                const userResData = await userRes.json()
-                setMerchData(userResData)
-                console.log(userResData);
-                sessionStorage.setItem('merchData',JSON.stringify(userResData))
-            }
+                    const merchBusinessDetailsResData = await merchBusinessDetailsRes.json()
+                    
+                    const merchContactRes = await fetch('http://localhost:8000/api/merchant/fetch/contacts',{method:'GET',headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": "Bearer " + merchToken,
+                        },})
+
+                    const merchContactResData = await merchContactRes.json()
+                    
+                    // const merchLocationRes = await fetch('http://localhost:8000/api/merchant/fetch/contacts',{method:'GET',headers: {
+                    //         "Content-Type": "application/json",
+                    //         "Authorization": "Bearer " + merchToken,
+                    //     },})
+
+                    // const merchLocationResData = await merchLocationRes.json()
+                    
+                    setMerchData(prev=>({...prev , ...merchBusinessDetailsResData?.results, ...merchContactResData?.results}))
+                    console.log(merchBusinessDetailsResData);
+                    sessionStorage.setItem('merchData',JSON.stringify(merchBusinessDetailsResData))
+                }
 
             getMerchData()
 
@@ -43,7 +68,50 @@ export const MerchantProfileProvider = ({ children }) => {
             setContextAuthorized(false)
         }
 
-    },[router.isReady])
+    },[contextMerchToken])
+
+
+    useEffect(()=>{
+
+
+        setFormOneVals(prevState => ({...prevState, primSalut:merchData?.primary_contact?.title}))
+        setFormOneVals(prevState => ({...prevState, primFName:merchData?.primary_contact?.name?.first_name}))
+        setFormOneVals(prevState => ({...prevState, primMName:merchData?.primary_contact?.name?.middle_name}))
+        setFormOneVals(prevState => ({...prevState, primLName:merchData?.primary_contact?.name?.last_name}))
+        setFormOneVals(prevState => ({...prevState, primEmail:merchData?.primary_contact?.primary_email}))
+        setFormOneVals(prevState => ({...prevState, primPhone:merchData?.primary_contact?.phone_no?.primary_ph}))
+        setFormOneVals(prevState => ({...prevState, primAltPh:merchData?.primary_contact?.phone_no?.alternate_ph}))
+        
+        setFormOneVals(prevState => ({...prevState, altSalut:merchData?.alternate_contact?.title}))
+        setFormOneVals(prevState => ({...prevState, altFName:merchData?.alternate_contact?.name?.first_name}))
+        setFormOneVals(prevState => ({...prevState, altMName:merchData?.alternate_contact?.name?.middle_name}))
+        setFormOneVals(prevState => ({...prevState, altLName:merchData?.alternate_contact?.name?.last_name}))
+        setFormOneVals(prevState => ({...prevState, altEmail:merchData?.alternate_contact?.primary_email}))
+        setFormOneVals(prevState => ({...prevState, altPhone:merchData?.alternate_contact?.phone_no?.primary_ph}))
+        setFormOneVals(prevState => ({...prevState, altAltPh:merchData?.alternate_contact?.phone_no?.alternate_ph}))
+
+        
+        setFormTwoVals(prevState => ({...prevState, businessName:merchData?.business_details?.business_name}))
+        setFormTwoVals(prevState => ({...prevState, businessWebAddress:merchData?.business_details?.web_address}))
+        // setFormTwoVals(prevState => ({...prevState, businessTollFreePreFix:merchData?.business_details?.contact.toll_no.slice(0,3)}))
+        // setFormTwoVals(prevState => ({...prevState, businessTollFreeStart:merchData?.business_details?.contact.toll_no.slice(3,6)}))
+        // setFormTwoVals(prevState => ({...prevState, businessTollFreeEnd:merchData?.business_details?.contact.toll_no.slice(6,10)}))
+        setFormTwoVals(prevState => ({...prevState, businessYearsInBusiness:merchData?.business_details?.exp_years}))
+        setFormTwoVals(prevState => ({...prevState, businessEmployeeStrength:merchData?.business_details?.emp_strength}))
+        setFormTwoVals(prevState => ({...prevState, businessDescription:merchData?.business_details?.description}))
+        
+        setFormTwoVals(prevState => ({...prevState, businessLocationStreetName:merchData?.business_location?.address?.street}))
+        setFormTwoVals(prevState => ({...prevState, businessLocationCityName:merchData?.business_location?.address?.city}))
+        setFormTwoVals(prevState => ({...prevState, businessLocationStateName:merchData?.business_location?.address?.state}))
+        setFormTwoVals(prevState => ({...prevState, businessLocationCountryName:merchData?.business_location?.address?.country}))
+        setFormTwoVals(prevState => ({...prevState, businessLocationZipCodeName:merchData?.business_location?.address?.zip_code}))
+        setFormTwoVals(prevState => ({...prevState, businessLocationPosititonX:merchData?.business_location?.coordinates?.lat}))
+        setFormTwoVals(prevState => ({...prevState, businessLocationPosititonY:merchData?.business_location?.coordinates?.long}))
+        setFormTwoVals(prevState => ({...prevState, businessLocationServiceRadStart:merchData?.business_location?.service_radius?.start}))
+        setFormTwoVals(prevState => ({...prevState, businessLocationServiceRadEnd:merchData?.business_location?.service_radius?.end}))
+
+    },[merchData])
+
 
 //--------------------------------------------Form 1 processing-------------------------------------------------------------------------------------
     const [formOneVals, setFormOneVals] = useState({
@@ -165,6 +233,11 @@ export const MerchantProfileProvider = ({ children }) => {
     
 
 //--------------------------------------------Form 2 processing-------------------------------------------------------------------------------------
+    
+
+    
+
+
     const [formTwoVals, setFormTwoVals] = useState({
         businessSmallLogo : '',
         businessLargeLogo : '',
@@ -187,6 +260,8 @@ export const MerchantProfileProvider = ({ children }) => {
         businessLocationStateName: '',
         businessLocationCountryName: '',
         businessLocationZipCodeName: '',
+        businessLocationPosititonX: '',
+        businessLocationPosititonY: '',
         businessLocationServiceRadStart: '',
         businessLocationServiceRadEnd: '',
         businessLocationZipCoverd: '',
@@ -720,7 +795,7 @@ export const MerchantProfileProvider = ({ children }) => {
     }
 
     return (
-        <MerchantProfileContext.Provider value={{merchantSignInDetails, setMerchantSignInDetails, merchantLogin, setMerchantLogin, merchantSignUpOpen, setMerchantSignUpOpen, step, setStep, formOneVals, setFormOneVals, formOneErrors, setFormOneErrors, formOneValidate, formTwoVals, setFormTwoVals, formTwoErrors, setFormTwoErrors, formTwoValidate,formTwoCertificates, setFormTwoCertificates,formTwoCertificatesError, setFormTwoCertificatesError,formTwoCertificatesValidate, formTwoCertificatesStatus, formTwoBusinessHours, setFormTwoBusinessHours, formTwoBusinessHoursStatus, setFormTwoBusinessHoursStatus, formTwoBusinessHoursError, setFormTwoBusinessHoursError, formTwoBusinessHoursValidate, formThreeVals, setFormThreeVals, formThreeValidate}}>{children}</MerchantProfileContext.Provider>
+        <MerchantProfileContext.Provider value={{phoneFormat,contextMerchToken, setContextMerchToken, merchantSignInDetails, setMerchantSignInDetails, merchantLogin, setMerchantLogin, merchantSignUpOpen, setMerchantSignUpOpen, step, setStep, formOneVals, setFormOneVals, formOneErrors, setFormOneErrors, formOneValidate, formTwoVals, setFormTwoVals, formTwoErrors, setFormTwoErrors, formTwoValidate,formTwoCertificates, setFormTwoCertificates,formTwoCertificatesError, setFormTwoCertificatesError,formTwoCertificatesValidate, formTwoCertificatesStatus, formTwoBusinessHours, setFormTwoBusinessHours, formTwoBusinessHoursStatus, setFormTwoBusinessHoursStatus, formTwoBusinessHoursError, setFormTwoBusinessHoursError, formTwoBusinessHoursValidate, formThreeVals, setFormThreeVals, formThreeValidate}}>{children}</MerchantProfileContext.Provider>
   )
 }
 // make sure use

@@ -68,7 +68,7 @@ useEffect( ()=>{
 
     <>
     <NavbarMerchant/>
-    {authorized ? <>
+    {true ? <>
       <div className='flex justify-center w-full'>
         <MerchantSteps step = {step}/>
       </div>

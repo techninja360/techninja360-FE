@@ -34,6 +34,7 @@ const StepTwo = () => {
         }
         else{
             //save edited
+            setBusinessDetailsRO(true)
             let businesstDetails = {
                 "business_name":formTwoVals.businessName,
                 "web_address":formTwoVals.businessWebAddress,
@@ -115,7 +116,7 @@ const StepTwo = () => {
         }
         else{
             //save edited
-
+            setBusinessLocationRO(true)
             let businessLocation = {
                 "address_type":formTwoVals.businessLocationAddressType,
                 "address":{
@@ -176,6 +177,7 @@ const StepTwo = () => {
         }
         else{
             //save edited
+            setbusinessOtherRO(true)
             let postBody = {
                 "services":{
                     "remote_support":formTwoVals.otherInfoRemoteSupport,

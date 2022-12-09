@@ -31,6 +31,7 @@ const StepOne = () => {
             setPrimContactRO(false)
         }
         else{
+            setPrimContactRO(true)
             //save edited
             let primContactDetails = {
                 "title":formOneVals.primSalut,

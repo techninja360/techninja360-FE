@@ -9,6 +9,7 @@ import { useMerchantProfileContext } from '../../context/merchantProfile_context
 const StepThree = () => {
 
     const {step, setStep, formThreeVals, setFormThreeVals, formThreeValidate} = useMerchantProfileContext()
+    const [businessServicesRO, setBusinessServicesRO] = useState(true)
 
     const mainCategoryOpenInit =services.map((category)=>{
         return ({[category.mainCategory]: false})
@@ -21,7 +22,7 @@ const StepThree = () => {
     
     services.map((category)=>{
         category.subCategories.map((subCategory)=>{
-            allSubCategories.push((category.mainCategory + subCategory.subCategoryName).replaceAll(' ',''))
+            allSubCategories.push((category.mainCategory + "##" + subCategory.subCategoryName).replaceAll(' ','_'))
         })
     })
 
@@ -58,7 +59,7 @@ const StepThree = () => {
 
     const handleChange = (e,subCategoryServiceId) => {
 
-        if(e.target.id.includes('Audio/Video&TVMountingTVMounting')){
+        if(e.target.id.includes('Audio/_Video_&_TV_Mounting##TV_Mounting')){
             
             if(e.target.type === 'checkbox'){
                 if(formThreeVals[subCategoryServiceId].available){
@@ -124,6 +125,94 @@ const StepThree = () => {
         e.preventDefault()
         formThreeValidate()
     }
+
+    const handleBusinessServicesEdit = (e) => {
+        e.preventDefault()
+        var values = Object.values(formThreeVals);
+
+        // Convert the array of values into an array of objects, with each object
+        // having the properties "name" and "properties"
+        var services = values.map(function(value) {
+        return {
+            "name": Object.keys(formThreeVals).find(key => formThreeVals[key] === value),
+            "properties": value
+        };
+        });
+        console.log('services', services);
+        let tempServices = services.map((service)=>{
+            if(service.properties.available === true){
+                let service_category = service.name.split('##')[0]
+                let service_type = service.name.split('##')[1]
+                let service_name = service.name.split('##')[2]
+                let pricing_type = ""
+                let service_price = ""
+                if(service.properties.fees.call !== ""){
+                    pricing_type = "call"
+                    service_price = "on call"
+                }
+                else if(service.properties.fees.custom !== ""){
+                    pricing_type = "custom"
+                    service_price = service.properties.fees.custom
+                }
+                else if(service.properties.fees.flat !== ""){
+                    pricing_type = "flat"
+                    service_price = service.properties.fees.flat
+                }
+                else if(service.properties.fees.hourly !== ""){
+                    pricing_type = "hourly"
+                    service_price = service.properties.fees.hourly
+                }
+                let service_desc = service.properties.desc
+                return {
+                        "service_category": service_category,
+                        "service_type": service_type,
+                        "service_name": service_name,
+                        "pricing_type": pricing_type,
+                        "service_price": service_price,
+                        "service_desc": service_desc
+                }
+            }
+        })
+        tempServices = tempServices.filter((service)=>{
+            if(service !== undefined){
+                return service
+            }
+        })
+        console.log('tempServices', tempServices)
+        if(businessServicesRO){
+            setBusinessServicesRO(false)
+        }
+        else{
+            // save edited
+            let businesstDetails = {
+                "services": tempServices
+            }
+
+            // let temp = Object.entries(formThreeVals)
+            // console.log(temp)
+            const postMerchData = async () => {
+                const formData = new FormData();
+                    
+                const merchRes = await fetch('http://localhost:8000/api/merchant/register/business-services',{
+                    method:'POST',
+                    body : JSON.stringify(businesstDetails),
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + sessionStorage.getItem('merchToken'),
+                    },})
+                    
+                    const merchResData = await merchRes.json()
+                    console.log(merchResData);
+                    if(merchResData.status === 'ok'){
+                        setBusinessServicesRO(true)
+                    }
+            }
+            postMerchData()
+
+        }
+
+    }
+
   return (
     <div className='w-full mt-16'>
         <form className='px-10'>
@@ -147,20 +236,20 @@ const StepThree = () => {
                                 service.subCategories.map((subCategory,index)=>{
                                     return(
                                         <div key={index}>
-                                            <div className={`${subCategory.subCategoryName === '' ? 'hidden' : ''} w-full mt-7 flex bg-blue-500 items-center pl-5 ${subCategoryOpen[(service.mainCategory + subCategory.subCategoryName).replaceAll(' ','')]? 'rounded-md rounded-b-none':'rounded-md'}  cursor-pointer`} onClick={()=> handleSubCategoryOpen((service.mainCategory + subCategory.subCategoryName).replaceAll(' ',''))}>
+                                            <div className={`${subCategory.subCategoryName === '' ? 'hidden' : ''} w-full mt-7 flex bg-blue-500 items-center pl-5 ${subCategoryOpen[(service.mainCategory + '##' + subCategory.subCategoryName).replaceAll(' ','_')]? 'rounded-md rounded-b-none':'rounded-md'}  cursor-pointer`} onClick={()=> handleSubCategoryOpen((service.mainCategory + '##' + subCategory.subCategoryName).replaceAll(' ','_'))}>
                                                 <div className='bg-white h-8 w-8 flex justify-center items-center rounded-full'>
-                                                    {subCategoryOpen[(service.mainCategory + subCategory.subCategoryName).replaceAll(' ','')]?  <MinusSmall/> : <PlusSmall/> }
+                                                    {subCategoryOpen[(service.mainCategory + '##' + subCategory.subCategoryName).replaceAll(' ','_')]?  <MinusSmall/> : <PlusSmall/> }
                                                 </div>
                                                 <h1 className='text-xl p-3 font-semibold text-white'>{subCategory.subCategoryName}</h1>
                                             </div>
-                                            <div className={`${subCategory.subCategoryName === '' ? 'block' : subCategoryOpen[(service.mainCategory + subCategory.subCategoryName).replaceAll(' ','')] === false ? 'hidden':''} ${subCategory.subCategoryName === '' ? 'mt-6 border-t border-t-[#D4D4D4]' : 'border-t-0'} relative border border-[#D4D4D4]  px-8 pb-12`}>
+                                            <div className={`${subCategory.subCategoryName === '' ? 'block' : subCategoryOpen[(service.mainCategory + '##' + subCategory.subCategoryName).replaceAll(' ','_')] === false ? 'hidden':''} ${subCategory.subCategoryName === '' ? 'mt-6 border-t border-t-[#D4D4D4]' : 'border-t-0'} relative border border-[#D4D4D4]  px-8 pb-12`}>
                                             {
-                                                (service.mainCategory + subCategory.subCategoryName).replaceAll(' ','') === 'Audio/Video&TVMountingTVMounting' ?
+                                                (service.mainCategory + '##' + subCategory.subCategoryName).replaceAll(' ','_') === 'Audio/_Video_&_TV_Mounting##TV_Mounting'  ?
                                                         <div className='flex flex-wrap gap-x-6 w-full'>
                                                             
                                                             {
                                                                 subCategory.subCategoryServices.map((subCategoryService,index)=>{
-                                                                    let subCategoryServiceId = (service.mainCategory + subCategory.subCategoryName + subCategoryService).replaceAll(' ','')
+                                                                    let subCategoryServiceId = (service.mainCategory + '##' + subCategory.subCategoryName + '##' + subCategoryService).replaceAll(' ','_')
 
                                                                     return (
                                                                         <div key={index} className='w-[31.5%]'>
@@ -184,7 +273,7 @@ const StepThree = () => {
                                             
                                                 
                                                     subCategory.subCategoryServices.map((subCategoryService, index)=>{
-                                                        let subCategoryServiceId = (service.mainCategory + subCategory.subCategoryName + subCategoryService).replaceAll(' ','')
+                                                        let subCategoryServiceId = (service.mainCategory + '##' + subCategory.subCategoryName + '##' + subCategoryService).replaceAll(' ','_')
                                                         return(
                                                             <div key={index}>
                                                                 <div className='pt-10 flex'>
@@ -241,7 +330,7 @@ const StepThree = () => {
 
             <div className='w-full flex justify-end mt-10 gap-x-6'>
                 <button onClick={(e)=>goPrevious(e)} className='py-3 px-8 bg-red-500 text-white font-semibold text-base rounded-sm'>Previous Step</button>
-                <button onClick={(e)=>handleFormThree(e)} className='py-3 px-8 bg-blue-500 text-white font-semibold text-base rounded-sm'>Next Step</button>
+                <button  onClick={e => handleBusinessServicesEdit(e)} className='py-3 px-8 bg-blue-500 text-white font-semibold text-base rounded-sm' >{businessServicesRO ? 'Edit' : 'Save'}</button>
             </div>
         </form>
     </div>

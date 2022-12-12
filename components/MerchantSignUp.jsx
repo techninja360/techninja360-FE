@@ -69,7 +69,7 @@ const MerchantSignUp = () => {
 
                 sessionStorage.setItem('merchToken',data.merchant_data.token)
                 setContextMerchToken(data.merchant_data.token)
-                Router.push('http://localhost:3000/MerchantProfile')
+                Router.push('http://localhost:3000/merchantProfile')
             }
 
         }

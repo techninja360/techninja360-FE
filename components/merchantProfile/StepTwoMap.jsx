@@ -18,7 +18,7 @@ const StepTwoMap = ({latLng, address, readOnly}) => {
     
     const [findLocation, setFindLocation] = useState(false)
     
-    const center = useMemo(()=>({lat: formTwoVals.businessLocationPosititonX, lng: formTwoVals.businessLocationPosititonY}),[latLng,formTwoVals.businessLocationPosititonX,formTwoVals.businessLocationPosititonY])
+    const center = useMemo(()=>({lat: Number(formTwoVals.businessLocationPosititonX), lng: Number(formTwoVals.businessLocationPosititonY)}),[latLng,formTwoVals.businessLocationPosititonX,formTwoVals.businessLocationPosititonY])
 
     const handlePosY = (pos) => {
         pos = pos.target.value
@@ -61,15 +61,13 @@ const StepTwoMap = ({latLng, address, readOnly}) => {
             const cityName = resData.results[0]?.formatted_address?.split(',')[1]
             const stateName = resData.results[0]?.formatted_address?.split(',')[2].split(' ')[1]
             const zipName = resData.results[0]?.formatted_address?.split(',')[2].split(' ')[2]
-            const countryName = resData.results[0]?.formatted_address?.split(',')[3]
+            const countryName = resData.results[0]?.formatted_address?.split(',')[3].replaceAll(/\s/g,'')
 
             setFormTwoVals(prevState => ({...prevState, businessLocationStreetName:streetName}))
             setFormTwoVals(prevState => ({...prevState, businessLocationCityName:cityName}))
             setFormTwoVals(prevState => ({...prevState, businessLocationStateName:stateName}))
             setFormTwoVals(prevState => ({...prevState, businessLocationCountryName:countryName}))
             setFormTwoVals(prevState => ({...prevState, businessLocationZipCodeName:zipName}))
-
-            const lng = resData.results[0].geometry.location.lng
             
         }
         else{
@@ -117,10 +115,10 @@ const StepTwoMap = ({latLng, address, readOnly}) => {
   
     return (
     <div className='relative mt-7'>
-        <div className='absolute top-5 left-5 z-10 flex gap-x-2 w-fit min-w-[158px] bg-[#0079E9] text-white font-semibold text-sm px-5 py-2 rounded-sm cursor-pointer' onClick={getLocation}>
+        {!readOnly && <div className='absolute top-5 left-5 z-10 flex gap-x-2 w-fit min-w-[158px] bg-[#0079E9] text-white font-semibold text-sm px-5 py-2 rounded-sm cursor-pointer' onClick={getLocation}>
             <MapGetDirection/>
             <h4>Find my Location</h4>
-        </div> 
+        </div> }
         <div className='h-[272px]'>
             <GoogleMap 
                 zoom={15} 
@@ -132,16 +130,18 @@ const StepTwoMap = ({latLng, address, readOnly}) => {
                 mapTypeControl:false
                 }}
                 onClick={ev => {
-                    console.log("latitide = ", ev.latLng.lat());
-                    console.log("longitude = ", ev.latLng.lng());
-                    // setPosititonX(ev.latLng.lat())
-                    // setPosititonY(ev.latLng.lng())
+                    if(!readOnly){
+                        console.log("latitide = ", ev.latLng.lat());
+                        console.log("longitude = ", ev.latLng.lng());
+                        // setPosititonX(ev.latLng.lat())
+                        // setPosititonY(ev.latLng.lng())
 
-                    setFormTwoVals(prevState => ({...prevState, businessLocationPosititonX:ev.latLng.lat()}))
-                    setFormTwoVals(prevState => ({...prevState, businessLocationPosititonY:ev.latLng.lng()}))
-                    const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${ev.latLng.lat()},${ev.latLng.lng()}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}`
+                        setFormTwoVals(prevState => ({...prevState, businessLocationPosititonX:ev.latLng.lat()}))
+                        setFormTwoVals(prevState => ({...prevState, businessLocationPosititonY:ev.latLng.lng()}))
+                        const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${ev.latLng.lat()},${ev.latLng.lng()}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}`
 
-                    fetchAddress(url)
+                        fetchAddress(url)
+                    }
 
                 }}
             >

@@ -41,7 +41,6 @@ useEffect( ()=>{
     // console.log('regular')
     const merchToken = sessionStorage.getItem('merchToken')
     if(merchToken){
-      console.log(merchToken);
       setAuthorized(true)
     }
     else{

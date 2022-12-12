@@ -30,7 +30,6 @@ export const MerchantProfileProvider = ({ children }) => {
         if(!router.isReady) return;
         const merchToken = sessionStorage.getItem('merchToken')
         if(merchToken){
-            console.log(merchToken);
                 setContextAuthorized(true)
 
                 const getMerchData = async () => {
@@ -56,7 +55,6 @@ export const MerchantProfileProvider = ({ children }) => {
                     // const merchLocationResData = await merchLocationRes.json()
                     
                     setMerchData(prev=>({...prev , ...merchBusinessDetailsResData?.results, ...merchContactResData?.results}))
-                    console.log(merchBusinessDetailsResData);
                     sessionStorage.setItem('merchData',JSON.stringify(merchBusinessDetailsResData))
                 }
 
@@ -92,14 +90,16 @@ export const MerchantProfileProvider = ({ children }) => {
 
         
         setFormTwoVals(prevState => ({...prevState, businessName:merchData?.business_details?.business_name}))
-        setFormTwoVals(prevState => ({...prevState, businessWebAddress:merchData?.business_details?.web_address}))
-        // setFormTwoVals(prevState => ({...prevState, businessTollFreePreFix:merchData?.business_details?.contact.toll_no.slice(0,3)}))
-        // setFormTwoVals(prevState => ({...prevState, businessTollFreeStart:merchData?.business_details?.contact.toll_no.slice(3,6)}))
-        // setFormTwoVals(prevState => ({...prevState, businessTollFreeEnd:merchData?.business_details?.contact.toll_no.slice(6,10)}))
+        setFormTwoVals(prevState => ({...prevState, businessWebAddress:merchData?.business_details?.website}))
+        setFormTwoVals(prevState => ({...prevState, businessTollFreePreFix:String(merchData?.business_details?.contact.toll_no).slice(0,3)}))
+        setFormTwoVals(prevState => ({...prevState, businessTollFreeStart:String(merchData?.business_details?.contact.toll_no).slice(3,6)}))
+        setFormTwoVals(prevState => ({...prevState, businessTollFreeEnd:String(merchData?.business_details?.contact.toll_no).slice(6,10)}))
         setFormTwoVals(prevState => ({...prevState, businessYearsInBusiness:merchData?.business_details?.exp_years}))
         setFormTwoVals(prevState => ({...prevState, businessEmployeeStrength:merchData?.business_details?.emp_strength}))
         setFormTwoVals(prevState => ({...prevState, businessDescription:merchData?.business_details?.description}))
         
+        
+        setFormTwoVals(prevState => ({...prevState, businessLocationAddressType:merchData?.business_location?.address_type}))
         setFormTwoVals(prevState => ({...prevState, businessLocationStreetName:merchData?.business_location?.address?.street}))
         setFormTwoVals(prevState => ({...prevState, businessLocationCityName:merchData?.business_location?.address?.city}))
         setFormTwoVals(prevState => ({...prevState, businessLocationStateName:merchData?.business_location?.address?.state}))
@@ -109,6 +109,148 @@ export const MerchantProfileProvider = ({ children }) => {
         setFormTwoVals(prevState => ({...prevState, businessLocationPosititonY:merchData?.business_location?.coordinates?.long}))
         setFormTwoVals(prevState => ({...prevState, businessLocationServiceRadStart:merchData?.business_location?.service_radius?.start}))
         setFormTwoVals(prevState => ({...prevState, businessLocationServiceRadEnd:merchData?.business_location?.service_radius?.end}))
+        
+        
+        setFormTwoVals(prevState => ({...prevState, businessHoursTimezone:merchData?.business_hours?.time_zone}))
+        setFormTwoVals(prevState => ({...prevState, businessHoursService247:merchData?.business_hours?.is_service_247}))
+
+        let tempArr = [
+  {
+    "days": "wed",
+    "start_time": "8:00",
+    "end_time": "17:30",
+    "_id": "6396c3a17b553916be32761e"
+  },
+  {
+    "days": "thurs",
+    "start_time": "11:00",
+    "end_time": "20:30",
+    "_id": "6396c3a17b553916be32761f"
+  },
+  {
+    "days": "sat",
+    "start_time": "10:00",
+    "end_time": "22:00",
+    "_id": "6396c3a17b553916be327620"
+  },
+  {
+    "days": "allDays",
+    "start_time": "00",
+    "end_time": "02",
+    "_id": "6396c5cb7b553916be327648"
+  },
+  {
+    "days": "SatSun",
+    "start_time": "05",
+    "end_time": "05",
+    "_id": "6396c5cb7b553916be327649"
+  },
+  {
+    "days": "Mon",
+    "start_time": "05",
+    "end_time": "09",
+    "_id": "6396c5cb7b553916be32764a"
+  },
+  {
+    "days": "Thu",
+    "start_time": "10",
+    "end_time": "22",
+    "_id": "6396c5cb7b553916be32764b"
+  },
+  {
+    "days": "allDays",
+    "start_time": "00",
+    "end_time": "02",
+    "_id": "6396c60b7b553916be32765f"
+  },
+  {
+    "days": "SatSun",
+    "start_time": "05",
+    "end_time": "05",
+    "_id": "6396c60b7b553916be327660"
+  },
+  {
+    "days": "Mon",
+    "start_time": "05",
+    "end_time": "09",
+    "_id": "6396c60b7b553916be327661"
+  },
+  {
+    "days": "Thu",
+    "start_time": "10",
+    "end_time": "22",
+    "_id": "6396c60b7b553916be327662"
+  },
+  {
+    "days": "allDays",
+    "start_time": "00",
+    "end_time": "02",
+    "_id": "6396c63b7b553916be32767e"
+  },
+  {
+    "days": "SatSun",
+    "start_time": "05",
+    "end_time": "05",
+    "_id": "6396c63b7b553916be32767f"
+  },
+  {
+    "days": "Mon",
+    "start_time": "05",
+    "end_time": "09",
+    "_id": "6396c63b7b553916be327680"
+  },
+  {
+    "days": "Thu",
+    "start_time": "10",
+    "end_time": "22",
+    "_id": "6396c63b7b553916be327681"
+  }
+]        
+        function convertArray(inputArr) {
+            // Create an empty result object
+
+            if(inputArr){
+                let result = {};
+    
+                // Loop through each object in the input array
+                inputArr.forEach((obj, index) => {
+                    // Add a new property to the result object, with the key being "bn" followed by the index
+                    // and the value being an object containing the days, start time, and end time
+                    result[`bn${index}`] = {
+                    bnDays: obj.days,
+                    bnStart: obj.start_time,
+                    bnEnd: obj.end_time
+                    };
+                });
+    
+                // Return the result object
+                return result;
+            }
+        }
+        
+        const output = convertArray(merchData?.business_hours?.weekly_hours);
+        console.log('output',output);
+        
+        setFormTwoBusinessHours(output ? output : {bn0 : {bnDays:undefined,bnStart:undefined,bnEnd:undefined}})
+        
+ 
+        setFormTwoVals(prevState => ({...prevState, otherInfoRemoteSupport:(merchData?.business_others?.services?.remote_support === true) ? "yes" : (merchData?.business_others?.services?.remote_support === false) ? "no" : undefined }))
+        setFormTwoVals(prevState => ({...prevState, otherInfoInStoreService:(merchData?.business_others?.services?.inStore_service === true) ? "yes" : (merchData?.business_others?.services?.inStore_service === false) ? "no" : undefined }))
+        setFormTwoVals(prevState => ({...prevState, otherInfoHouseCall:(merchData?.business_others?.services?.house_call === true) ? "yes" : (merchData?.business_others?.services?.house_call === false) ? "no" : undefined }))
+        setFormTwoVals(prevState => ({...prevState, otherInfoPickUpDrop:(merchData?.business_others?.services?.pick_drop === true) ? "yes" : (merchData?.business_others?.services?.pick_drop === false) ? "no" : undefined }))
+        setFormTwoVals(prevState => ({...prevState, otherInfoResidentialService:(merchData?.business_others?.services?.resident_service === true) ? "yes" : (merchData?.business_others?.services?.resident_service === false) ? "no" : undefined }))
+        setFormTwoVals(prevState => ({...prevState, otherInfoBusinessService:(merchData?.business_others?.services?.business_service === true) ? "yes" : (merchData?.business_others?.services?.business_service === false) ? "no" : undefined }))
+        
+        setFormTwoVals(prevState => ({...prevState, otherInfoCreditDebitCardPayment:(merchData?.business_others?.payment_method?.credit_debit === true) ? "yes" : (merchData?.business_others?.payment_method?.credit_debit === false) ? "no" : undefined }))
+        setFormTwoVals(prevState => ({...prevState, otherInfoPaypalPayment:(merchData?.business_others?.payment_method?.paypal === true) ? "yes" : (merchData?.business_others?.payment_method?.paypal === false) ? "no" : undefined }))
+        setFormTwoVals(prevState => ({...prevState, otherInfoApplePayPayment:(merchData?.business_others?.payment_method?.applePay === true) ? "yes" : (merchData?.business_others?.payment_method?.applePay === false) ? "no" : undefined }))
+        setFormTwoVals(prevState => ({...prevState, otherInfoGooglePayPayment:(merchData?.business_others?.payment_method?.googlePay === true) ? "yes" : (merchData?.business_others?.payment_method?.googlePay === false) ? "no" : undefined }))
+        setFormTwoVals(prevState => ({...prevState, otherInfoCashPayment:(merchData?.business_others?.payment_method?.cash === true) ? "yes" : (merchData?.business_others?.payment_method?.cash === false) ? "no" : undefined }))
+        setFormTwoVals(prevState => ({...prevState, otherInfoCryptoCurrencyPayment:(merchData?.business_others?.payment_method?.crypto === true) ? "yes" : (merchData?.business_others?.payment_method?.crypto === false) ? "no" : undefined }))
+        
+        setFormTwoVals(prevState => ({...prevState, otherInfoOneTimePlan:(merchData?.business_others?.plan_type?.one_time === true) ? "yes" : (merchData?.business_others?.plan_type?.one_time === false) ? "no" : undefined }))
+        setFormTwoVals(prevState => ({...prevState, otherInfoMonthlyPlan:(merchData?.business_others?.plan_type?.monthly === true) ? "yes" : (merchData?.business_others?.plan_type?.monthly === false) ? "no" : undefined }))
+        setFormTwoVals(prevState => ({...prevState, otherInfoYearlyPlan:(merchData?.business_others?.plan_type?.yearly === true) ? "yes" : (merchData?.business_others?.plan_type?.yearly === false) ? "no" : undefined }))
 
     },[merchData])
 
@@ -619,7 +761,6 @@ export const MerchantProfileProvider = ({ children }) => {
         }
         for (let [key, value] of Object.entries(formTwoCertificates)) {
             for (let [subKey, subValue] of Object.entries(value)) {
-                console.log(subKey,subValue);
                 if(subKey === 'certTitle'){
                     if(subValue === '' || subValue === null || subValue === undefined){
                         // setFormTwoErrors(prevState=>({...prevState, certificationsAll:{...formTwoErrors.certificationsAll, [`cert${cert}`]: {...formTwoErrors.certificationsAll[`cert${cert}`],'certTitle':'Field is empty'}}}))
@@ -704,7 +845,6 @@ export const MerchantProfileProvider = ({ children }) => {
         }
         for (let [key, value] of Object.entries(formTwoBusinessHours)) {
             for (let [subKey, subValue] of Object.entries(value)) {
-                console.log(subKey,subValue);
                 if(subKey === 'bnDays'){
                     if(subValue === '' || subValue === null || subValue === undefined){
                         // setFormTwoErrors(prevState=>({...prevState, certificationsAll:{...formTwoErrors.certificationsAll, [`cert${cert}`]: {...formTwoErrors.certificationsAll[`cert${cert}`],'certTitle':'Field is empty'}}}))
@@ -743,13 +883,13 @@ export const MerchantProfileProvider = ({ children }) => {
     services.map((category)=>{
         category.subCategories.map((subCategory)=>{
             subCategory.subCategoryServices.map((subCategoryService)=>{
-                allServices.push((category.mainCategory + subCategory.subCategoryName + subCategoryService).replaceAll(' ',''))
+                allServices.push((category.mainCategory + '##' + subCategory.subCategoryName + '##' + subCategoryService).replaceAll(' ','_'))
             })
         })
     })
 
     allServices = allServices.map((service)=>{
-        if(service.includes('Audio/Video&TVMountingTVMounting')){
+        if(service.includes('Audio/_Video_&_TV_Mounting##TV_Mounting')){
             return(
                 {[service]:{
                     available:false,
@@ -778,7 +918,7 @@ export const MerchantProfileProvider = ({ children }) => {
     const formThreeValidate = () => {
         allServices.map((service)=>{
             if(formThreeVals[Object.keys(service)[0]].available === true){
-                if(Object.keys(service)[0].includes('Audio/Video&TVMountingTVMounting')){
+                if(Object.keys(service)[0].includes('Audio/_Video_&_TV_Mounting##TV_Mounting')){
                     if(formThreeVals[Object.keys(service)[0]].fees === ''){
                         setFormThreeVals(prevState => ({...prevState, [Object.keys(service)[0]]:{...prevState[Object.keys(service)[0]], error:'Please fill the value'}}))
                     }
@@ -795,7 +935,7 @@ export const MerchantProfileProvider = ({ children }) => {
     }
 
     return (
-        <MerchantProfileContext.Provider value={{phoneFormat,contextMerchToken, setContextMerchToken, merchantSignInDetails, setMerchantSignInDetails, merchantLogin, setMerchantLogin, merchantSignUpOpen, setMerchantSignUpOpen, step, setStep, formOneVals, setFormOneVals, formOneErrors, setFormOneErrors, formOneValidate, formTwoVals, setFormTwoVals, formTwoErrors, setFormTwoErrors, formTwoValidate,formTwoCertificates, setFormTwoCertificates,formTwoCertificatesError, setFormTwoCertificatesError,formTwoCertificatesValidate, formTwoCertificatesStatus, formTwoBusinessHours, setFormTwoBusinessHours, formTwoBusinessHoursStatus, setFormTwoBusinessHoursStatus, formTwoBusinessHoursError, setFormTwoBusinessHoursError, formTwoBusinessHoursValidate, formThreeVals, setFormThreeVals, formThreeValidate}}>{children}</MerchantProfileContext.Provider>
+        <MerchantProfileContext.Provider value={{merchData, phoneFormat,contextMerchToken, setContextMerchToken, merchantSignInDetails, setMerchantSignInDetails, merchantLogin, setMerchantLogin, merchantSignUpOpen, setMerchantSignUpOpen, step, setStep, formOneVals, setFormOneVals, formOneErrors, setFormOneErrors, formOneValidate, formTwoVals, setFormTwoVals, formTwoErrors, setFormTwoErrors, formTwoValidate,formTwoCertificates, setFormTwoCertificates,formTwoCertificatesError, setFormTwoCertificatesError,formTwoCertificatesValidate, formTwoCertificatesStatus, formTwoBusinessHours, setFormTwoBusinessHours, formTwoBusinessHoursStatus, setFormTwoBusinessHoursStatus, formTwoBusinessHoursError, setFormTwoBusinessHoursError, formTwoBusinessHoursValidate, formThreeVals, setFormThreeVals, formThreeValidate}}>{children}</MerchantProfileContext.Provider>
   )
 }
 // make sure use

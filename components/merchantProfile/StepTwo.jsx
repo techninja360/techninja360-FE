@@ -17,16 +17,24 @@ import StepTwoMap from './StepTwoMap'
 
 const StepTwo = () => {
 
-    const {step, setStep,formTwoVals, setFormTwoVals, formTwoErrors, setFormTwoErrors, formTwoValidate,formTwoCertificates, setFormTwoCertificates,formTwoCertificatesError, setFormTwoCertificatesError,formTwoCertificatesValidate, formTwoCertificatesStatus, formTwoBusinessHours, setFormTwoBusinessHours, formTwoBusinessHoursStatus, setFormTwoBusinessHoursStatus, formTwoBusinessHoursError, setFormTwoBusinessHoursError, formTwoBusinessHoursValidate} = useMerchantProfileContext()
+    const {merchData, step, setStep,formTwoVals, setFormTwoVals, formTwoErrors, setFormTwoErrors, formTwoValidate,formTwoCertificates, setFormTwoCertificates,formTwoCertificatesError, setFormTwoCertificatesError,formTwoCertificatesValidate, formTwoCertificatesStatus, formTwoBusinessHours, setFormTwoBusinessHours, formTwoBusinessHoursStatus, setFormTwoBusinessHoursStatus, formTwoBusinessHoursError, setFormTwoBusinessHoursError, formTwoBusinessHoursValidate} = useMerchantProfileContext()
     
     const [businessDetailsRO, setBusinessDetailsRO] = useState(true)
     const [certiRO, setCertiRO] = useState(true)
     const [businessLocationRO, setBusinessLocationRO] = useState(true)
-    const [businessInfoRO, setBusinessInfoRO] = useState(true)
+    const [businessHoursRO, setBusinessHoursRO] = useState(true)
     const [businessOtherRO, setbusinessOtherRO] = useState(true)
 
-    const [certifications, setCertifications] = useState([0])
+    const [certifications, setCertifications] = useState(
+        [0])
     const [bnHours, setBnHours] = useState([0])
+
+    useEffect(()=>{
+        setBnHours(merchData?.business_hours?.weekly_hours ? 
+        merchData?.business_hours?.weekly_hours?.map((val,i)=>{
+            return i
+        }):[0])
+    },merchData)
 
     const handleBusinessDetailstEdit = () => {
         if(businessDetailsRO){
@@ -34,10 +42,9 @@ const StepTwo = () => {
         }
         else{
             //save edited
-            setBusinessDetailsRO(true)
             let businesstDetails = {
                 "business_name":formTwoVals.businessName,
-                "web_address":formTwoVals.businessWebAddress,
+                "website":formTwoVals.businessWebAddress,
                 "contact":{
                     "toll_no": (String(formTwoVals.businessTollFreePreFix) + String(formTwoVals.businessTollFreeStart) + String(formTwoVals.businessTollFreeEnd) ).replace(/\D/g,''),
                     "work_no": String(formTwoVals.businessWorkNumber).replace(/\D/g,'')
@@ -48,11 +55,8 @@ const StepTwo = () => {
             }
 
             const postMerchData = async () => {
-                const formData = new FormData();
-                
                 
                     
-                console.log('click')
                 const merchRes = await fetch('http://localhost:8000/api/merchant/register/business-details',{
                     method:'POST',
                     body : JSON.stringify(businesstDetails),
@@ -62,7 +66,6 @@ const StepTwo = () => {
                     },})
                     
                     const merchResData = await merchRes.json()
-                    console.log(merchResData)
                 
                 // const merchResLogo = await fetch('http://localhost:8000/api/merchant/register/business-logo',{
                 //     method:'POST',
@@ -71,24 +74,29 @@ const StepTwo = () => {
                 //         "Content-Type": "application/json",
                 //         "Authorization": "Bearer " + sessionStorage.getItem('merchToken'),
                 //     },})
-                    // formData.append('image', formTwoVals.businessSmallLogo );
-                    // formData.append('image', formTwoVals.businessLargeLogo );
-                    // console.log('formData', formData);
-                    // const merchResLogo = await fetch('http://localhost:8000/api/merchant/register/business-logo',
-                    // {
-                    //     method: 'POST',
-                    //     body : formData,
-                    //     headers: {
-                    //                 "Content-Type": "application/json",
-                    //                 "Authorization": "Bearer " + sessionStorage.getItem('merchToken'),
-                    //             }
-                    // }
-                    // );
-                    
-                    // const merchResLogoData = await merchResLogo.json()
-                    // console.log(merchResLogoData)
-                    // console.log(merchResLogoData)
 
+                    const formData = new FormData();
+                    // console.log(formData)
+                    formData.append('image', formTwoVals.businessSmallLogo );
+                    formData.append('image', formTwoVals.businessLargeLogo );
+                    console.log('formData', formData);
+                    const merchResLogo = await fetch('http://localhost:8000/api/merchant/register/business-logo',
+                    {
+                        method: 'POST',
+                        body : formData,
+                        headers: {
+                                    // "Content-Type": "application/json",
+                                    "Authorization": "Bearer " + sessionStorage.getItem('merchToken'),
+                                }
+                    }
+                    );
+                    
+                    const merchResLogoData = await merchResLogo.json()
+                    console.log(merchResLogoData)
+                    console.log(merchResLogoData)
+
+
+                    console.log(merchResData);
                     if(merchResData.status === 'ok'){
                         setBusinessDetailsRO(true)
                     }
@@ -105,7 +113,38 @@ const StepTwo = () => {
         }
         else{
             //save edited
-            setCertiRO(true)
+        //     const postMerchData = async () => {
+        //         const formData = new FormData();
+        //             // console.log(formData)
+        //         formData.append('image', formTwoVals.businessSmallLogo );
+        //         formData.append('image', formTwoVals.businessLargeLogo );
+        //         console.log('formData', formData);
+        //         formData
+        //         for(i=0;i<cert.lrn; i++){
+        //             formData.append(certname[i]',cert[i].name)
+        //             formData.append(certlink[i]',cert[i].link)
+        //             formData.append(certFile[i]',cert[i].img)
+
+        //         }
+        //         const merchResLogo = await fetch('http://localhost:8000/api/merchant/register/business-logo',
+        //         {
+        //             method: 'POST',
+        //             body : formData,
+        //             headers: {
+        //                         // "Content-Type": "application/json",
+        //                         "Authorization": "Bearer " + sessionStorage.getItem('merchToken'),
+        //                     }
+        //         }
+        //         );
+                
+        //         const merchResLogoData = await merchResLogo.json()
+        //         if(merchResLogoData.status === 'ok'){
+        //             // setBusinessDetailsRO(true)
+        //         }
+        //     }
+        //     postMerchData()
+        //     // setCertiRO(true)
+        // }
         }
 
     }
@@ -116,7 +155,6 @@ const StepTwo = () => {
         }
         else{
             //save edited
-            setBusinessLocationRO(true)
             let businessLocation = {
                 "address_type":formTwoVals.businessLocationAddressType,
                 "address":{
@@ -126,15 +164,15 @@ const StepTwo = () => {
                     "country":formTwoVals.businessLocationCountryName,
                     "zip_code":formTwoVals.businessLocationZipCodeName
                 },
-                "service_radius":{
-                    "start":formTwoVals.businessLocationServiceRadStart,
-                    "end":formTwoVals.businessLocationServiceRadEnd
-                },
+                // "service_radius":{
+                //     "start":formTwoVals.businessLocationServiceRadStart,
+                //     "end":formTwoVals.businessLocationServiceRadEnd
+                // },
                 "coordinates":{
-                    "lat":formTwoVals.businessLocationPosititonY,
+                    "lat":formTwoVals.businessLocationPosititonX,
                     "long":formTwoVals.businessLocationPosititonY
                 },
-                "zip_covered":formTwoVals.businessLocationZipCoverd.split(',')
+                // "zip_covered":formTwoVals.businessLocationZipCoverd.split(',')
 
             }
             
@@ -160,13 +198,47 @@ const StepTwo = () => {
 
     }
     
-    const handleBusinessInfoEdit = () => {
-        if(businessInfoRO){
-            setBusinessInfoRO(false)
+    const handleBusinessHoursEdit = () => {
+        if(businessHoursRO){
+            setBusinessHoursRO(false)
         }
         else{
             //save edited
-            setBusinessInfoRO(true)
+            let temp = Object.entries(formTwoBusinessHours)
+            console.log(temp)
+            let businessHours = {
+                "time_zone":formTwoVals.businessHoursTimezone,
+                "is_service_247":formTwoVals.businessHoursService247,
+                "weekly_hours": temp.map((bnHour)=>{
+                    return (
+                        {
+                            "days":bnHour[1].bnDays,
+                            "start_time":bnHour[1].bnStart,
+                            "end_time":bnHour[1].bnEnd
+                        }
+                    )
+                }),
+            }
+            
+
+            const postMerchData = async () => {
+                const merchRes = await fetch('http://localhost:8000/api/merchant/register/business-hours',{
+                    method:'POST',
+                    body : JSON.stringify(businessHours),
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + sessionStorage.getItem('merchToken'),
+                    },})
+                    
+                const merchResData = await merchRes.json()
+                console.log(merchResData);
+                if(merchResData.status === 'ok'){
+                    setBusinessHoursRO(true)
+                }
+            }
+
+            postMerchData()
+        
         }
 
     }
@@ -177,29 +249,28 @@ const StepTwo = () => {
         }
         else{
             //save edited
-            setbusinessOtherRO(true)
             let postBody = {
                 "services":{
-                    "remote_support":formTwoVals.otherInfoRemoteSupport,
-                    "inStore_service":formTwoVals.otherInfoInStoreService,
-                    "house_call":formTwoVals.otherInfoHouseCall,
-                    "pick_drop":formTwoVals.otherInfoPickUpDrop,
-                    "resident_service":formTwoVals.otherInfoResidentialService,
-                    "business_service":formTwoVals.otherInfoBusinessService
+                    "remote_support":(formTwoVals.otherInfoRemoteSupport === "yes") ? true : (formTwoVals.otherInfoRemoteSupport === "no") ? false : undefined,
+                    "inStore_service":(formTwoVals.otherInfoInStoreService === "yes") ? true : (formTwoVals.otherInfoInStoreService === "no") ? false : undefined,
+                    "house_call":(formTwoVals.otherInfoHouseCall === "yes") ? true : (formTwoVals.otherInfoHouseCall === "no") ? false : undefined,
+                    "pick_drop":(formTwoVals.otherInfoPickUpDrop === "yes") ? true : (formTwoVals.otherInfoPickUpDrop === "no") ? false : undefined,
+                    "resident_service":(formTwoVals.otherInfoResidentialService === "yes") ? true : (formTwoVals.otherInfoResidentialService === "no") ? false : undefined,
+                    "business_service":(formTwoVals.otherInfoBusinessService === "yes") ? true : (formTwoVals.otherInfoBusinessService === "no") ? false : undefined
 
                 },
                 "payment_method":{
-                    "credit_debit": formTwoVals.otherInfoCreditDebitCardPayment,
-                    "paypal": formTwoVals.otherInfoPaypalPayment,
-                    "applePay": formTwoVals.otherInfoApplePayPayment,
-                    "googlePay": formTwoVals.otherInfoGooglePayPayment,
-                    "cash": formTwoVals.otherInfoCashPayment,
-                    "crypto": formTwoVals.otherInfoCryptoCurrencyPayment
+                    "credit_debit": (formTwoVals.otherInfoCreditDebitCardPayment === "yes") ? true : (formTwoVals.otherInfoCreditDebitCardPayment === "no") ? false : undefined,
+                    "paypal": (formTwoVals.otherInfoPaypalPayment === "yes") ? true : (formTwoVals.otherInfoPaypalPayment === "no") ? false : undefined,
+                    "applePay": (formTwoVals.otherInfoApplePayPayment === "yes") ? true : (formTwoVals.otherInfoApplePayPayment === "no") ? false : undefined,
+                    "googlePay": (formTwoVals.otherInfoGooglePayPayment === "yes") ? true : (formTwoVals.otherInfoGooglePayPayment === "no") ? false : undefined,
+                    "cash": (formTwoVals.otherInfoCashPayment === "yes") ? true : (formTwoVals.otherInfoCashPayment === "no") ? false : undefined,
+                    "crypto": (formTwoVals.otherInfoCryptoCurrencyPayment === "yes") ? true : (formTwoVals.otherInfoCryptoCurrencyPayment === "no") ? false : undefined
                 },
                 "plan_type":{
-                    "one_time":formTwoVals.otherInfoOneTimePlan,
-                    "monthly":formTwoVals.otherInfoMonthlyPlan,
-                    "yearly":formTwoVals.otherInfoYearlyPlan
+                    "one_time":(formTwoVals.otherInfoOneTimePlan === "yes") ? true : (formTwoVals.otherInfoOneTimePlan === "no") ? false : undefined,
+                    "monthly":(formTwoVals.otherInfoMonthlyPlan === "yes") ? true : (formTwoVals.otherInfoMonthlyPlan === "no") ? false : undefined,
+                    "yearly":(formTwoVals.otherInfoYearlyPlan === "yes") ? true : (formTwoVals.otherInfoYearlyPlan === "no") ? false : undefined
                 }
                 
             }
@@ -210,11 +281,10 @@ const StepTwo = () => {
                     body : JSON.stringify(postBody),
                     headers: {
                         "Content-Type": "application/json",
-                        "Authorization": "Bearer " + localStorage.getItem('merchToken'),
+                        "Authorization": "Bearer " + sessionStorage.getItem('merchToken'),
                     },})
                     
                     const merchResData = await merchRes.json()
-                    console.log(merchResData)
                     if(merchResData.status === 'ok'){
                         setbusinessOtherRO(true)
                     }
@@ -227,7 +297,7 @@ const StepTwo = () => {
 
     const [initial, setInitial] = useState(true)
     const [fullAdd, setFullAdd] = useState(' ')
-    const [latLng, setLatLng] = useState({lat:40.77,lng:-74})
+    const [latLng, setLatLng] = useState({lat: formTwoVals.businessLocationPosititonX ? formTwoVals.businessLocationPosititonX : 40.77,lng: formTwoVals.businessLocationPosititonY ? formTwoVals.businessLocationPosititonY : -74})
 
     const {
         businessSmallLogo ,
@@ -288,25 +358,26 @@ const StepTwo = () => {
         formTwoBusinessHoursValidate()
     }
 
-    // useEffect(()=>{
-    //     const areTrue = Object.values(formTwoErrors).every(
-    //         value => value === false
-    //     );
-    //     if(areTrue && !formTwoCertificatesStatus && !formTwoBusinessHoursStatus){
-    //         if(initial){
-    //             console.log('initial loaded')
-    //             setInitial(false)
-    //         }
-    //         else{
-    //             console.log('form good');
-    //             setStep(3)
-    //         }
+    useEffect(()=>{
+        const areTrue = Object.values(formTwoErrors).every(
+            value => value === false
+        );
+        if(areTrue && !formTwoCertificatesStatus && !formTwoBusinessHoursStatus){
+            if(initial){
+                console.log('initial loaded')
+                setInitial(false)
+            }
+            else{
+                console.log('form good');
+                setStep(3)
+            }
 
-    //     }
-    //     else{
-    //         console.log('form bad');
-    //     }
-    // },[formTwoErrors])
+        }
+        else{
+            console.log('form bad');
+        }
+        // setStep(3)
+    },[formTwoErrors])
 
     const goPrevious = (e) => {
         e.preventDefault()
@@ -391,7 +462,6 @@ const StepTwo = () => {
         if(bnHoursList.length > 1 ){
             // bnHoursList.slice(bnHour, 1)
             bnHoursList = bnHoursList.filter(item => item !== bnHour)
-            console.log(bnHours, bnHoursList);
         }
         
         setBnHours(bnHoursList)
@@ -433,13 +503,12 @@ const StepTwo = () => {
     }
 
     const handleAddress = () => {
-        console.log('here')
         setFullAdd(`${businessLocationStreetName}, ${businessLocationCityName}, ${businessLocationStateName}, ${businessLocationCountryName}, ${businessLocationZipCodeName}`)
     }
 
     useEffect(()=>{
         
-        console.log(fullAdd);
+        // console.log(fullAdd);
         const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${fullAdd}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}`
     
         const fetchLatLng = async () => {
@@ -447,8 +516,6 @@ const StepTwo = () => {
           const resData = await res.json()
     
           if(resData.status === "OK"){
-            console.log("OK");
-            console.log(resData);
             const lat = resData.results[0].geometry.location.lat
             const lng = resData.results[0].geometry.location.lng
             setLatLng({lat:lat,lng:lng})
@@ -579,14 +646,14 @@ const StepTwo = () => {
                     
                     <div className='mt-7 flex w-full gap-x-4 items-start'>
                         <SelectInput id='businessLocationStateName' items={USStates} placeholder='Select State' title='state' width='w-1/3' onChange={onChange} error={formTwoErrors.businessLocationStateName} value={businessLocationStateName} onBlur={handleAddress} readOnly={businessLocationRO}/>
-                        <SelectInput id='businessLocationCountryName' items={[{name:'USA',value:'usa'}]} placeholder='Select Country' title='Country' width='w-1/3' onChange={onChange} error={formTwoErrors.businessLocationCountryName} value={businessLocationCountryName} onBlur={handleAddress} readOnly={businessLocationRO}/>
+                        <SelectInput id='businessLocationCountryName' items={[{name:'USA',value:'USA'}]} placeholder='Select Country' title='Country' width='w-1/3' onChange={onChange} error={formTwoErrors.businessLocationCountryName} value={businessLocationCountryName} onBlur={handleAddress} readOnly={businessLocationRO}/>
                         <TextInput id='businessLocationZipCodeName' placeholder='Enter Zip Code' title='zip code' width='w-1/3' onChange={onChange} error={formTwoErrors.businessLocationZipCodeName} value={businessLocationZipCodeName} onBlur={handleAddress} readOnly={businessLocationRO}/> 
                     </div>
                     
                     
                     <StepTwoMap latLng={latLng} address={fullAdd} readOnly={businessLocationRO}/>
                     
-                    <div className='mt-7 flex w-full gap-x-4 items-start'>
+                    {/* <div className='mt-7 flex w-full gap-x-4 items-start'>
                         <div className={`flex flex-wrap w-1/3 relative`}>
                             <h3 className='font-semibold text-sm uppercase'>Service Radius<span className='text-red-500'>*</span></h3>
                             <div className='w-full flex items-center justify-between mt-2'>
@@ -604,7 +671,7 @@ const StepTwo = () => {
                         </div>
 
                         <TextInput id='businessLocationZipCoverd' placeholder='Enter Covered Area' required={true} title='Zip Codes Covered' width='w-1/3' onChange={onChange} error={formTwoErrors.businessLocationZipCoverd} value={businessLocationZipCoverd} readOnly={businessLocationRO}/>
-                    </div>
+                    </div> */}
                     <div className='mt-6 flex justify-end gap-x-4'>
                         <div className='py-3 px-5 w-fit bg-blue-500 text-white rounded-sm cursor-pointer' onClick={handleBusinessLocationEdit}>{businessLocationRO ? 'Edit' : 'Save'}</div>
                     </div>
@@ -625,28 +692,28 @@ const StepTwo = () => {
                             {
                                 bnHours.map((bnHour,index)=>{
                                     return(
-                                        <div key={index} className={`${bnHour !== 0 ? 'w-full mt-0' : 'w-[88.5%] mt-2'} w-full mb-5 flex items-start justify-between  gap-x-6`}>
-                                            <SelectInput id={`businessHoursDays${bnHour}`} items={businessDays} placeholder='Days' required={true} width='w-1/2' onChange={(e)=>onChangeBnHours(e,bnHour)} error={formTwoBusinessHoursError[ `bn${bnHour}`]?.bnDays} value={formTwoBusinessHours[ `bn${bnHour}`]?.bnDays} readOnly={businessInfoRO}/>
+                                        <div key={index} className={`${bnHour !== 0 ? businessDetailsRO === true ? 'w-[88.5%] mt-0' : 'w-full mt-0' : 'w-[88.5%] mt-2'}  w-full mb-5 flex items-start justify-between  gap-x-6`}>
+                                            <SelectInput id={`businessHoursDays${bnHour}`} items={businessDays} placeholder='Days' required={true} width='w-1/2' onChange={(e)=>onChangeBnHours(e,bnHour)} error={formTwoBusinessHoursError[ `bn${bnHour}`]?.bnDays} value={formTwoBusinessHours[ `bn${bnHour}`]?.bnDays} readOnly={businessHoursRO}/>
                                             
-                                            <SelectInput id={`businessHoursStart${bnHour}`} items={businessTime} placeholder='Opening' required={true} width='w-1/4' onChange={(e)=>onChangeBnHours(e,bnHour)} error={formTwoBusinessHoursError[ `bn${bnHour}`]?.bnStart} value={formTwoBusinessHours[ `bn${bnHour}`]?.bnStart} readOnly={businessInfoRO}/>
+                                            <SelectInput id={`businessHoursStart${bnHour}`} items={businessTime} placeholder='Opening' required={true} width='w-1/4' onChange={(e)=>onChangeBnHours(e,bnHour)} error={formTwoBusinessHoursError[ `bn${bnHour}`]?.bnStart} value={formTwoBusinessHours[ `bn${bnHour}`]?.bnStart} readOnly={businessHoursRO}/>
                                             
-                                            <SelectInput id={`businessHoursEnd${bnHour}`} items={businessTime} placeholder='Closing' required={true} width='w-1/4' onChange={(e)=>onChangeBnHours(e,bnHour)} error={formTwoBusinessHoursError[ `bn${bnHour}`]?.bnEnd} value={formTwoBusinessHours[ `bn${bnHour}`]?.bnEnd} readOnly={businessInfoRO}/>
+                                            <SelectInput id={`businessHoursEnd${bnHour}`} items={businessTime} placeholder='Closing' required={true} width='w-1/4' onChange={(e)=>onChangeBnHours(e,bnHour)} error={formTwoBusinessHoursError[ `bn${bnHour}`]?.bnEnd} value={formTwoBusinessHours[ `bn${bnHour}`]?.bnEnd} readOnly={businessHoursRO}/>
                                             
                                             {
-                                                bnHour !== 0 && <div className='p-3 bg-red-500 rounded-sm cursor-pointer' onClick={()=>removeBnHours(bnHour)}><XWhite/></div>
+                                                bnHour !== 0 && !businessHoursRO && <div className={`p-3 bg-red-500 rounded-sm cursor-pointer`} onClick={()=>removeBnHours(bnHour)}><XWhite/></div>
                                             }
                                         </div>
                                     )
                                 })
                             }
-                            {!businessHoursService247 && <div className='mt-0 flex w-full gap-x-10 items-start'>
+                            {(!businessHoursService247 && !businessHoursRO) ? <div className='mt-0 flex w-full gap-x-10 items-start'>
                                 <div className='text-white px-5 py-3 bg-blue-500 font-semibold text-base rounded-sm cursor-pointer' onClick={addBnHours}>Add New</div>
-                            </div>}
+                            </div> : null}
                         </div>
                         <div className='flex flex-wrap w-1/3 relative'>
-                            <SelectInput id='businessHoursTimezone' items={timeZones} placeholder='Pick Timezone' required={true} title='Time Zone'  onChange={onChange} error={formTwoErrors.businessHoursTimezone} value={businessHoursTimezone} readOnly={businessInfoRO}/>
+                            <SelectInput id='businessHoursTimezone' items={timeZones} placeholder='Pick Timezone' required={true} title='Time Zone'  onChange={onChange} error={formTwoErrors.businessHoursTimezone} value={businessHoursTimezone} readOnly={businessHoursRO}/>
                             <div className='mt-8'>
-                                <input type="checkbox" id="businessHoursService247" name="businessHoursService247" checked={businessHoursService247} onClick={e=>onChange(e)} disabled={businessInfoRO}/><label htmlFor="businessHoursService247" className='font-semibold text-sm ml-3' > 24 X 7 Hours Service</label>
+                                <input type="checkbox" id="businessHoursService247" name="businessHoursService247" checked={businessHoursService247} onClick={e=>onChange(e)} disabled={businessHoursRO}/><label htmlFor="businessHoursService247" className='font-semibold text-sm ml-3' > 24 X 7 Hours Service</label>
                             </div>
                         </div>
 
@@ -658,7 +725,7 @@ const StepTwo = () => {
                     </div> */}
 
                     <div className='mt-6 flex justify-end gap-x-4'>
-                        <div className='py-3 px-5 w-fit bg-blue-500 text-white rounded-sm cursor-pointer' onClick={handleBusinessInfoEdit}>{businessInfoRO ? 'Edit' : 'Save'}</div>
+                        <div className='py-3 px-5 w-fit bg-blue-500 text-white rounded-sm cursor-pointer' onClick={handleBusinessHoursEdit}>{businessHoursRO ? 'Edit' : 'Save'}</div>
                     </div>
 
                 </div>

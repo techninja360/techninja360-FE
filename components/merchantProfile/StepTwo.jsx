@@ -25,13 +25,16 @@ const StepTwo = () => {
     const [businessHoursRO, setBusinessHoursRO] = useState(true)
     const [businessOtherRO, setbusinessOtherRO] = useState(true)
 
-    const [certifications, setCertifications] = useState(
-        [0])
+    const [certifications, setCertifications] = useState([0])
     const [bnHours, setBnHours] = useState([0])
 
     useEffect(()=>{
-        setBnHours(merchData?.business_hours?.weekly_hours ? 
+        setBnHours(merchData?.business_hours?.weekly_hours?.length > 0 ? 
         merchData?.business_hours?.weekly_hours?.map((val,i)=>{
+            return i
+        }):[0])
+        setCertifications(merchData?.certs_accrdts?.cert_list?.length > 0 ? 
+            merchData?.certs_accrdts?.cert_list?.map((val,i)=>{
             return i
         }):[0])
     },merchData)
@@ -76,10 +79,8 @@ const StepTwo = () => {
                 //     },})
 
                     const formData = new FormData();
-                    // console.log(formData)
                     formData.append('image', formTwoVals.businessSmallLogo );
                     formData.append('image', formTwoVals.businessLargeLogo );
-                    console.log('formData', formData);
                     const merchResLogo = await fetch('http://localhost:8000/api/merchant/register/business-logo',
                     {
                         method: 'POST',
@@ -92,16 +93,16 @@ const StepTwo = () => {
                     );
                     
                     const merchResLogoData = await merchResLogo.json()
-                    console.log(merchResLogoData)
-                    console.log(merchResLogoData)
-
-
-                    console.log(merchResData);
                     if(merchResData.status === 'ok'){
                         setBusinessDetailsRO(true)
                     }
             }
-            postMerchData()
+
+            let validated = formTwoValidate('businessDetails')
+            console.log('validated', validated);
+            if(validated){
+                postMerchData()
+            }
 
         }
 
@@ -113,37 +114,32 @@ const StepTwo = () => {
         }
         else{
             //save edited
-        //     const postMerchData = async () => {
-        //         const formData = new FormData();
-        //             // console.log(formData)
-        //         formData.append('image', formTwoVals.businessSmallLogo );
-        //         formData.append('image', formTwoVals.businessLargeLogo );
-        //         console.log('formData', formData);
-        //         formData
-        //         for(i=0;i<cert.lrn; i++){
-        //             formData.append(certname[i]',cert[i].name)
-        //             formData.append(certlink[i]',cert[i].link)
-        //             formData.append(certFile[i]',cert[i].img)
-
-        //         }
-        //         const merchResLogo = await fetch('http://localhost:8000/api/merchant/register/business-logo',
-        //         {
-        //             method: 'POST',
-        //             body : formData,
-        //             headers: {
-        //                         // "Content-Type": "application/json",
-        //                         "Authorization": "Bearer " + sessionStorage.getItem('merchToken'),
-        //                     }
-        //         }
-        //         );
+            const postMerchData = async () => {
+                let businesstDetails = {
+                    "show_cert": formTwoVals.listingCertificate
+                }
                 
-        //         const merchResLogoData = await merchResLogo.json()
-        //         if(merchResLogoData.status === 'ok'){
-        //             // setBusinessDetailsRO(true)
-        //         }
-        //     }
-        //     postMerchData()
-        //     // setCertiRO(true)
+                const merchResLogo = await fetch('http://localhost:8000/api/merchant/register/certs-accrdts/show',
+                {
+                    method: 'POST',
+                    body : JSON.stringify(businesstDetails),
+                    headers: {
+                                "Content-Type": "application/json",
+                                "Authorization": "Bearer " + sessionStorage.getItem('merchToken'),
+                            }
+                }
+                );
+                
+                const merchResLogoData = await merchResLogo.json()
+                console.log(merchResLogoData);
+                if(merchResLogoData.status === 'ok'){
+                    // setBusinessDetailsRO(true)
+                    setCertiRO(true)
+                }
+            }
+            if(!formTwoCertificatesStatus){
+                postMerchData()
+            }
         // }
         }
 
@@ -187,13 +183,15 @@ const StepTwo = () => {
                     },})
                     
                 const merchResData = await merchRes.json()
-                console.log(merchResData)
                 if(merchResData.status === 'ok'){
                     setBusinessLocationRO(true)
                 }
             }
-
-            postMerchData()
+            let validated = formTwoValidate('businessLocation')
+            console.log('validated', validated);
+            if(validated){
+                postMerchData()
+            }
         }
 
     }
@@ -205,7 +203,6 @@ const StepTwo = () => {
         else{
             //save edited
             let temp = Object.entries(formTwoBusinessHours)
-            console.log(temp)
             let businessHours = {
                 "time_zone":formTwoVals.businessHoursTimezone,
                 "is_service_247":formTwoVals.businessHoursService247,
@@ -236,8 +233,11 @@ const StepTwo = () => {
                     setBusinessHoursRO(true)
                 }
             }
-
-            postMerchData()
+            let validated = formTwoValidate('businessHours')
+            console.log('validated', validated);
+            if(!formTwoBusinessHoursStatus && validated){
+                postMerchData()
+            }
         
         }
 
@@ -289,7 +289,11 @@ const StepTwo = () => {
                         setbusinessOtherRO(true)
                     }
             }
-            postMerchData()
+            let validated = formTwoValidate('businessOthers')
+            console.log('validated', validated);
+            if(validated){
+                postMerchData()
+            }
         }
 
     }
@@ -353,31 +357,32 @@ const StepTwo = () => {
 
     const handleFormTwo = (e) => {
         e.preventDefault()
-        formTwoValidate()
+        setStep(3)
+        // formTwoValidate()
         // formTwoCertificatesValidate()
-        formTwoBusinessHoursValidate()
+        // formTwoBusinessHoursValidate()
     }
 
-    useEffect(()=>{
-        const areTrue = Object.values(formTwoErrors).every(
-            value => value === false
-        );
-        if(areTrue && !formTwoCertificatesStatus && !formTwoBusinessHoursStatus){
-            if(initial){
-                console.log('initial loaded')
-                setInitial(false)
-            }
-            else{
-                console.log('form good');
-                setStep(3)
-            }
+    // useEffect(()=>{
+    //     const areTrue = Object.values(formTwoErrors).every(
+    //         value => value === false
+    //     );
+    //     if(areTrue && !formTwoCertificatesStatus && !formTwoBusinessHoursStatus){
+    //         if(initial){
+    //             console.log('initial loaded')
+    //             setInitial(false)
+    //         }
+    //         else{
+    //             console.log('form good');
+    //             setStep(3)
+    //         }
 
-        }
-        else{
-            console.log('form bad');
-        }
-        // setStep(3)
-    },[formTwoErrors])
+    //     }
+    //     else{
+    //         console.log('form bad');
+    //     }
+    //     // setStep(3)
+    // },[formTwoErrors])
 
     const goPrevious = (e) => {
         e.preventDefault()
@@ -427,23 +432,45 @@ const StepTwo = () => {
         setFormTwoCertificatesError(prevState=>({...prevState, [`cert${parseInt(certifications[certifications.length-1])+1}`]: {'certTitle':false,'certUrl':false,'certFile':false}}))
     }
 
-    const removeCertificate=()=>{
+    const removeCertificate= async ()=>{
         
         const newCertsList = certifications
         
         if(newCertsList.length > 1 ){
-            newCertsList.pop()
-        }
-        setCertifications(newCertsList)
+            // formTwoCertificates[ `cert${cert}`]?.certTitle
+            let lastCertTemp = `cert${parseInt(certifications[certifications.length-1])}` ;
+            console.log(`http://localhost:8000/api/merchant/delete/certs/${formTwoCertificates[lastCertTemp]?.certTitle}`)
+            const merchCerty = await fetch(`http://localhost:8000/api/merchant/delete/certs/${formTwoCertificates[lastCertTemp]?.certTitle}`,
+                    {
+                        method: 'DELETE',
+                        headers: {
+                                    // "Content-Type": "application/json",
+                                    "Authorization": "Bearer " + sessionStorage.getItem('merchToken'),
+                                }
+                    }
+            );
 
-        const lastCert = `cert${parseInt(certifications[certifications.length-1]+1)}` ;
-        const lastCertErr = `cert${parseInt(certifications[certifications.length-1]+1)}` ;
-
-        const {[lastCert]:{}, ...newCerts} = formTwoCertificates;
-        const {[lastCertErr]:{}, ...newCertsErr} = formTwoCertificatesError;
+            const merchCertyData = await merchCerty.json()
+            console.log(merchCertyData);
+            if(merchCertyData.status === 'ok'){
+                // setBusinessDetailsRO(true)
+                if(newCertsList.length > 1 ){
+                    newCertsList.pop()
+                }
+                setCertifications(newCertsList)
         
-        setFormTwoCertificates(newCerts)
-        setFormTwoCertificatesError(newCertsErr)
+                const lastCert = `cert${parseInt(certifications[certifications.length-1]+1)}` ;
+                const lastCertErr = `cert${parseInt(certifications[certifications.length-1]+1)}` ;
+        
+                const {[lastCert]:{}, ...newCerts} = formTwoCertificates;
+                const {[lastCertErr]:{}, ...newCertsErr} = formTwoCertificatesError;
+                
+                setFormTwoCertificates(newCerts)
+                setFormTwoCertificatesError(newCertsErr)
+                
+            }
+        }
+        
         
     }
 
@@ -455,25 +482,64 @@ const StepTwo = () => {
         setFormTwoBusinessHoursError(prevState=>({...prevState, [`bn${parseInt(bnHours[bnHours.length-1])+1}`]: {'bnDays':false,'bnStart':false,'bnEnd':false}}))
     }
 
-    const removeBnHours=(bnHour)=>{
-        
-        const bnHoursList = bnHours
-        
+    const removeBnHours = async (bnHour) =>{  
+        const bnHoursList = bnHours;
         if(bnHoursList.length > 1 ){
-            // bnHoursList.slice(bnHour, 1)
-            bnHoursList = bnHoursList.filter(item => item !== bnHour)
-        }
-        
-        setBnHours(bnHoursList)
+           
+            // console.log(formTwoBusinessHours);
+            console.log('init bnHour', bnHour);
+            let toBeDeleted = formTwoBusinessHours[`bn${bnHour}`]
+            console.log('toBeDeleted', toBeDeleted);
 
-        const bn = `bn${parseInt(bnHours[bnHour]+1)}` ;
-        const bnErr = `bn${parseInt(bnHours[bnHour]+1)}` ;
+            const businesstDetails = {
+                "days": toBeDeleted.bnDays,
+                "start_time": toBeDeleted.bnStart,
+                "end_time": toBeDeleted.bnEnd
+            }
+            const bnHourReq = await fetch(`http://localhost:8000/api/merchant/delete/weekly-hours`,
+                    {
+                        method: 'DELETE',
+                        body : JSON.stringify(businesstDetails),
+                        headers: {
+                                    "Content-Type": "application/json",
+                                    "Authorization": "Bearer " + sessionStorage.getItem('merchToken'),
+                                }
+                    }
+            );
+
+            const bnHourData = await bnHourReq.json()
+            console.log(bnHourData);
+            if(bnHourData.status === 'ok'){
         
-        const {[bn]:{}, ...newBnHours} = formTwoBusinessHours;
-        const {[bnErr]:{}, ...newBnHoursErr} = formTwoBusinessHoursError;
+                if(bnHoursList.length > 1 ){
+                    // bnHoursList.slice(bnHour, 1)
+                    console.log('this is bnhour to be removed', bnHour);
+                    bnHoursList = bnHoursList.filter(item => item !== bnHour)
+                    // bnHoursList = bnHoursList.map((hr,i)=>{
+                    //     return i
+                    // })
+                    console.log('this is bnHoursList', bnHoursList);
+                }
+                
+                setBnHours(bnHoursList)
+
+                const bn = `bn${parseInt(bnHour)}` ;
+                const bnErr = `bn${parseInt(bnHour)}` ;
+
+                console.log('bn',bn)
+                console.log('bnErr',bnErr)
+                
+                const {[bn]:{}, ...newBnHours} = formTwoBusinessHours;
+                const {[bnErr]:{}, ...newBnHoursErr} = formTwoBusinessHoursError;
+
+                console.log('newBnHours', newBnHours)
+                console.log('newBnHoursErr', newBnHoursErr)
+                
+                setFormTwoBusinessHours(newBnHours)
+                setFormTwoBusinessHoursError(newBnHoursErr)
         
-        setFormTwoCertificates(newBnHours)
-        setFormTwoCertificatesError(newBnHoursErr)
+            }
+        }
         
     }
     
@@ -487,6 +553,35 @@ const StepTwo = () => {
         }
         else if(e.target.type === 'file'){
             setFormTwoCertificates(prevState=>({...prevState, [`cert${cert}`]: {...prevState[`cert${cert}`],'certFile':e.target.files[0]}}))
+        }
+    }
+
+    const uploadCerty = async (cert) => {
+
+        const formData = new FormData();
+        console.log('cert_title', formTwoCertificates[ `cert${cert}`]?.certTitle)
+        console.log('cert_img', formTwoCertificates[ `cert${cert}`]?.certFile)
+        console.log('cert_url', formTwoCertificates[ `cert${cert}`]?.certUrl)
+
+        formData.append('cert_title', formTwoCertificates[ `cert${cert}`]?.certTitle)
+        formData.append('cert_img', formTwoCertificates[ `cert${cert}`]?.certFile)
+        formData.append('cert_url', formTwoCertificates[ `cert${cert}`]?.certUrl)
+
+        const merchCerty = await fetch('http://localhost:8000/api/merchant/register/certs-accrdts',
+                {
+                    method: 'POST',
+                    body : formData,
+                    headers: {
+                                // "Content-Type": "application/json",
+                                "Authorization": "Bearer " + sessionStorage.getItem('merchToken'),
+                            }
+                }
+        );
+
+        const merchCertyData = await merchCerty.json()
+        console.log(merchCertyData);
+        if(merchCertyData.status === 'ok'){
+            // setBusinessDetailsRO(true)
         }
     }
 
@@ -594,22 +689,30 @@ const StepTwo = () => {
                     {
                         certifications.map((cert,index)=>{
                             return (
-                                <div key={index} className='mt-7 flex w-full gap-x-4 items-start'>
-                                    <TextInput id={`certificateTitle${cert}`} width='w-1/3' title={`${parseInt(cert)+1} certificate title`} placeholder='Enter title' value={formTwoCertificates[ `cert${cert}`]?.certTitle} onChange={(e)=>onChangeCerti(e,cert)} error={formTwoCertificatesError[ `cert${cert}`]?.certTitle} readOnly={certiRO}/>
-                                    
-                                    <TextInput id={`certificateURL${cert}`} width='w-1/3' title='certificate url link' placeholder='Enter Website Address' value={formTwoCertificates[ `cert${cert}`]?.certUrl} onChange={(e)=>onChangeCerti(e,cert)} error={formTwoCertificatesError[ `cert${cert}`]?.certUrl} readOnly={certiRO}/>
-                                    
-                                    <UploadImageInput id={`certificateImage${cert}`}  title='UPLOAD LOGO' placeholder='Upload Image here' width='w-1/3' onChange={(e)=>onChangeCerti(e,cert)} error={formTwoCertificatesError[ `cert${cert}`]?.certFile} /> 
-                                </div> 
-                                
+                                <>
+                                    <div key={index} className='mt-7 flex w-full gap-x-4 items-start'>
+                                        <TextInput id={`certificateTitle${cert}`} width='w-1/3' title={`${parseInt(cert)+1} certificate title`} placeholder='Enter title' value={formTwoCertificates[ `cert${cert}`]?.certTitle} onChange={(e)=>onChangeCerti(e,cert)} error={formTwoCertificatesError[ `cert${cert}`]?.certTitle} readOnly={certiRO}/>
+                                        
+                                        <TextInput id={`certificateURL${cert}`} width='w-1/3' title='certificate url link' placeholder='Enter Website Address' value={formTwoCertificates[ `cert${cert}`]?.certUrl} onChange={(e)=>onChangeCerti(e,cert)} error={formTwoCertificatesError[ `cert${cert}`]?.certUrl} readOnly={certiRO}/>
+                                        
+                                        <UploadImageInput id={`certificateImage${cert}`}  title='Upload Image' placeholder='Upload Image here' width='w-1/3' onChange={(e)=>onChangeCerti(e,cert)} error={formTwoCertificatesError[ `cert${cert}`]?.certFile} /> 
+
+                                        {!certiRO && <div className='mt-6 flex gap-x-4 items-center'>
+                                            <div className='py-3 mt-1 px-5 w-fit bg-blue-500 text-white rounded-sm cursor-pointer' onClick={()=>uploadCerty(cert)}>Save</div>
+                                        </div>}
+                                    </div>
+                                    {!certiRO && <div className='w-full flex justify-center'>
+                                        <p className={`font-normal text-[10px] italic text-[#6A6A6A] mt-2`}>Please press save if you make any changes to this certificate</p>
+                                    </div> }
+                                </>
                             )
                         })
                     }
                     
-                    <div className='mt-6 flex gap-x-4'>
+                    {!certiRO && <div className='mt-6 flex gap-x-4'>
                         <div className='py-3 px-5 w-fit bg-blue-500 text-white rounded-sm cursor-pointer' onClick={()=>addCertificate()}>Add New</div>
                         <div className='py-3 px-5 w-fit bg-red-500 text-white rounded-sm cursor-pointer' onClick={()=>removeCertificate()}>Remove</div>
-                    </div>
+                    </div>}
                     
 
                     <div className='mt-7 flex w-full gap-x-4 items-start flex-wrap'>
@@ -692,7 +795,7 @@ const StepTwo = () => {
                             {
                                 bnHours.map((bnHour,index)=>{
                                     return(
-                                        <div key={index} className={`${bnHour !== 0 ? businessDetailsRO === true ? 'w-[88.5%] mt-0' : 'w-full mt-0' : 'w-[88.5%] mt-2'}  w-full mb-5 flex items-start justify-between  gap-x-6`}>
+                                        <div key={index} className={`${bnHour !== 0 ? businessDetailsRO === false ? 'w-[88.5%] mt-0' : 'w-full mt-0' : 'w-full mt-2'}  w-full mb-5 flex items-start justify-between  gap-x-6`}>
                                             <SelectInput id={`businessHoursDays${bnHour}`} items={businessDays} placeholder='Days' required={true} width='w-1/2' onChange={(e)=>onChangeBnHours(e,bnHour)} error={formTwoBusinessHoursError[ `bn${bnHour}`]?.bnDays} value={formTwoBusinessHours[ `bn${bnHour}`]?.bnDays} readOnly={businessHoursRO}/>
                                             
                                             <SelectInput id={`businessHoursStart${bnHour}`} items={businessTime} placeholder='Opening' required={true} width='w-1/4' onChange={(e)=>onChangeBnHours(e,bnHour)} error={formTwoBusinessHoursError[ `bn${bnHour}`]?.bnStart} value={formTwoBusinessHours[ `bn${bnHour}`]?.bnStart} readOnly={businessHoursRO}/>

@@ -13,7 +13,7 @@ const StepOne = () => {
     
 
     const onChange = (e) =>{
-        if(e.target.id === 'primPhone' || e.target.id === 'primAltPh' || e.target.id === 'altPhone' || e.target.id === 'altAltPhone'){
+        if(e.target.id === 'primPhone' || e.target.id === 'primAltPh' || e.target.id === 'altPhone' || e.target.id === 'altAltPh'){
             setFormOneVals(prevState => ({...prevState, [e.target.id]: phoneFormat(e.target.value)}))
         }
         else{
@@ -23,7 +23,8 @@ const StepOne = () => {
     
     const handleFormOne = (e) => {
         e.preventDefault()
-        formOneValidate()
+        setStep(2)
+        // formOneValidate()
     }
 
     const handlePrimContactEdit = async () => {
@@ -31,8 +32,8 @@ const StepOne = () => {
             setPrimContactRO(false)
         }
         else{
-            setPrimContactRO(true)
             //save edited
+            console.log('here')
             let primContactDetails = {
                 "title":formOneVals.primSalut,
                 "name":{
@@ -53,7 +54,7 @@ const StepOne = () => {
                     body : JSON.stringify(primContactDetails),
                     headers: {
                         "Content-Type": "application/json",
-                        "Authorization": "Bearer " + localStorage.getItem('merchToken'),
+                        "Authorization": "Bearer " + sessionStorage.getItem('merchToken'),
                     },})
                     
                     const merchResData = await merchRes.json()
@@ -62,11 +63,11 @@ const StepOne = () => {
                         setPrimContactRO(true)
                     }
             }
-            
-            postMerchData()
-            
-
-            
+            let validated = formOneValidate('primContact')
+            console.log('validated', validated);
+            if(validated){
+                postMerchData()
+            }
         }
 
     }
@@ -76,30 +77,63 @@ const StepOne = () => {
         }
         else{
             //save edited
-            setSecContactRO(true)
+            let altContactDetails = {
+                "title":formOneVals.altSalut,
+                "name":{
+                    "first_name":formOneVals.altFName,
+                    "middle_name":formOneVals.altMName,
+                    "last_name":formOneVals.altLName
+                },
+                "phone_no":{
+                    "primary_ph":String(formOneVals.altPhone).replace(/\D/g,''),
+                    "alternate_ph":String(formOneVals.altAltPh).replace(/\D/g,'')
+                },
+                "primary_email": formOneVals.altEmail
+            }
+
+            const postMerchData = async () => {
+                const merchRes = await fetch('http://localhost:8000/api/merchant/register/alternate-contact',{
+                    method:'POST',
+                    body : JSON.stringify(altContactDetails),
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + sessionStorage.getItem('merchToken'),
+                    },})
+                    
+                    const merchResData = await merchRes.json()
+                    console.log(merchResData)
+                    
+                    if(merchResData.status === 'ok'){
+                        setSecContactRO(true)
+                    }
+            }
+            let validated = formOneValidate('altContact')
+            if(validated){
+                postMerchData()
+            }
         }
 
     }
-    useEffect(()=>{
-        console.log(formOneErrors)
-        const areTrue = Object.values(formOneErrors).every(
-            value => value === false
-        );
-        if(areTrue){
-            if(initial){
-                console.log('initial loaded')
-                setInitial(false)
-            }
-            else{
-                console.log('form good');
-                setStep(2)
-            }
+    // useEffect(()=>{
+    //     // console.log(formOneErrors)
+    //     const areTrue = Object.values(formOneErrors).every(
+    //         value => value === false
+    //     );
+    //     if(areTrue){
+    //         if(initial){
+    //             console.log('initial loaded')
+    //             setInitial(false)
+    //         }
+    //         else{
+    //             console.log('form good');
+    //             setStep(2)
+    //         }
 
-        }
-        else{
-            console.log('form bad');
-        }
-    },[formOneErrors])
+    //     }
+    //     else{
+    //         console.log('form bad');
+    //     }
+    // },[formOneErrors])
 
 
   return (

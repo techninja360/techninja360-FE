@@ -10,7 +10,7 @@ export const MerchantProfileProvider = ({ children }) => {
 
     const [merchantSignUpOpen, setMerchantSignUpOpen] = useState(false)
     const [merchantLogin, setMerchantLogin] = useState(false)
-    const [step, setStep] = useState(2)
+    const [step, setStep] = useState(1)
     const [contextAuthorized, setContextAuthorized] = useState(false)
     const [merchantSignInDetails, setMerchantSignInDetails] = useState()
 
@@ -47,14 +47,15 @@ export const MerchantProfileProvider = ({ children }) => {
 
                     const merchContactResData = await merchContactRes.json()
                     
-                    // const merchLocationRes = await fetch('http://localhost:8000/api/merchant/fetch/contacts',{method:'GET',headers: {
-                    //         "Content-Type": "application/json",
-                    //         "Authorization": "Bearer " + merchToken,
-                    //     },})
+                    const merchServicesRes = await fetch('http://localhost:8000/api/merchant/fetch/business-services',{method:'GET',headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": "Bearer " + merchToken,
+                        },})
 
-                    // const merchLocationResData = await merchLocationRes.json()
+                    const merchServicesResData = await merchServicesRes.json()
+                    // console.log('merchServicesResData',merchServicesResData);
                     
-                    setMerchData(prev=>({...prev , ...merchBusinessDetailsResData?.results, ...merchContactResData?.results}))
+                    setMerchData(prev=>({...prev , ...merchBusinessDetailsResData?.results, ...merchContactResData?.results, merchServices : merchServicesResData?.results}))
                     sessionStorage.setItem('merchData',JSON.stringify(merchBusinessDetailsResData))
                 }
 
@@ -77,16 +78,16 @@ export const MerchantProfileProvider = ({ children }) => {
         setFormOneVals(prevState => ({...prevState, primMName:merchData?.primary_contact?.name?.middle_name}))
         setFormOneVals(prevState => ({...prevState, primLName:merchData?.primary_contact?.name?.last_name}))
         setFormOneVals(prevState => ({...prevState, primEmail:merchData?.primary_contact?.primary_email}))
-        setFormOneVals(prevState => ({...prevState, primPhone:merchData?.primary_contact?.phone_no?.primary_ph}))
-        setFormOneVals(prevState => ({...prevState, primAltPh:merchData?.primary_contact?.phone_no?.alternate_ph}))
+        setFormOneVals(prevState => ({...prevState, primPhone:phoneFormat(String(merchData?.primary_contact?.phone_no?.primary_ph))}))
+        setFormOneVals(prevState => ({...prevState, primAltPh:phoneFormat(String(merchData?.primary_contact?.phone_no?.alternate_ph))}))
         
         setFormOneVals(prevState => ({...prevState, altSalut:merchData?.alternate_contact?.title}))
         setFormOneVals(prevState => ({...prevState, altFName:merchData?.alternate_contact?.name?.first_name}))
         setFormOneVals(prevState => ({...prevState, altMName:merchData?.alternate_contact?.name?.middle_name}))
         setFormOneVals(prevState => ({...prevState, altLName:merchData?.alternate_contact?.name?.last_name}))
         setFormOneVals(prevState => ({...prevState, altEmail:merchData?.alternate_contact?.primary_email}))
-        setFormOneVals(prevState => ({...prevState, altPhone:merchData?.alternate_contact?.phone_no?.primary_ph}))
-        setFormOneVals(prevState => ({...prevState, altAltPh:merchData?.alternate_contact?.phone_no?.alternate_ph}))
+        setFormOneVals(prevState => ({...prevState, altPhone:phoneFormat(String(merchData?.alternate_contact?.phone_no?.primary_ph))}))
+        setFormOneVals(prevState => ({...prevState, altAltPh:phoneFormat(String(merchData?.alternate_contact?.phone_no?.alternate_ph))}))
 
         
         setFormTwoVals(prevState => ({...prevState, businessName:merchData?.business_details?.business_name}))
@@ -94,11 +95,44 @@ export const MerchantProfileProvider = ({ children }) => {
         setFormTwoVals(prevState => ({...prevState, businessTollFreePreFix:String(merchData?.business_details?.contact.toll_no).slice(0,3)}))
         setFormTwoVals(prevState => ({...prevState, businessTollFreeStart:String(merchData?.business_details?.contact.toll_no).slice(3,6)}))
         setFormTwoVals(prevState => ({...prevState, businessTollFreeEnd:String(merchData?.business_details?.contact.toll_no).slice(6,10)}))
+        setFormTwoVals(prevState => ({...prevState, businessWorkNumber:phoneFormat(String(merchData?.business_details?.contact?.work_number))}))
         setFormTwoVals(prevState => ({...prevState, businessYearsInBusiness:merchData?.business_details?.exp_years}))
         setFormTwoVals(prevState => ({...prevState, businessEmployeeStrength:merchData?.business_details?.emp_strength}))
         setFormTwoVals(prevState => ({...prevState, businessDescription:merchData?.business_details?.description}))
         
         
+        const covertCertList = (inputArr) => {
+            if(inputArr?.length > 0){
+                let result = {};
+    
+                // Loop through each object in the input array
+                inputArr.forEach((obj, index) => {
+                    // Add a new property to the result object, with the key being "bn" followed by the index
+                    // and the value being an object containing the days, start time, and end time
+                    result[`cert${index}`] = {
+                        certTitle: obj.cert_title,
+                        certUrl: obj.cert_url,
+                        certFile: obj.cert_img
+                    };
+                });
+    
+                // Return the result object
+                return result;
+            }
+
+            else {
+                false
+            }
+        }
+
+        const certOutput = covertCertList(merchData?.certs_accrdts?.cert_list);
+        // console.log('certOutput',certOutput);
+
+        setFormTwoCertificates(certOutput ? certOutput : {cert0 : {certTitle:undefined,certUrl:undefined,certFile:undefined}})
+        
+        setFormTwoVals(prevState => ({...prevState, listingCertificate:merchData?.certs_accrdts?.cert_show}))
+
+
         setFormTwoVals(prevState => ({...prevState, businessLocationAddressType:merchData?.business_location?.address_type}))
         setFormTwoVals(prevState => ({...prevState, businessLocationStreetName:merchData?.business_location?.address?.street}))
         setFormTwoVals(prevState => ({...prevState, businessLocationCityName:merchData?.business_location?.address?.city}))
@@ -113,103 +147,11 @@ export const MerchantProfileProvider = ({ children }) => {
         
         setFormTwoVals(prevState => ({...prevState, businessHoursTimezone:merchData?.business_hours?.time_zone}))
         setFormTwoVals(prevState => ({...prevState, businessHoursService247:merchData?.business_hours?.is_service_247}))
-
-        let tempArr = [
-  {
-    "days": "wed",
-    "start_time": "8:00",
-    "end_time": "17:30",
-    "_id": "6396c3a17b553916be32761e"
-  },
-  {
-    "days": "thurs",
-    "start_time": "11:00",
-    "end_time": "20:30",
-    "_id": "6396c3a17b553916be32761f"
-  },
-  {
-    "days": "sat",
-    "start_time": "10:00",
-    "end_time": "22:00",
-    "_id": "6396c3a17b553916be327620"
-  },
-  {
-    "days": "allDays",
-    "start_time": "00",
-    "end_time": "02",
-    "_id": "6396c5cb7b553916be327648"
-  },
-  {
-    "days": "SatSun",
-    "start_time": "05",
-    "end_time": "05",
-    "_id": "6396c5cb7b553916be327649"
-  },
-  {
-    "days": "Mon",
-    "start_time": "05",
-    "end_time": "09",
-    "_id": "6396c5cb7b553916be32764a"
-  },
-  {
-    "days": "Thu",
-    "start_time": "10",
-    "end_time": "22",
-    "_id": "6396c5cb7b553916be32764b"
-  },
-  {
-    "days": "allDays",
-    "start_time": "00",
-    "end_time": "02",
-    "_id": "6396c60b7b553916be32765f"
-  },
-  {
-    "days": "SatSun",
-    "start_time": "05",
-    "end_time": "05",
-    "_id": "6396c60b7b553916be327660"
-  },
-  {
-    "days": "Mon",
-    "start_time": "05",
-    "end_time": "09",
-    "_id": "6396c60b7b553916be327661"
-  },
-  {
-    "days": "Thu",
-    "start_time": "10",
-    "end_time": "22",
-    "_id": "6396c60b7b553916be327662"
-  },
-  {
-    "days": "allDays",
-    "start_time": "00",
-    "end_time": "02",
-    "_id": "6396c63b7b553916be32767e"
-  },
-  {
-    "days": "SatSun",
-    "start_time": "05",
-    "end_time": "05",
-    "_id": "6396c63b7b553916be32767f"
-  },
-  {
-    "days": "Mon",
-    "start_time": "05",
-    "end_time": "09",
-    "_id": "6396c63b7b553916be327680"
-  },
-  {
-    "days": "Thu",
-    "start_time": "10",
-    "end_time": "22",
-    "_id": "6396c63b7b553916be327681"
-  }
-]        
+      
         function convertArray(inputArr) {
             // Create an empty result object
 
-            if(inputArr){
+            if(inputArr?.length > 0){
                 let result = {};
     
                 // Loop through each object in the input array
@@ -226,10 +168,13 @@ export const MerchantProfileProvider = ({ children }) => {
                 // Return the result object
                 return result;
             }
+
+            else {
+                false
+            }
         }
         
         const output = convertArray(merchData?.business_hours?.weekly_hours);
-        console.log('output',output);
         
         setFormTwoBusinessHours(output ? output : {bn0 : {bnDays:undefined,bnStart:undefined,bnEnd:undefined}})
         
@@ -251,6 +196,75 @@ export const MerchantProfileProvider = ({ children }) => {
         setFormTwoVals(prevState => ({...prevState, otherInfoOneTimePlan:(merchData?.business_others?.plan_type?.one_time === true) ? "yes" : (merchData?.business_others?.plan_type?.one_time === false) ? "no" : undefined }))
         setFormTwoVals(prevState => ({...prevState, otherInfoMonthlyPlan:(merchData?.business_others?.plan_type?.monthly === true) ? "yes" : (merchData?.business_others?.plan_type?.monthly === false) ? "no" : undefined }))
         setFormTwoVals(prevState => ({...prevState, otherInfoYearlyPlan:(merchData?.business_others?.plan_type?.yearly === true) ? "yes" : (merchData?.business_others?.plan_type?.yearly === false) ? "no" : undefined }))
+        
+        
+        // setFormTwoVals(prevState => ({...prevState, otherInfoYearlyPlan:(merchData?.business_others?.plan_type?.yearly === true) ? "yes" : (merchData?.business_others?.plan_type?.yearly === false) ? "no" : undefined }))
+        let allServices = []
+        let tvPrice = ""
+        let resServices = merchData?.merchServices
+        resServices?.map((category)=>{
+            let pricingObj = {
+                "flat":"",
+                "hourly":"",
+                "custom":"",
+                "call":""
+            }
+            if(category.service_type === "TV Mounting"){
+                pricingObj = category.service_price
+                tvPrice = category?.service_desc ? category?.service_desc : ""
+            }
+            else{
+
+                if (category.pricing_type === "flat"){
+                    pricingObj = {
+                        "flat":category.service_price,
+                        "hourly":"",
+                        "custom":"",
+                        "call":""
+                    }
+                }
+                else if (category.pricing_type === "hourly"){
+                    pricingObj = {
+                        "flat":"",
+                        "hourly":category.service_price,
+                        "custom":"",
+                        "call":""
+                    }
+                }
+                else if (category.pricing_type === "custom"){
+                    pricingObj = {
+                        "flat":"",
+                        "hourly":"",
+                        "custom":category.service_price,
+                        "call":""
+                    }
+                }
+                else if (category.pricing_type === "call"){
+                    pricingObj = {
+                        "flat":"",
+                        "hourly":"",
+                        "custom":"",
+                        "call":true
+                    }
+                }
+            }
+            
+            allServices.push(
+                {
+                    [(category.service_category + '##' + category.service_type + '##' + category.service_name).replaceAll(' ','_')] : {
+                        available : true,
+                        fees : pricingObj,
+                        desc : category.service_desc,
+                        error : ""
+                    }
+                
+                }
+            )
+        })
+
+        let allServicesRes = Object.assign({},...allServices)
+        // console.log('allServices returned', allServices)
+        setFormThreeVals(prev => ({...prev, ...allServicesRes, [`Audio/_Video_&_TV_Mounting##TV_Mounting_Desc`] : tvPrice}))
 
     },[merchData])
 
@@ -290,87 +304,141 @@ export const MerchantProfileProvider = ({ children }) => {
       altAltPh : false,
     })
 
-    const formOneValidate = () => {
-        if(formOneVals.primSalut === '' || formOneVals.primSalut === null || formOneVals.primSalut === undefined){
-            setFormOneErrors(prevState => ({...prevState, primSalut:'Please select a value'}))
-        }else{
-            setFormOneErrors(prevState => ({...prevState, primSalut:false}))
-        }
-        if(formOneVals.primFName === '' || formOneVals.primFName === null || formOneVals.primFName === undefined){
-            setFormOneErrors(prevState => ({...prevState, primFName:'Field is empty'}))
-        }else{
-            setFormOneErrors(prevState => ({...prevState, primFName:false}))
-        }
-        
-        if(formOneVals.primLName === '' || formOneVals.primLName === null || formOneVals.primLName === undefined){
-            setFormOneErrors(prevState => ({...prevState, primLName:'Field is empty'}))
-        }else{
-            setFormOneErrors(prevState => ({...prevState, primLName:false}))
-        }
-        if(formOneVals.primEmail === '' || formOneVals.primEmail === null || formOneVals.primEmail === undefined || !formOneVals.primEmail.match(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)){
-            setFormOneErrors(prevState => ({...prevState, primEmail:'email is empty or invalid'}))
-        }else{
-            setFormOneErrors(prevState => ({...prevState, primEmail:false}))
-        }
-
-        if(formTwoVals.businessWorkNumber === '' || formTwoVals.businessWorkNumber === null || formTwoVals.businessWorkNumber === undefined || formTwoVals.businessWorkNumber.length !== 14 ){
-            setFormTwoErrors(prevState => ({...prevState, businessWorkNumber:'Phone number invalid'}))
-        }else{
-            setFormTwoErrors(prevState => ({...prevState, businessWorkNumber:false}))
-        }
-
-        if(formOneVals.primPhone === '' || formOneVals.primPhone === null || formOneVals.primPhone === undefined || formOneVals.primPhone.length !== 14 ){
-            setFormOneErrors(prevState => ({...prevState, primPhone:'Phone number invalid'}))
-        }else{
-            setFormOneErrors(prevState => ({...prevState, primPhone:false}))
-        }
-        if(formOneVals.primAltPh !== ''){
-            if(formOneVals.primAltPh.length !== 14 ){
-                setFormOneErrors(prevState => ({...prevState, primAltPh:'Phone number invalid'}))
+    const formOneValidate = (block) => {
+        if(block === 'primContact'){
+            let localError = {
+                primSalut : false,
+                primFName : false,
+                primLName : false,
+                primEmail : false,
+                // businessWorkNumber : false,
+                primPhone : false,
+                primAltPh : false,
             }
-            else{
+            if(formOneVals.primSalut === '' || formOneVals.primSalut === null || formOneVals.primSalut === undefined){
+                setFormOneErrors(prevState => ({...prevState, primSalut:'Please select a value'}))
+                localError.primSalut = true
+            }else{
+                setFormOneErrors(prevState => ({...prevState, primSalut:false}))
+                localError.primSalut = false
+            }
+            if(formOneVals.primFName === '' || formOneVals.primFName === null || formOneVals.primFName === undefined){
+                setFormOneErrors(prevState => ({...prevState, primFName:'Field is empty'}))
+                localError.primFName = true
+            }else{
+                setFormOneErrors(prevState => ({...prevState, primFName:false}))
+                localError.primFName = false
+            }
+            
+            if(formOneVals.primLName === '' || formOneVals.primLName === null || formOneVals.primLName === undefined){
+                setFormOneErrors(prevState => ({...prevState, primLName:'Field is empty'}))
+                localError.primLName = true
+            }else{
+                setFormOneErrors(prevState => ({...prevState, primLName:false}))
+                localError.primLName = false
+            }
+            if(formOneVals.primEmail === '' || formOneVals.primEmail === null || formOneVals.primEmail === undefined || !formOneVals.primEmail.match(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)){
+                setFormOneErrors(prevState => ({...prevState, primEmail:'email is empty or invalid'}))
+                localError.primEmail = true
+            }else{
+                setFormOneErrors(prevState => ({...prevState, primEmail:false}))
+                localError.primEmail = false
+            }
+    
+            // if(formTwoVals.businessWorkNumber === '' || formTwoVals.businessWorkNumber === null || formTwoVals.businessWorkNumber === undefined || formTwoVals.businessWorkNumber.length !== 14 ){
+            //     setFormTwoErrors(prevState => ({...prevState, businessWorkNumber:'Phone number invalid'}))
+            //     localError.businessWorkNumber = true
+            // }else{
+            //     setFormTwoErrors(prevState => ({...prevState, businessWorkNumber:false}))
+            //     localError.businessWorkNumber = false
+            // }
+    
+            if(formOneVals.primPhone === '' || formOneVals.primPhone === null || formOneVals.primPhone === undefined || formOneVals.primPhone.length !== 14 ){
+                setFormOneErrors(prevState => ({...prevState, primPhone:'Phone number invalid'}))
+                localError.primPhone = true
+            }else{
+                setFormOneErrors(prevState => ({...prevState, primPhone:false}))
+                localError.primPhone = false
+            }
+            if(formOneVals.primAltPh !== ''){
+                if(formOneVals.primAltPh.length !== 14 ){
+                    setFormOneErrors(prevState => ({...prevState, primAltPh:'Phone number invalid'}))
+                    localError.primAltPh = true
+                }
+                else{
+                    setFormOneErrors(prevState => ({...prevState, primAltPh:false}))
+                    localError.primAltPh = false
+                }
+            }
+            else if(formOneVals.primAltPh === '' || formOneVals.primAltPh === null || formOneVals.primAltPh === undefined){
                 setFormOneErrors(prevState => ({...prevState, primAltPh:false}))
+                localError.primAltPh = false
             }
-        }
-        else if(formOneVals.primAltPh === '' || formOneVals.primAltPh === null || formOneVals.primAltPh === undefined){
-            setFormOneErrors(prevState => ({...prevState, primAltPh:false}))
+            console.log('localError', localError);
+            const areTrue = Object.values(localError).every(
+                value => value === false
+            );
+            return areTrue
         }
         
 
-        if(formOneVals.altAltPh !== ''){
-            if(formOneVals.altAltPh.length !== 14 ){
-                setFormOneErrors(prevState => ({...prevState, altAltPh:'Phone number invalid'}))
+        else if(block === "altContact"){
+            let localError = {
+                altFName : false, 
+                altMName : false, 
+                altLName : false, 
+                altEmail : false, 
+                altPhone : false, 
+                altAltPh : false,
+            }
+            if(formOneVals.altAltPh !== ''){
+                if(formOneVals.altAltPh.length !== 14 ){
+                    setFormOneErrors(prevState => ({...prevState, altAltPh:'Phone number invalid'}))
+                    localError.altAltPh = true
+                }
+                else{
+                    setFormOneErrors(prevState => ({...prevState, altAltPh:false}))
+                    localError.altAltPh = false
+                }
             }
             else{
                 setFormOneErrors(prevState => ({...prevState, altAltPh:false}))
+                localError.altAltPh = false
             }
-        }
-        else{
-            setFormOneErrors(prevState => ({...prevState, altAltPh:false}))
-        }
-        if(formOneVals.altPhone !== ''){
-            if(formOneVals.altPhone.length !== 14 ){
-                setFormOneErrors(prevState => ({...prevState, altPhone:'Phone number invalid'}))
+            if(formOneVals.altPhone !== ''){
+                if(formOneVals.altPhone.length !== 14 ){
+                    setFormOneErrors(prevState => ({...prevState, altPhone:'Phone number invalid'}))
+                    localError.altPhone = true
+                }
+                else{
+                    setFormOneErrors(prevState => ({...prevState, altPhone:false}))
+                    localError.altPhone = false
+                }
             }
             else{
                 setFormOneErrors(prevState => ({...prevState, altPhone:false}))
+                localError.altPhone = false
             }
-        }
-        else{
-            setFormOneErrors(prevState => ({...prevState, altPhone:false}))
-        }
-        
-        if(formOneVals.altEmail !== ''){
-            if(!formOneVals.altEmail.match(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)){
-                setFormOneErrors(prevState => ({...prevState, altEmail:'email invalid'}))
-            }else{
+            
+            if(formOneVals.altEmail === '' || formOneVals.altEmail === undefined){
                 setFormOneErrors(prevState => ({...prevState, altEmail:false}))
+                localError.altEmail = false
             }
-        }
-        else{
-            setFormOneErrors(prevState => ({...prevState, altEmail:false}))
-        }
+            else{
+                if(!formOneVals.altEmail.match(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)){
+                    setFormOneErrors(prevState => ({...prevState, altEmail:'email invalid'}))
+                    localError.altEmail = true
+                }else{
+                    setFormOneErrors(prevState => ({...prevState, altEmail:false}))
+                    localError.altEmail = false
+                }
+            }
 
+            const areTrue = Object.values(localError).every(
+                value => value === false
+            );
+            return areTrue
+        }
     }
     
 
@@ -495,217 +563,326 @@ export const MerchantProfileProvider = ({ children }) => {
     const [formTwoCertificatesError, setFormTwoCertificatesError] = useState({cert0 : {certTitle:false,certUrl:false,certFile:false}})
     const [formTwoBusinessHoursError, setFormTwoBusinessHoursError] = useState({bn0 : {bnDays:false,bnStart:false,bnEnd:false}})
 
-    const formTwoValidate = () => {
+    const formTwoValidate = (block) => {
         {/************************************************************Business Details************************************************************/}
-        if(formTwoVals.businessSmallLogo === '' || formTwoVals.businessSmallLogo === null || formTwoVals.businessSmallLogo === undefined){
-            setFormTwoErrors(prevState => ({...prevState, businessSmallLogo:'Field is empty'}))
-        }else{
-            setFormTwoErrors(prevState => ({...prevState, businessSmallLogo:false}))
-        }
-        
-        if(formTwoVals.businessLargeLogo === '' || formTwoVals.businessLargeLogo === null || formTwoVals.businessLargeLogo === undefined){
-            setFormTwoErrors(prevState => ({...prevState, businessLargeLogo:'Field is empty'}))
-        }else{
-            setFormTwoErrors(prevState => ({...prevState, businessLargeLogo:false}))
-        }
-        
-        if(formTwoVals.businessName === '' || formTwoVals.businessName === null || formTwoVals.businessName === undefined){
-            setFormTwoErrors(prevState => ({...prevState, businessName:'Field is empty'}))
-        }else{
-            setFormTwoErrors(prevState => ({...prevState, businessName:false}))
-        }
-        
-        if(formTwoVals.businessWorkNumber === '' || formTwoVals.businessWorkNumber === null || formTwoVals.businessWorkNumber === undefined || formTwoVals.businessWorkNumber.length !== 14 ){
-            setFormTwoErrors(prevState => ({...prevState, businessWorkNumber:'Phone number invalid'}))
-        }else{
-            setFormTwoErrors(prevState => ({...prevState, businessWorkNumber:false}))
-        }
-        
-        if(formTwoVals.businessDescription === '' || formTwoVals.businessDescription === null || formTwoVals.businessDescription === undefined){
-            setFormTwoErrors(prevState => ({...prevState, businessDescription:'Field is empty'}))
-        }else{
-            setFormTwoErrors(prevState => ({...prevState, businessDescription:false}))
-        }
-        
 
-        {/************************************************************Business Location************************************************************/}
-        
-        if(formTwoVals.businessLocationAddressType === '' || formTwoVals.businessLocationAddressType === null || formTwoVals.businessLocationAddressType === undefined){
-            setFormTwoErrors(prevState => ({...prevState, businessLocationAddressType:'Field is empty'}))
-        }else{
-            setFormTwoErrors(prevState => ({...prevState, businessLocationAddressType:false}))
-        }
 
-        // if(formTwoVals.businessLocationAddressType === '' || formTwoVals.businessLocationAddressType === null || formTwoVals.businessLocationAddressType === undefined){
-        //     setFormTwoErrors(prevState => ({...prevState, businessLocationAddressType:'Field is empty'}))
+        // if(formTwoVals.businessSmallLogo === '' || formTwoVals.businessSmallLogo === null || formTwoVals.businessSmallLogo === undefined){
+        //     setFormTwoErrors(prevState => ({...prevState, businessSmallLogo:'Field is empty'}))
         // }else{
-        //     setFormTwoErrors(prevState => ({...prevState, businessLocationAddressType:false}))
+        //     setFormTwoErrors(prevState => ({...prevState, businessSmallLogo:false}))
         // }
         
-        // if(formTwoVals.businessLocationStreetName === '' || formTwoVals.businessLocationStreetName === null || formTwoVals.businessLocationStreetName === undefined){
-        //     setFormTwoErrors(prevState => ({...prevState, businessLocationStreetName:'Field is empty'}))
+        // if(formTwoVals.businessLargeLogo === '' || formTwoVals.businessLargeLogo === null || formTwoVals.businessLargeLogo === undefined){
+        //     setFormTwoErrors(prevState => ({...prevState, businessLargeLogo:'Field is empty'}))
         // }else{
-        //     setFormTwoErrors(prevState => ({...prevState, businessLocationStreetName:false}))
+        //     setFormTwoErrors(prevState => ({...prevState, businessLargeLogo:false}))
         // }
         
-        // if(formTwoVals.businessLocationCityName === '' || formTwoVals.businessLocationCityName === null || formTwoVals.businessLocationCityName === undefined){
-        //     setFormTwoErrors(prevState => ({...prevState, businessLocationCityName:'Field is empty'}))
-        // }else{
-        //     setFormTwoErrors(prevState => ({...prevState, businessLocationCityName:false}))
-        // }
-        
-        // if(formTwoVals.businessLocationStateName === '' || formTwoVals.businessLocationStateName === null || formTwoVals.businessLocationStateName === undefined){
-        //     setFormTwoErrors(prevState => ({...prevState, businessLocationStateName:'Field is empty'}))
-        // }else{
-        //     setFormTwoErrors(prevState => ({...prevState, businessLocationStateName:false}))
-        // }
-        
-        // if(formTwoVals.businessLocationCountryName === '' || formTwoVals.businessLocationCountryName === null || formTwoVals.businessLocationCountryName === undefined){
-        //     setFormTwoErrors(prevState => ({...prevState, businessLocationCountryName:'Field is empty'}))
-        // }else{
-        //     setFormTwoErrors(prevState => ({...prevState, businessLocationCountryName:false}))
-        // }
+        if(block === 'businessDetails'){
+            let localError = {
+                businessSmallLogo : false,
+                businessLargeLogo : false,
+                businessName : false,
+                businessWebAddress : false,
+                businessTollFreePreFix : false,
+                businessTollFreeStart: false,
+                businessTollFreeEnd: false,
+                businessWorkNumber: false,
+                businessYearsInBusiness: false,
+                businessEmployeeStrength: false,
+                businessDescription: false,
+            }
+            if(formTwoVals.businessName === '' || formTwoVals.businessName === null || formTwoVals.businessName === undefined){
+                setFormTwoErrors(prevState => ({...prevState, businessName:'Field is empty'}))
+                localError.businessName = true
+            }else{
+                setFormTwoErrors(prevState => ({...prevState, businessName:false}))
+                localError.businessName = false
+            }
+            
+            if(formTwoVals.businessWorkNumber === '' || formTwoVals.businessWorkNumber === null || formTwoVals.businessWorkNumber === undefined || formTwoVals.businessWorkNumber.length !== 14 ){
+                setFormTwoErrors(prevState => ({...prevState, businessWorkNumber:'Phone number invalid'}))
+                localError.businessWorkNumber = true
+            }else{
+                setFormTwoErrors(prevState => ({...prevState, businessWorkNumber:false}))
+                localError.businessWorkNumber = false
+            }
+            
+            if(formTwoVals.businessDescription === '' || formTwoVals.businessDescription === null || formTwoVals.businessDescription === undefined){
+                setFormTwoErrors(prevState => ({...prevState, businessDescription:'Field is empty'}))
+                localError.businessDescription = true
+            }else{
+                setFormTwoErrors(prevState => ({...prevState, businessDescription:false}))
+                localError.businessDescription = false
+            }
 
-        // if(formTwoVals.businessLocationZipCodeName === '' || formTwoVals.businessLocationZipCodeName === null || formTwoVals.businessLocationZipCodeName === undefined){
-        //     setFormTwoErrors(prevState => ({...prevState, businessLocationZipCodeName:'Field is empty'}))
-        // }else{
-        //     setFormTwoErrors(prevState => ({...prevState, businessLocationZipCodeName:false}))
-        // }
-
-        if(formTwoVals.businessLocationServiceRadStart === '' || formTwoVals.businessLocationServiceRadStart === null || formTwoVals.businessLocationServiceRadStart === undefined){
-            setFormTwoErrors(prevState => ({...prevState, businessLocationServiceRadStart:'Field is empty'}))
-        }else{
-            setFormTwoErrors(prevState => ({...prevState, businessLocationServiceRadStart:false}))
-        }
-
-        if(formTwoVals.businessLocationServiceRadEnd === '' || formTwoVals.businessLocationServiceRadEnd === null || formTwoVals.businessLocationServiceRadEnd === undefined){
-            setFormTwoErrors(prevState => ({...prevState, businessLocationServiceRadEnd:'Field is empty'}))
-        }else{
-            setFormTwoErrors(prevState => ({...prevState, businessLocationServiceRadEnd:false}))
-        }
-
-        if(formTwoVals.businessLocationZipCoverd === '' || formTwoVals.businessLocationZipCoverd === null || formTwoVals.businessLocationZipCoverd === undefined){
-            setFormTwoErrors(prevState => ({...prevState, businessLocationZipCoverd:'Field is empty'}))
-        }else{
-            setFormTwoErrors(prevState => ({...prevState, businessLocationZipCoverd:false}))
-        }
-
-        {/************************************************************Business Hours************************************************************/}
-
-        // if(formTwoVals.businessHours === '' || formTwoVals.businessHours === null || formTwoVals.businessHours === undefined){
-        //     setFormTwoErrors(prevState => ({...prevState, businessHours:'Field is empty'}))
-        // }else{
-        //     setFormTwoErrors(prevState => ({...prevState, businessHours:false}))
-        // }
-        // if(formTwoVals.businessHoursStart === '' || formTwoVals.businessHoursStart === null || formTwoVals.businessHoursStart === undefined){
-        //     setFormTwoErrors(prevState => ({...prevState, businessHoursStart:'Field is empty'}))
-        // }else{
-        //     setFormTwoErrors(prevState => ({...prevState, businessHoursStart:false}))
-        // }
-        // if(formTwoVals.businessHoursEnd === '' || formTwoVals.businessHoursEnd === null || formTwoVals.businessHoursEnd === undefined){
-        //     setFormTwoErrors(prevState => ({...prevState, businessHoursEnd:'Field is empty'}))
-        // }else{
-        //     setFormTwoErrors(prevState => ({...prevState, businessHoursEnd:false}))
-        // }
-        if(formTwoVals.businessHoursTimezone === '' || formTwoVals.businessHoursTimezone === null || formTwoVals.businessHoursTimezone === undefined){
-            setFormTwoErrors(prevState => ({...prevState, businessHoursTimezone:'Field is empty'}))
-        }else{
-            setFormTwoErrors(prevState => ({...prevState, businessHoursTimezone:false}))
-        }
-
-        {/************************************************************Other information************************************************************/}
-        
-        if(formTwoVals.otherInfoRemoteSupport === '' || formTwoVals.otherInfoRemoteSupport === null || formTwoVals.otherInfoRemoteSupport === undefined){
-            setFormTwoErrors(prevState => ({...prevState, otherInfoRemoteSupport:'Field is empty'}))
-        }else{
-            setFormTwoErrors(prevState => ({...prevState, otherInfoRemoteSupport:false}))
+            const areTrue = Object.values(localError).every(
+                value => value === false
+            );
+            return areTrue
         }
         
-        if(formTwoVals.otherInfoInStoreService === '' || formTwoVals.otherInfoInStoreService === null || formTwoVals.otherInfoInStoreService === undefined){
-            setFormTwoErrors(prevState => ({...prevState, otherInfoInStoreService:'Field is empty'}))
-        }else{
-            setFormTwoErrors(prevState => ({...prevState, otherInfoInStoreService:false}))
+
+        //************************************************************Business Location************************************************************/
+        else if(block === "businessLocation" ){
+            let localError = {
+                businessLocationAddressType: false,
+                businessLocationStreetName: false,
+                businessLocationCityName: false,
+                businessLocationStateName: false,
+                businessLocationCountryName: false,
+                businessLocationZipCodeName: false,
+                businessLocationServiceRadStart: false,
+                businessLocationServiceRadEnd: false,
+                businessLocationZipCoverd: false,
+            }
+            if(formTwoVals.businessLocationAddressType === '' || formTwoVals.businessLocationAddressType === null || formTwoVals.businessLocationAddressType === undefined){
+                setFormTwoErrors(prevState => ({...prevState, businessLocationAddressType:'Field is empty'}))
+                localError.businessLocationAddressType = true
+            }else{
+                setFormTwoErrors(prevState => ({...prevState, businessLocationAddressType:false}))
+                localError.businessLocationAddressType = false
+                
+            }
+    
+            // if(formTwoVals.businessLocationAddressType === '' || formTwoVals.businessLocationAddressType === null || formTwoVals.businessLocationAddressType === undefined){
+            //     setFormTwoErrors(prevState => ({...prevState, businessLocationAddressType:'Field is empty'}))
+            // }else{
+            //     setFormTwoErrors(prevState => ({...prevState, businessLocationAddressType:false}))
+            // }
+            
+            // if(formTwoVals.businessLocationStreetName === '' || formTwoVals.businessLocationStreetName === null || formTwoVals.businessLocationStreetName === undefined){
+            //     setFormTwoErrors(prevState => ({...prevState, businessLocationStreetName:'Field is empty'}))
+            // }else{
+            //     setFormTwoErrors(prevState => ({...prevState, businessLocationStreetName:false}))
+            // }
+            
+            // if(formTwoVals.businessLocationCityName === '' || formTwoVals.businessLocationCityName === null || formTwoVals.businessLocationCityName === undefined){
+            //     setFormTwoErrors(prevState => ({...prevState, businessLocationCityName:'Field is empty'}))
+            // }else{
+            //     setFormTwoErrors(prevState => ({...prevState, businessLocationCityName:false}))
+            // }
+            
+            // if(formTwoVals.businessLocationStateName === '' || formTwoVals.businessLocationStateName === null || formTwoVals.businessLocationStateName === undefined){
+            //     setFormTwoErrors(prevState => ({...prevState, businessLocationStateName:'Field is empty'}))
+            // }else{
+            //     setFormTwoErrors(prevState => ({...prevState, businessLocationStateName:false}))
+            // }
+            
+            // if(formTwoVals.businessLocationCountryName === '' || formTwoVals.businessLocationCountryName === null || formTwoVals.businessLocationCountryName === undefined){
+            //     setFormTwoErrors(prevState => ({...prevState, businessLocationCountryName:'Field is empty'}))
+            // }else{
+            //     setFormTwoErrors(prevState => ({...prevState, businessLocationCountryName:false}))
+            // }
+    
+            // if(formTwoVals.businessLocationZipCodeName === '' || formTwoVals.businessLocationZipCodeName === null || formTwoVals.businessLocationZipCodeName === undefined){
+            //     setFormTwoErrors(prevState => ({...prevState, businessLocationZipCodeName:'Field is empty'}))
+            // }else{
+            //     setFormTwoErrors(prevState => ({...prevState, businessLocationZipCodeName:false}))
+            // }
+    
+            // if(formTwoVals.businessLocationServiceRadStart === '' || formTwoVals.businessLocationServiceRadStart === null || formTwoVals.businessLocationServiceRadStart === undefined){
+            //     setFormTwoErrors(prevState => ({...prevState, businessLocationServiceRadStart:'Field is empty'}))
+            // }else{
+            //     setFormTwoErrors(prevState => ({...prevState, businessLocationServiceRadStart:false}))
+            // }
+    
+            // if(formTwoVals.businessLocationServiceRadEnd === '' || formTwoVals.businessLocationServiceRadEnd === null || formTwoVals.businessLocationServiceRadEnd === undefined){
+            //     setFormTwoErrors(prevState => ({...prevState, businessLocationServiceRadEnd:'Field is empty'}))
+            // }else{
+            //     setFormTwoErrors(prevState => ({...prevState, businessLocationServiceRadEnd:false}))
+            // }
+    
+            // if(formTwoVals.businessLocationZipCoverd === '' || formTwoVals.businessLocationZipCoverd === null || formTwoVals.businessLocationZipCoverd === undefined){
+            //     setFormTwoErrors(prevState => ({...prevState, businessLocationZipCoverd:'Field is empty'}))
+            // }else{
+            //     setFormTwoErrors(prevState => ({...prevState, businessLocationZipCoverd:false}))
+            // }
+            const areTrue = Object.values(localError).every(
+                value => value === false
+            );
+            return areTrue
         }
 
-        if(formTwoVals.otherInfoHouseCall === '' || formTwoVals.otherInfoHouseCall === null || formTwoVals.otherInfoHouseCall === undefined){
-            setFormTwoErrors(prevState => ({...prevState, otherInfoHouseCall:'Field is empty'}))
-        }else{
-            setFormTwoErrors(prevState => ({...prevState, otherInfoHouseCall:false}))
-        }
+        //************************************************************Business Hours************************************************************/
+        else if(block === "businessHours" ){
+            let localError = {
+                businessHoursTimezone: false,
+            }
 
-        if(formTwoVals.otherInfoPickUpDrop === '' || formTwoVals.otherInfoPickUpDrop === null || formTwoVals.otherInfoPickUpDrop === undefined){
-            setFormTwoErrors(prevState => ({...prevState, otherInfoPickUpDrop:'Field is empty'}))
-        }else{
-            setFormTwoErrors(prevState => ({...prevState, otherInfoPickUpDrop:false}))
+            // if(formTwoVals.businessHours === '' || formTwoVals.businessHours === null || formTwoVals.businessHours === undefined){
+            //     setFormTwoErrors(prevState => ({...prevState, businessHours:'Field is empty'}))
+            // }else{
+            //     setFormTwoErrors(prevState => ({...prevState, businessHours:false}))
+            // }
+            // if(formTwoVals.businessHoursStart === '' || formTwoVals.businessHoursStart === null || formTwoVals.businessHoursStart === undefined){
+            //     setFormTwoErrors(prevState => ({...prevState, businessHoursStart:'Field is empty'}))
+            // }else{
+            //     setFormTwoErrors(prevState => ({...prevState, businessHoursStart:false}))
+            // }
+            // if(formTwoVals.businessHoursEnd === '' || formTwoVals.businessHoursEnd === null || formTwoVals.businessHoursEnd === undefined){
+            //     setFormTwoErrors(prevState => ({...prevState, businessHoursEnd:'Field is empty'}))
+            // }else{
+            //     setFormTwoErrors(prevState => ({...prevState, businessHoursEnd:false}))
+            // }
+            if(formTwoVals.businessHoursTimezone === '' || formTwoVals.businessHoursTimezone === null || formTwoVals.businessHoursTimezone === undefined){
+                setFormTwoErrors(prevState => ({...prevState, businessHoursTimezone:'Field is empty'}))
+                localError.businessHoursTimezone = true
+            }else{
+                setFormTwoErrors(prevState => ({...prevState, businessHoursTimezone:false}))
+                localError.businessHoursTimezone = false
+            }
+            const areTrue = Object.values(localError).every(
+                    value => value === false
+                );
+            return areTrue
         }
-
-        if(formTwoVals.otherInfoResidentialService === '' || formTwoVals.otherInfoResidentialService === null || formTwoVals.otherInfoResidentialService === undefined){
-            setFormTwoErrors(prevState => ({...prevState, otherInfoResidentialService:'Field is empty'}))
-        }else{
-            setFormTwoErrors(prevState => ({...prevState, otherInfoResidentialService:false}))
-        }
-
-        if(formTwoVals.otherInfoBusinessService === '' || formTwoVals.otherInfoBusinessService === null || formTwoVals.otherInfoBusinessService === undefined){
-            setFormTwoErrors(prevState => ({...prevState, otherInfoBusinessService:'Field is empty'}))
-        }else{
-            setFormTwoErrors(prevState => ({...prevState, otherInfoBusinessService:false}))
-        }
-
-        if(formTwoVals.otherInfoCreditDebitCardPayment === '' || formTwoVals.otherInfoCreditDebitCardPayment === null || formTwoVals.otherInfoCreditDebitCardPayment === undefined){
-            setFormTwoErrors(prevState => ({...prevState, otherInfoCreditDebitCardPayment:'Field is empty'}))
-        }else{
-            setFormTwoErrors(prevState => ({...prevState, otherInfoCreditDebitCardPayment:false}))
-        }
-
-        if(formTwoVals.otherInfoPaypalPayment === '' || formTwoVals.otherInfoPaypalPayment === null || formTwoVals.otherInfoPaypalPayment === undefined){
-            setFormTwoErrors(prevState => ({...prevState, otherInfoPaypalPayment:'Field is empty'}))
-        }else{
-            setFormTwoErrors(prevState => ({...prevState, otherInfoPaypalPayment:false}))
-        }
-
-        if(formTwoVals.otherInfoApplePayPayment === '' || formTwoVals.otherInfoApplePayPayment === null || formTwoVals.otherInfoApplePayPayment === undefined){
-            setFormTwoErrors(prevState => ({...prevState, otherInfoApplePayPayment:'Field is empty'}))
-        }else{
-            setFormTwoErrors(prevState => ({...prevState, otherInfoApplePayPayment:false}))
-        }
-
-        if(formTwoVals.otherInfoGooglePayPayment === '' || formTwoVals.otherInfoGooglePayPayment === null || formTwoVals.otherInfoGooglePayPayment === undefined){
-            setFormTwoErrors(prevState => ({...prevState, otherInfoGooglePayPayment:'Field is empty'}))
-        }else{
-            setFormTwoErrors(prevState => ({...prevState, otherInfoGooglePayPayment:false}))
-        }
-
-        if(formTwoVals.otherInfoCashPayment === '' || formTwoVals.otherInfoCashPayment === null || formTwoVals.otherInfoCashPayment === undefined){
-            setFormTwoErrors(prevState => ({...prevState, otherInfoCashPayment:'Field is empty'}))
-        }else{
-            setFormTwoErrors(prevState => ({...prevState, otherInfoCashPayment:false}))
-        }
-
-        if(formTwoVals.otherInfoCryptoCurrencyPayment === '' || formTwoVals.otherInfoCryptoCurrencyPayment === null || formTwoVals.otherInfoCryptoCurrencyPayment === undefined){
-            setFormTwoErrors(prevState => ({...prevState, otherInfoCryptoCurrencyPayment:'Field is empty'}))
-        }else{
-            setFormTwoErrors(prevState => ({...prevState, otherInfoCryptoCurrencyPayment:false}))
-        }
+        //************************************************************Other information************************************************************/
         
-        if(formTwoVals.otherInfoOneTimePlan === '' || formTwoVals.otherInfoOneTimePlan === null || formTwoVals.otherInfoOneTimePlan === undefined){
-            setFormTwoErrors(prevState => ({...prevState, otherInfoOneTimePlan:'Field is empty'}))
-        }else{
-            setFormTwoErrors(prevState => ({...prevState, otherInfoOneTimePlan:false}))
-        }
+        else if(block === "businessOthers" ){
+            let localError = {
+                otherInfoRemoteSupport: false,
+                otherInfoInStoreService: false,
+                otherInfoHouseCall: false,
+                otherInfoPickUpDrop: false,
+                otherInfoResidentialService: false,
+                otherInfoBusinessService: false,
+                otherInfoCreditDebitCardPayment: false,
+                otherInfoPaypalPayment: false,
+                otherInfoApplePayPayment: false,
+                otherInfoGooglePayPayment: false,
+                otherInfoCashPayment: false,
+                otherInfoCryptoCurrencyPayment: false,
+                otherInfoOneTimePlan: false,
+                otherInfoMonthlyPlan: false,
+                otherInfoYearlyPlan: false,
+            }
+            if(formTwoVals.otherInfoRemoteSupport === '' || formTwoVals.otherInfoRemoteSupport === null || formTwoVals.otherInfoRemoteSupport === undefined){
+                setFormTwoErrors(prevState => ({...prevState, otherInfoRemoteSupport:'Field is empty'}))
+                localError.otherInfoRemoteSupport = true
+            }else{
+                setFormTwoErrors(prevState => ({...prevState, otherInfoRemoteSupport:false}))
+                localError.otherInfoRemoteSupport = false
+            }
+            
+            if(formTwoVals.otherInfoInStoreService === '' || formTwoVals.otherInfoInStoreService === null || formTwoVals.otherInfoInStoreService === undefined){
+                setFormTwoErrors(prevState => ({...prevState, otherInfoInStoreService:'Field is empty'}))
+                localError.otherInfoInStoreService = true
+            }else{
+                setFormTwoErrors(prevState => ({...prevState, otherInfoInStoreService:false}))
+                localError.otherInfoInStoreService = false
+            }
+            
+            if(formTwoVals.otherInfoHouseCall === '' || formTwoVals.otherInfoHouseCall === null || formTwoVals.otherInfoHouseCall === undefined){
+                setFormTwoErrors(prevState => ({...prevState, otherInfoHouseCall:'Field is empty'}))
+                localError.otherInfoHouseCall = true
+            }else{
+                setFormTwoErrors(prevState => ({...prevState, otherInfoHouseCall:false}))
+                localError.otherInfoHouseCall = false
+            }
+            
+            if(formTwoVals.otherInfoPickUpDrop === '' || formTwoVals.otherInfoPickUpDrop === null || formTwoVals.otherInfoPickUpDrop === undefined){
+                setFormTwoErrors(prevState => ({...prevState, otherInfoPickUpDrop:'Field is empty'}))
+                localError.otherInfoPickUpDrop = true
+            }else{
+                setFormTwoErrors(prevState => ({...prevState, otherInfoPickUpDrop:false}))
+                localError.otherInfoPickUpDrop = false
+            }
+            
+            if(formTwoVals.otherInfoResidentialService === '' || formTwoVals.otherInfoResidentialService === null || formTwoVals.otherInfoResidentialService === undefined){
+                setFormTwoErrors(prevState => ({...prevState, otherInfoResidentialService:'Field is empty'}))
+                localError.otherInfoResidentialService = true
+            }else{
+                setFormTwoErrors(prevState => ({...prevState, otherInfoResidentialService:false}))
+                localError.otherInfoResidentialService = false
+            }
+            
+            if(formTwoVals.otherInfoBusinessService === '' || formTwoVals.otherInfoBusinessService === null || formTwoVals.otherInfoBusinessService === undefined){
+                setFormTwoErrors(prevState => ({...prevState, otherInfoBusinessService:'Field is empty'}))
+                localError.otherInfoBusinessService = true
+            }else{
+                setFormTwoErrors(prevState => ({...prevState, otherInfoBusinessService:false}))
+                localError.otherInfoBusinessService = false
+            }
+            
+            if(formTwoVals.otherInfoCreditDebitCardPayment === '' || formTwoVals.otherInfoCreditDebitCardPayment === null || formTwoVals.otherInfoCreditDebitCardPayment === undefined){
+                setFormTwoErrors(prevState => ({...prevState, otherInfoCreditDebitCardPayment:'Field is empty'}))
+                localError.otherInfoCreditDebitCardPayment = true
+            }else{
+                setFormTwoErrors(prevState => ({...prevState, otherInfoCreditDebitCardPayment:false}))
+                localError.otherInfoCreditDebitCardPayment = false
+            }
+            
+            if(formTwoVals.otherInfoPaypalPayment === '' || formTwoVals.otherInfoPaypalPayment === null || formTwoVals.otherInfoPaypalPayment === undefined){
+                setFormTwoErrors(prevState => ({...prevState, otherInfoPaypalPayment:'Field is empty'}))
+                localError.otherInfoPaypalPayment = true
+            }else{
+                setFormTwoErrors(prevState => ({...prevState, otherInfoPaypalPayment:false}))
+                localError.otherInfoPaypalPayment = false
+            }
+            
+            if(formTwoVals.otherInfoApplePayPayment === '' || formTwoVals.otherInfoApplePayPayment === null || formTwoVals.otherInfoApplePayPayment === undefined){
+                setFormTwoErrors(prevState => ({...prevState, otherInfoApplePayPayment:'Field is empty'}))
+                localError.otherInfoApplePayPayment = true
+            }else{
+                setFormTwoErrors(prevState => ({...prevState, otherInfoApplePayPayment:false}))
+                localError.otherInfoApplePayPayment = false
+            }
+            
+            if(formTwoVals.otherInfoGooglePayPayment === '' || formTwoVals.otherInfoGooglePayPayment === null || formTwoVals.otherInfoGooglePayPayment === undefined){
+                setFormTwoErrors(prevState => ({...prevState, otherInfoGooglePayPayment:'Field is empty'}))
+                localError.otherInfoGooglePayPayment = true
+            }else{
+                setFormTwoErrors(prevState => ({...prevState, otherInfoGooglePayPayment:false}))
+                localError.otherInfoGooglePayPayment = false
+            }
 
-        if(formTwoVals.otherInfoMonthlyPlan === '' || formTwoVals.otherInfoMonthlyPlan === null || formTwoVals.otherInfoMonthlyPlan === undefined){
-            setFormTwoErrors(prevState => ({...prevState, otherInfoMonthlyPlan:'Field is empty'}))
-        }else{
-            setFormTwoErrors(prevState => ({...prevState, otherInfoMonthlyPlan:false}))
-        }
+            if(formTwoVals.otherInfoCashPayment === '' || formTwoVals.otherInfoCashPayment === null || formTwoVals.otherInfoCashPayment === undefined){
+                setFormTwoErrors(prevState => ({...prevState, otherInfoCashPayment:'Field is empty'}))
+                localError.otherInfoCashPayment = true
+            }else{
+                setFormTwoErrors(prevState => ({...prevState, otherInfoCashPayment:false}))
+                localError.otherInfoCashPayment = false
+            }
 
-        if(formTwoVals.otherInfoYearlyPlan === '' || formTwoVals.otherInfoYearlyPlan === null || formTwoVals.otherInfoYearlyPlan === undefined){
-            setFormTwoErrors(prevState => ({...prevState, otherInfoYearlyPlan:'Field is empty'}))
-        }else{
-            setFormTwoErrors(prevState => ({...prevState, otherInfoYearlyPlan:false}))
-        }
+            if(formTwoVals.otherInfoCryptoCurrencyPayment === '' || formTwoVals.otherInfoCryptoCurrencyPayment === null || formTwoVals.otherInfoCryptoCurrencyPayment === undefined){
+                setFormTwoErrors(prevState => ({...prevState, otherInfoCryptoCurrencyPayment:'Field is empty'}))
+                localError.otherInfoCryptoCurrencyPayment = true
+            }else{
+                setFormTwoErrors(prevState => ({...prevState, otherInfoCryptoCurrencyPayment:false}))
+                localError.otherInfoCryptoCurrencyPayment = false
+            }
+            
+            if(formTwoVals.otherInfoOneTimePlan === '' || formTwoVals.otherInfoOneTimePlan === null || formTwoVals.otherInfoOneTimePlan === undefined){
+                setFormTwoErrors(prevState => ({...prevState, otherInfoOneTimePlan:'Field is empty'}))
+                localError.otherInfoOneTimePlan = true
+            }else{
+                setFormTwoErrors(prevState => ({...prevState, otherInfoOneTimePlan:false}))
+                localError.otherInfoOneTimePlan = false
+            }
+            
+            if(formTwoVals.otherInfoMonthlyPlan === '' || formTwoVals.otherInfoMonthlyPlan === null || formTwoVals.otherInfoMonthlyPlan === undefined){
+                setFormTwoErrors(prevState => ({...prevState, otherInfoMonthlyPlan:'Field is empty'}))
+                localError.otherInfoMonthlyPlan = true
+            }else{
+                setFormTwoErrors(prevState => ({...prevState, otherInfoMonthlyPlan:false}))
+                localError.otherInfoMonthlyPlan = false
+            }
+            
+            if(formTwoVals.otherInfoYearlyPlan === '' || formTwoVals.otherInfoYearlyPlan === null || formTwoVals.otherInfoYearlyPlan === undefined){
+                setFormTwoErrors(prevState => ({...prevState, otherInfoYearlyPlan:'Field is empty'}))
+                localError.otherInfoYearlyPlan = true
+            }else{
+                setFormTwoErrors(prevState => ({...prevState, otherInfoYearlyPlan:false}))
+                localError.otherInfoYearlyPlan = false
+            }
+            const areTrue = Object.values(localError).every(
+                    value => value === false
+                );
+            return areTrue
 
-        
+        }
     }
 
 
@@ -911,27 +1088,45 @@ export const MerchantProfileProvider = ({ children }) => {
             error:''
         }})
     })
-    allServices.push({'Audio/Video&TVMountingTVMountingDesc':''})
+    allServices.push({'Audio/_Video_&_TV_Mounting##TV_Mounting_Desc':''})
     let allServicesInit = Object.assign({},...allServices)
     const [formThreeVals, setFormThreeVals] = useState(allServicesInit)
 
     const formThreeValidate = () => {
+        let localError = allServices.map((service)=>{
+            console.log(Object.keys(service)[0])
+            return {
+                [Object.keys(service)[0]] : false
+            }
+        }) 
+        localError = Object.assign({},...localError)
         allServices.map((service)=>{
             if(formThreeVals[Object.keys(service)[0]].available === true){
                 if(Object.keys(service)[0].includes('Audio/_Video_&_TV_Mounting##TV_Mounting')){
                     if(formThreeVals[Object.keys(service)[0]].fees === ''){
                         setFormThreeVals(prevState => ({...prevState, [Object.keys(service)[0]]:{...prevState[Object.keys(service)[0]], error:'Please fill the value'}}))
+                        localError[Object.keys(service)[0]] = true
                     }
                 }
 
                 else if(formThreeVals[Object.keys(service)[0]].fees.flat !== '' || formThreeVals[Object.keys(service)[0]].fees.hourly !== '' || formThreeVals[Object.keys(service)[0]].fees.custom !== '' || formThreeVals[Object.keys(service)[0]].fees.call != ''){
                     setFormThreeVals(prevState => ({...prevState, [Object.keys(service)[0]]:{...prevState[Object.keys(service)[0]], error:''}}))
+                    localError[Object.keys(service)[0]] = false
                 }
                 else{
                     setFormThreeVals(prevState => ({...prevState, [Object.keys(service)[0]]:{...prevState[Object.keys(service)[0]], error:'Please fill the value'}}))
+                    localError[Object.keys(service)[0]] = true
+                    console.log(Object.keys(service)[0], localError[Object.keys(service)[0]])
                 }
             }
         })
+
+        console.log('localError', localError)
+        const areTrue = Object.values(localError).every(
+                    value => value === false
+                );
+        return areTrue
+
     }
 
     return (

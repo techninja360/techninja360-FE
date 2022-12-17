@@ -74,8 +74,8 @@ const StepThree = () => {
             else if(e.target.id.includes('Fees')){
                 setFormThreeVals(prevState => ({...prevState, [subCategoryServiceId]:{...prevState[subCategoryServiceId], available:true, fees:(e.target.value.replace(/[^0-9.]/g, ''))}}))
             }
-            else if(e.target.id === 'Audio/Video&TVMountingTVMountingDesc'){
-                setFormThreeVals(prevState => ({...prevState, 'Audio/Video&TVMountingTVMountingDesc':e.target.value}))
+            else if(e.target.id === 'Audio/_Video_&_TV_Mounting##TV_Mounting_Desc'){
+                setFormThreeVals(prevState => ({...prevState, 'Audio/_Video_&_TV_Mounting##TV_Mounting_Desc':e.target.value}))
             }
 
         }
@@ -138,31 +138,40 @@ const StepThree = () => {
             "properties": value
         };
         });
-        console.log('services', services);
+        // console.log('services', services);
         let tempServices = services.map((service)=>{
             if(service.properties.available === true){
-                let service_category = service.name.split('##')[0]
-                let service_type = service.name.split('##')[1]
-                let service_name = service.name.split('##')[2]
+                let service_category = service.name.split('##')[0].replaceAll('_',' ')
+                let service_type = service.name.split('##')[1].replaceAll('_',' ')
+                let service_name = service.name.split('##')[2].replaceAll('_',' ')
                 let pricing_type = ""
                 let service_price = ""
-                if(service.properties.fees.call !== ""){
-                    pricing_type = "call"
-                    service_price = "on call"
-                }
-                else if(service.properties.fees.custom !== ""){
-                    pricing_type = "custom"
-                    service_price = service.properties.fees.custom
-                }
-                else if(service.properties.fees.flat !== ""){
+                let service_desc = ""
+                if(service_category === "Audio/ Video & TV Mounting" && service_type === "TV Mounting"){
                     pricing_type = "flat"
-                    service_price = service.properties.fees.flat
+                    service_price = service.properties.fees
+                    service_desc = ""
                 }
-                else if(service.properties.fees.hourly !== ""){
-                    pricing_type = "hourly"
-                    service_price = service.properties.fees.hourly
+                else{
+
+                    if(service.properties.fees.call !== ""){
+                        pricing_type = "call"
+                        service_price = "on call"
+                    }
+                    else if(service.properties.fees.custom !== ""){
+                        pricing_type = "custom"
+                        service_price = service.properties.fees.custom
+                    }
+                    else if(service.properties.fees.flat !== ""){
+                        pricing_type = "flat"
+                        service_price = service.properties.fees.flat
+                    }
+                    else if(service.properties.fees.hourly !== ""){
+                        pricing_type = "hourly"
+                        service_price = service.properties.fees.hourly
+                    }
+                    service_desc = service.properties.desc
                 }
-                let service_desc = service.properties.desc
                 return {
                         "service_category": service_category,
                         "service_type": service_type,
@@ -178,14 +187,16 @@ const StepThree = () => {
                 return service
             }
         })
-        console.log('tempServices', tempServices)
+        // console.log('tempServices', tempServices)
+        console.log('formThreeVals', formThreeVals[`Audio/_Video_&_TV_Mounting##TV_Mounting_Desc`]);
         if(businessServicesRO){
             setBusinessServicesRO(false)
         }
         else{
             // save edited
             let businesstDetails = {
-                "services": tempServices
+                "services": tempServices,
+                "tvDesc" : formThreeVals[`Audio/_Video_&_TV_Mounting##TV_Mounting_Desc`]
             }
 
             // let temp = Object.entries(formThreeVals)
@@ -207,7 +218,12 @@ const StepThree = () => {
                         setBusinessServicesRO(true)
                     }
             }
-            postMerchData()
+            let validate = formThreeValidate()
+            console.log('validate', validate)
+            if(validate){
+                // setBusinessServicesRO(true)
+                postMerchData()
+            }
 
         }
 
@@ -254,18 +270,18 @@ const StepThree = () => {
                                                                     return (
                                                                         <div key={index} className='w-[31.5%]'>
                                                                             <div className='pt-10'>
-                                                                                <input type="checkbox" id={subCategoryServiceId + 'available'} name={subCategoryServiceId + 'available'} checked={formThreeVals[subCategoryServiceId].available} onChange={(e)=>handleChange(e,subCategoryServiceId)}/><label htmlFor={subCategoryServiceId + 'available'} className={`${formThreeVals[subCategoryServiceId].error === '' || formThreeVals[subCategoryServiceId].error === undefined ?'text-black':'text-red-500'} font-semibold text-base ml-3`} >{subCategoryService}</label>
+                                                                                <input type="checkbox" id={subCategoryServiceId + 'available'} name={subCategoryServiceId + 'available'} checked={formThreeVals[subCategoryServiceId].available} onChange={(e)=>handleChange(e,subCategoryServiceId)} disabled={businessServicesRO} /><label htmlFor={subCategoryServiceId + 'available'} className={`${formThreeVals[subCategoryServiceId].error === '' || formThreeVals[subCategoryServiceId].error === undefined ?'text-black':'text-red-500'} font-semibold text-base ml-3`} >{subCategoryService}</label>
                                                                                 <p className='font-normal text-[10px] italic text-red-500 mt-2 pr-10'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{formThreeVals[subCategoryServiceId].error}</p> 
                                                                             </div>
                                                                             <div className='mt-3'>
-                                                                                <input type='text' id={subCategoryServiceId + 'Text' +'Fees'} value={formThreeVals[subCategoryServiceId].fees} className={`placeholder-[#B0B0B0] py-3 px-4 h-fit mt-0 w-full font-normal text-base bg-[#F9F9F9] border border-[#E9E9E9] rounded-md`} placeholder='Flat Fees (Amount)' onChange={(e)=>handleChange(e,subCategoryServiceId)}/>
+                                                                                <input type='text' id={subCategoryServiceId + 'Text' +'Fees'} value={formThreeVals[subCategoryServiceId].fees} className={`placeholder-[#B0B0B0] py-3 px-4 h-fit mt-0 w-full font-normal text-base ${businessServicesRO ? 'bg-[#F9F9F9]' : 'bg-white'} border border-[#E9E9E9] rounded-md`} placeholder='Flat Fees (Amount)' onChange={(e)=>handleChange(e,subCategoryServiceId)} readOnly={businessServicesRO}/>
                                                                             </div>
                                                                         </div>
                                                                     )
                                                                 })
                                                             }
                                                             <div className='mt-6 w-full'>
-                                                                <input type='text' id={'Audio/Video&TVMountingTVMountingDesc'} value={formThreeVals['Audio/Video&TVMountingTVMountingDesc']} className={`placeholder-[#B0B0B0] py-3 px-4 h-fit mt-0 w-full font-normal text-base bg-[#F9F9F9] border border-[#E9E9E9] rounded-md`} placeholder='Describe Your Service in some words... (Optional)' onChange={(e)=>handleChange(e,'Audio/Video&TVMountingTVMountingDesc')} maxLength={100}/>
+                                                                <input type='text' id={'Audio/_Video_&_TV_Mounting##TV_Mounting_Desc'} value={formThreeVals['Audio/_Video_&_TV_Mounting##TV_Mounting_Desc']} className={`placeholder-[#B0B0B0] py-3 px-4 h-fit mt-0 w-full font-normal text-base ${businessServicesRO ? 'bg-[#F9F9F9]' : 'bg-white'} border border-[#E9E9E9] rounded-md`} placeholder='Describe Your Service in some words... (Optional)' onChange={(e)=>handleChange(e,'Audio/_Video_&_TV_Mounting##TV_Mounting_Desc')} maxLength={100} readOnly={businessServicesRO}/>
                                                             </div>
                                                         </div>
                                                         
@@ -277,7 +293,7 @@ const StepThree = () => {
                                                         return(
                                                             <div key={index}>
                                                                 <div className='pt-10 flex'>
-                                                                    <input type="checkbox" id={subCategoryServiceId + 'available'} name={subCategoryServiceId + 'available'} checked={formThreeVals[subCategoryServiceId].available} onChange={(e)=>handleChange(e,subCategoryServiceId)}/>
+                                                                    <input type="checkbox" id={subCategoryServiceId + 'available'} name={subCategoryServiceId + 'available'} checked={formThreeVals[subCategoryServiceId].available} onChange={(e)=>handleChange(e,subCategoryServiceId)} disabled={businessServicesRO}/>
                                                                     <label htmlFor={subCategoryServiceId + 'available'} className={`${formThreeVals[subCategoryServiceId].error === '' || formThreeVals[subCategoryServiceId].error === undefined ?'text-black':'text-red-500'} font-semibold text-base ml-3`} >{subCategoryService}</label>
                                                                     <p className='font-normal text-[10px] italic text-red-500 mt-2 pr-10'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{formThreeVals[subCategoryServiceId].error}</p> 
                                                                 </div>
@@ -285,28 +301,28 @@ const StepThree = () => {
                                                                     <div className='flex gap-x-10 h-25'>
                                                                     
                                                                     <div className='flex items-center gap-x-3'>
-                                                                        <input type="radio" id={subCategoryServiceId + 'Radio' +'FlatFees'} name={subCategoryServiceId + 'fees'} value={formThreeVals[subCategoryServiceId].fees.flat}/>
-                                                                        <input type='text' id={subCategoryServiceId + 'Text' +'FlatFees'} value={formThreeVals[subCategoryServiceId].fees.flat} className={`placeholder-[#B0B0B0] py-3 px-4 h-fit mt-0 w-full font-normal text-base bg-[#F9F9F9] border border-[#E9E9E9] rounded-md`} placeholder='Flat Fees (Amount)' onChange={(e)=>handleChange(e,subCategoryServiceId)}/>
+                                                                        <input type="radio" id={subCategoryServiceId + 'Radio' +'FlatFees'} name={subCategoryServiceId + 'fees'} value={formThreeVals[subCategoryServiceId].fees.flat} checked={formThreeVals[subCategoryServiceId].fees.flat === "" ? false : true} disabled={businessServicesRO} />
+                                                                        <input type='text' id={subCategoryServiceId + 'Text' +'FlatFees'} value={formThreeVals[subCategoryServiceId].fees.flat} className={`placeholder-[#B0B0B0] py-3 px-4 h-fit mt-0 w-full font-normal text-base ${businessServicesRO ? 'bg-[#F9F9F9]' : 'bg-white'} border border-[#E9E9E9] rounded-md`} placeholder='Flat Fees (Amount)' onChange={(e)=>handleChange(e,subCategoryServiceId)} readOnly={businessServicesRO}/>
                                                                     </div>
 
                                                                     <div className='flex items-center gap-x-3'>
-                                                                        <input type="radio" id={subCategoryServiceId + 'Radio' +'HourlyFees'} name={subCategoryServiceId + 'fees'} value={formThreeVals[subCategoryServiceId].fees.hourly}/>
-                                                                        <input type='text' id={subCategoryServiceId + 'Text' +'HourlyFees'} value={formThreeVals[subCategoryServiceId].fees.hourly} className={`placeholder-[#B0B0B0] py-3 px-4 h-fit mt-0 w-full font-normal text-base bg-[#F9F9F9] border border-[#E9E9E9] rounded-md`} placeholder='Hourly Fees (Amount)' onChange={(e)=>handleChange(e,subCategoryServiceId)}/>
+                                                                        <input type="radio" id={subCategoryServiceId + 'Radio' +'HourlyFees'} name={subCategoryServiceId + 'fees'} value={formThreeVals[subCategoryServiceId].fees.hourly} checked={formThreeVals[subCategoryServiceId].fees.hourly === "" ? false : true} disabled={businessServicesRO}/>
+                                                                        <input type='text' id={subCategoryServiceId + 'Text' +'HourlyFees'} value={formThreeVals[subCategoryServiceId].fees.hourly} className={`placeholder-[#B0B0B0] py-3 px-4 h-fit mt-0 w-full font-normal text-base ${businessServicesRO ? 'bg-[#F9F9F9]' : 'bg-white'} border border-[#E9E9E9] rounded-md`} placeholder='Hourly Fees (Amount)' onChange={(e)=>handleChange(e,subCategoryServiceId)} readOnly={businessServicesRO}/>
                                                                     </div>
 
                                                                     <div className='flex items-center gap-x-3'>
-                                                                        <input type="radio" id={subCategoryServiceId + 'Radio' +'CustomFees'} name={subCategoryServiceId + 'fees'} value={formThreeVals[subCategoryServiceId].fees.custom}/>
-                                                                        <input type='text' id={subCategoryServiceId + 'Text' +'CustomFees'} value={formThreeVals[subCategoryServiceId].fees.custom} className={`placeholder-[#B0B0B0] py-3 px-4 h-fit mt-0 w-full font-normal text-base bg-[#F9F9F9] border border-[#E9E9E9] rounded-md`} placeholder='Starts At' onChange={(e)=>handleChange(e,subCategoryServiceId)}/>
+                                                                        <input type="radio" id={subCategoryServiceId + 'Radio' +'CustomFees'} name={subCategoryServiceId + 'fees'} value={formThreeVals[subCategoryServiceId].fees.custom} checked={formThreeVals[subCategoryServiceId].fees.custom === "" ? false : true} disabled={businessServicesRO}/>
+                                                                        <input type='text' id={subCategoryServiceId + 'Text' +'CustomFees'} value={formThreeVals[subCategoryServiceId].fees.custom} className={`placeholder-[#B0B0B0] py-3 px-4 h-fit mt-0 w-full font-normal text-base ${businessServicesRO ? 'bg-[#F9F9F9]' : 'bg-white'} border border-[#E9E9E9] rounded-md`} placeholder='Starts At' onChange={(e)=>handleChange(e,subCategoryServiceId)} readOnly={businessServicesRO}/>
                                                                     </div>
 
                                                                     <div className='flex items-center gap-x-3 w-1/4'>
-                                                                        <input type="radio" id={subCategoryServiceId + 'Radio' +'CallFees'} name={subCategoryServiceId + 'fees'} value={formThreeVals[subCategoryServiceId].fees.call} onClick={(e)=>handleChange(e,subCategoryServiceId)}/>
+                                                                        <input type="radio" id={subCategoryServiceId + 'Radio' +'CallFees'} name={subCategoryServiceId + 'fees'} value={formThreeVals[subCategoryServiceId].fees.call} onClick={(e)=>handleChange(e,subCategoryServiceId)} checked = {formThreeVals[subCategoryServiceId].fees.call} disabled={businessServicesRO}/>
                                                                         <label htmlFor={subCategoryServiceId + 'Radio' +'CallFees'} className={`h-fit mt-0 w-full font-normal text-base`}>Call For Pricing</label>
                                                                     </div>
                                                                         
                                                                     </div>
                                                                     <div className='mt-6'>
-                                                                        <input type='text' id={subCategoryServiceId + 'Desc'} value={formThreeVals[subCategoryServiceId].desc} className={`placeholder-[#B0B0B0] py-3 px-4 h-fit mt-0 w-full font-normal text-base bg-[#F9F9F9] border border-[#E9E9E9] rounded-md`} placeholder='Describe Your Service in some words... (Optional)' maxLength={100} onChange={(e)=>handleChange(e,subCategoryServiceId)}/>
+                                                                        <input type='text' id={subCategoryServiceId + 'Desc'} value={formThreeVals[subCategoryServiceId].desc} className={`placeholder-[#B0B0B0] py-3 px-4 h-fit mt-0 w-full font-normal text-base ${businessServicesRO ? 'bg-[#F9F9F9]' : 'bg-white'} border border-[#E9E9E9] rounded-md`} placeholder='Describe Your Service in some words... (Optional)' maxLength={100} onChange={(e)=>handleChange(e,subCategoryServiceId)} readOnly={businessServicesRO}/>
                                                                     </div>
                                                                 </div>
                                                         </div>

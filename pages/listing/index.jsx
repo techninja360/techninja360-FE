@@ -19,6 +19,7 @@ import XWhiteSmall from '../../components/svg/XWhiteSmall'
 import SelectInputListing from '../../components/listing/SelectInputListing'
 import { listingItems } from '../../data/listingData'
 import MessageIcon from '../../components/svg/merchantDetails/MessageIcon'
+import Link from 'next/link'
 
 
 const FilterTitle = ({title}) => {
@@ -430,35 +431,37 @@ const Listing = () => {
                             {
                                 listingItems.map((item,index)=> {
                                     return(
-                                        <div key={index} className='border border-[#E4E4E4] rounded-sm '>
-                                            <div className='flex items-center gap-x-6 bg-[#F9F9F9] border-b border-b-[#E4E4E4]'>
-                                                <div className='flex justify-center items-center m-3 mr-0 w-[20%] min-w-[196px] h-[90px] bg-white border border-[#EFEFEF] rounded-sm'>
-                                                    <img src={item.logo} alt="" className='object-contain h-[95%] w-[95%] rounded-t-sm' />
+                                        <Link href={'/listing'} key={index}>
+                                            <div className='border border-[#E4E4E4] rounded-sm cursor-pointer'>
+                                                <div className='flex items-center gap-x-6 bg-[#F9F9F9] border-b border-b-[#E4E4E4]'>
+                                                    <div className='flex justify-center items-center m-3 mr-0 w-[20%] min-w-[196px] h-[90px] bg-white border border-[#EFEFEF] rounded-sm'>
+                                                        <img src={item.logo} alt="" className='object-contain h-[95%] w-[95%] rounded-t-sm' />
+                                                    </div>
+                                                    <div className='w-[65%]'>
+                                                        <p className='font-normal text-[.9rem] text-[#797979]'>
+                                                        {item.desc}<span className='text-[#0079E9]'> More Info</span>
+                                                        </p>
+                                                    </div>
+                                                    <div className='flex justify-center items-center m-3 ml-0 w-[15%] min-w-[120px] h-[90px] '>
+                                                        <img src={item.certLogo} alt="" className='object-contain h-[95%] w-[95%] rounded-t-sm' />
+                                                    </div>
                                                 </div>
-                                                <div className='w-[65%]'>
-                                                    <p className='font-normal text-[.9rem] text-[#797979]'>
-                                                    {item.desc}<span className='text-[#0079E9]'> More Info</span>
-                                                    </p>
-                                                </div>
-                                                <div className='flex justify-center items-center m-3 ml-0 w-[15%] min-w-[120px] h-[90px] '>
-                                                    <img src={item.certLogo} alt="" className='object-contain h-[95%] w-[95%] rounded-t-sm' />
+                                                <div className='flex h-[50px] px-7 justify-between items-center'>
+                                                    <div className='flex'>
+                                                        <h4 className='font-medium text-sm text-[#404040]'>Distance&nbsp;&nbsp;:</h4>
+                                                        <p  className='font-normal text-sm text-[#707070]'>&nbsp;&nbsp;{item.distance}</p>
+                                                    </div>
+                                                    <div className='flex'>
+                                                        <h4 className='font-medium text-sm text-[#404040]'>{item.priceType}&nbsp;&nbsp;</h4>
+                                                        {item.price && <p  className='flex items-center font-normal text-sm text-[#707070]'>:&nbsp;&nbsp;${item.price} </p>}
+                                                    </div>
+                                                    <div className='flex'>
+                                                        <h4 className='font-medium text-sm text-[#404040]'>Rating&nbsp;&nbsp;:</h4>
+                                                        <p  className='flex items-center font-normal text-sm text-[#707070]'>&nbsp;&nbsp;{item.rating}&nbsp;<StarFill/>&nbsp;&nbsp;({item.ratingCount})</p>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div className='flex h-[50px] px-7 justify-between items-center'>
-                                                <div className='flex'>
-                                                    <h4 className='font-medium text-sm text-[#404040]'>Distance&nbsp;&nbsp;:</h4>
-                                                    <p  className='font-normal text-sm text-[#707070]'>&nbsp;&nbsp;{item.distance}</p>
-                                                </div>
-                                                <div className='flex'>
-                                                    <h4 className='font-medium text-sm text-[#404040]'>{item.priceType}&nbsp;&nbsp;</h4>
-                                                    {item.price && <p  className='flex items-center font-normal text-sm text-[#707070]'>:&nbsp;&nbsp;${item.price} </p>}
-                                                </div>
-                                                <div className='flex'>
-                                                    <h4 className='font-medium text-sm text-[#404040]'>Rating&nbsp;&nbsp;:</h4>
-                                                    <p  className='flex items-center font-normal text-sm text-[#707070]'>&nbsp;&nbsp;{item.rating}&nbsp;<StarFill/>&nbsp;&nbsp;({item.ratingCount})</p>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        </Link>
                                     )
                                 })
                             }

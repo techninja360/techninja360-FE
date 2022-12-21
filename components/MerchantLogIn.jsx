@@ -1,11 +1,14 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
+import { backend_server } from '../config'
 import { useMerchantProfileContext } from '../context/merchantProfile_context'
 import HidePassword from './svg/HidePassword'
 import ShowPassword from './svg/ShowPassword'
 import XBlack from './svg/XBlack'
 import XWhite from './svg/XWhite'
+
+
 
 const MerchantLogIn = () => {
     const [showPass, setShowPass] = useState(true)
@@ -24,7 +27,7 @@ const MerchantLogIn = () => {
                 "email":merchEmail,
                 "password":merchPass
         }
-        const rawRes = await fetch('http://localhost:8000/api/merchant/signin',{method:'POST', body: JSON.stringify(formBody),headers: {
+        const rawRes = await fetch(`${backend_server}/api/merchant/signin`,{method:'POST', body: JSON.stringify(formBody),headers: {
             "Content-Type": "application/json",
             // "Authorization": "Bearer " + auth.token,
           },})

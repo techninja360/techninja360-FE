@@ -5,6 +5,7 @@ import SignUpDivider from './svg/signUp/SignUpDivider'
 import { useSignUpContext } from '../context/signUp_context'
 import {useRouter} from 'next/router'
 import { useMerchantProfileContext } from '../context/merchantProfile_context'
+import { backend_server } from '../config'
 
 const MerchantSignUp = () => {
 
@@ -50,7 +51,7 @@ const MerchantSignUp = () => {
                 "phone_no" : phnNo
             }
 
-            const rawRes = await fetch('http://localhost:8000/api/merchant/signup',{method:'POST', body: JSON.stringify(formBody),headers: {
+            const rawRes = await fetch(`${backend_server}/api/merchant/signup`,{method:'POST', body: JSON.stringify(formBody),headers: {
                 "Content-Type": "application/json",
                 // "Authorization": "Bearer " + auth.token,
               },})
@@ -81,7 +82,7 @@ const MerchantSignUp = () => {
     const googleAuth = (e) => {
         e.preventDefault();
 		window.open(
-			`http://localhost:8000/api/auth/google/`,
+			`${backend_server}/api/auth/google/`,
 			"_self"
 		);
 	};

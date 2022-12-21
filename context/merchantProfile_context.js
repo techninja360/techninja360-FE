@@ -2,6 +2,7 @@ import { useRouter } from 'next/router'
 import React, { useContext, useEffect, useState } from 'react'
 import { services } from '../data/merchantServices';
 import axios from "axios";
+import { backend_server } from '../config';
 
 const MerchantProfileContext = React.createContext()
 export const MerchantProfileProvider = ({ children }) => {
@@ -33,21 +34,21 @@ export const MerchantProfileProvider = ({ children }) => {
                 setContextAuthorized(true)
 
                 const getMerchData = async () => {
-                    const merchBusinessDetailsRes = await fetch('http://localhost:8000/api/merchant/fetch/business-details',{method:'GET',headers: {
+                    const merchBusinessDetailsRes = await fetch(`${backend_server}/api/merchant/fetch/business-details`,{method:'GET',headers: {
                             "Content-Type": "application/json",
                             "Authorization": "Bearer " + merchToken,
                         },})
 
                     const merchBusinessDetailsResData = await merchBusinessDetailsRes.json()
                     
-                    const merchContactRes = await fetch('http://localhost:8000/api/merchant/fetch/contacts',{method:'GET',headers: {
+                    const merchContactRes = await fetch(`${backend_server}/api/merchant/fetch/contacts`,{method:'GET',headers: {
                             "Content-Type": "application/json",
                             "Authorization": "Bearer " + merchToken,
                         },})
 
                     const merchContactResData = await merchContactRes.json()
                     
-                    const merchServicesRes = await fetch('http://localhost:8000/api/merchant/fetch/business-services',{method:'GET',headers: {
+                    const merchServicesRes = await fetch(`${backend_server}/api/merchant/fetch/business-services`,{method:'GET',headers: {
                             "Content-Type": "application/json",
                             "Authorization": "Bearer " + merchToken,
                         },})

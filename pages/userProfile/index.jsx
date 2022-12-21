@@ -4,6 +4,7 @@ import Navbar from '../../components/Navbar'
 import ChangePhoto from '../../components/svg/userProfile/ChangePhoto'
 import LabeledInput from '../../components/userProfile/LabeledInput'
 import SideBar from '../../components/userProfile/SideBar'
+import { backend_server } from '../../config'
 
 
 const UserProfile = () => {
@@ -37,7 +38,7 @@ const UserProfile = () => {
       console.log(userToken);
       
       const getUserData = async () => {
-        const userRes = await fetch('http://localhost:8000/api/user/profile/details',{method:'GET',headers: {
+        const userRes = await fetch(`${backend_server}/api/user/profile/details`,{method:'GET',headers: {
               "Content-Type": "application/json",
               "Authorization": "Bearer " + userToken,
           },})

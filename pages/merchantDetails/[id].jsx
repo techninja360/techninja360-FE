@@ -126,7 +126,7 @@ const MerchantDetails = () => {
         <div className='flex bg-[#F3FAFC] justify-center w-full relative'>
             <div className='h-72 w-full overflow-hidden'>
                 <div className='absolute bg-[#0005] w-full h-72'></div>
-                <img src="./assets/images/merchantDetails/merchantBg.png" alt="" className='object-cover w-full h-full blur-xl' />
+                <img src="../assets/images/merchantDetails/merchantBg.png" alt="" className='object-cover w-full h-full blur-xl' />
             </div>
             <div className='absolute max-w-[1100px] w-full'>
                 <div className=' h-40 w-[550px] absolute right-0 top-10'>
@@ -197,7 +197,7 @@ const MerchantDetails = () => {
                 
                 <div className='absolute left-0 -top-60 border border-[#e4e4e4]  rounded-sm'>
                     <div className='w-[500px] h-32 bg-white flex justify-center items-center'>
-                        <img src="./assets/images/home/reviewBusiness.png" alt="" className='object-contain h-[60%] w-[60%] rounded-t-sm' />
+                        <img src="../assets/images/home/reviewBusiness.png" alt="" className='object-contain h-[60%] w-[60%] rounded-t-sm' />
                     </div>
                     <div className='pt-5  bg-[#0079E9] text-white rounded-b-sm'>
                     {/* <div className='pt-5  bg-[#F6F6F6] text-[#464646] border-t border-t-[#e4e4e4] rounded-b-sm'> */}

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { backend_server } from '../../config'
 import { useMerchantProfileContext } from '../../context/merchantProfile_context'
 import SelectInput from './SelectInput'
 import TextInput from './TextInput'
@@ -49,7 +50,7 @@ const StepOne = () => {
             }
 
             const postMerchData = async () => {
-                const merchRes = await fetch('http://localhost:8000/api/merchant/register/primary-contact',{
+                const merchRes = await fetch(`${backend_server}/api/merchant/register/primary-contact`,{
                     method:'POST',
                     body : JSON.stringify(primContactDetails),
                     headers: {
@@ -92,7 +93,7 @@ const StepOne = () => {
             }
 
             const postMerchData = async () => {
-                const merchRes = await fetch('http://localhost:8000/api/merchant/register/alternate-contact',{
+                const merchRes = await fetch(`${backend_server}/api/merchant/register/alternate-contact`,{
                     method:'POST',
                     body : JSON.stringify(altContactDetails),
                     headers: {
@@ -140,6 +141,7 @@ const StepOne = () => {
     <div className='w-full mt-16'>
         <form method='POST' className='px-10'>
             
+            <h1 className='mb-10'>Please press <span className='font-bold italic'>Edit</span> to add/update the details </h1>
             <div className='relative border border-[#D4D4D4] '>
                 <div>
                     <h1 className=' absolute px-2 bg-white -top-4 left-7 font-semibold text-xl text-blue-500'>Primary Contact Details</h1>

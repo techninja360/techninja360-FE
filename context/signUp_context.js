@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router'
 import React, { useContext, useEffect, useState } from 'react'
 import axios from "axios";
+import { backend_server } from '../config';
 
 const SignUpContext = React.createContext()
 export const SignUpProvider = ({ children }) => {
@@ -14,7 +15,7 @@ export const SignUpProvider = ({ children }) => {
 
     const getUser = async () => {
       try {
-        const url = `http://localhost:8000/api/auth/login/success`;
+        const url = `${backend_server}/api/auth/login/success`;
         // const { data } = await axios.get(url, { withCredentials: true });
         const requestOptions = {
               method: "GET",

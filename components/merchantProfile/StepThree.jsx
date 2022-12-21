@@ -5,6 +5,7 @@ import { services } from '../../data/merchantServices'
 import Minus from '../svg/merchantSignUp/Minus'
 import MinusSmall from '../svg/merchantSignUp/MinusSmall'
 import { useMerchantProfileContext } from '../../context/merchantProfile_context'
+import { backend_server } from '../../config'
 
 const StepThree = () => {
 
@@ -204,7 +205,7 @@ const StepThree = () => {
             const postMerchData = async () => {
                 const formData = new FormData();
                     
-                const merchRes = await fetch('http://localhost:8000/api/merchant/register/business-services',{
+                const merchRes = await fetch(`${backend_server}/api/merchant/register/business-services`,{
                     method:'POST',
                     body : JSON.stringify(businesstDetails),
                     headers: {

@@ -4,6 +4,7 @@ import BackArrow from './svg/signUp/BackArrow'
 import SignUpDivider from './svg/signUp/SignUpDivider'
 import { useSignUpContext } from '../context/signUp_context'
 import {useRouter} from 'next/router'
+import { backend_server } from '../config'
 
 const UserSignUp = () => {
 
@@ -49,7 +50,7 @@ const UserSignUp = () => {
                 "phone_no" : phnNo
             }
 
-            const rawRes = await fetch('http://localhost:8000/api/auth/signup',{method:'POST', body: JSON.stringify(formBody),headers: {
+            const rawRes = await fetch(`${backend_server}/api/auth/signup`,{method:'POST', body: JSON.stringify(formBody),headers: {
                 "Content-Type": "application/json",
                 // "Authorization": "Bearer " + auth.token,
               },})
@@ -83,7 +84,7 @@ const UserSignUp = () => {
     const googleAuth = (e) => {
         e.preventDefault();
 		window.open(
-			`http://localhost:8000/api/auth/google/`,
+			`${backend_server}/api/auth/google/`,
 			"_self"
 		);
 	};

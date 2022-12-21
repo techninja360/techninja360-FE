@@ -12,6 +12,7 @@ import RadioInput from './RadioInput'
 import { useMerchantProfileContext } from '../../context/merchantProfile_context'
 import TextareaInput from './TextareaInput'
 import StepTwoMap from './StepTwoMap'
+import { backend_server } from '../../config'
 
 // const StepTwoMap = dynamic(() => import("./StepTwoMap"), { ssr:false })
 
@@ -60,7 +61,7 @@ const StepTwo = () => {
             const postMerchData = async () => {
                 
                     
-                const merchRes = await fetch('http://localhost:8000/api/merchant/register/business-details',{
+                const merchRes = await fetch(`${backend_server}/api/merchant/register/business-details`,{
                     method:'POST',
                     body : JSON.stringify(businesstDetails),
                     headers: {
@@ -81,7 +82,7 @@ const StepTwo = () => {
                     const formData = new FormData();
                     formData.append('image', formTwoVals.businessSmallLogo );
                     formData.append('image', formTwoVals.businessLargeLogo );
-                    const merchResLogo = await fetch('http://localhost:8000/api/merchant/register/business-logo',
+                    const merchResLogo = await fetch(`${backend_server}/api/merchant/register/business-logo`,
                     {
                         method: 'POST',
                         body : formData,
@@ -119,7 +120,7 @@ const StepTwo = () => {
                     "show_cert": formTwoVals.listingCertificate
                 }
                 
-                const merchResLogo = await fetch('http://localhost:8000/api/merchant/register/certs-accrdts/show',
+                const merchResLogo = await fetch(`${backend_server}/api/merchant/register/certs-accrdts/show`,
                 {
                     method: 'POST',
                     body : JSON.stringify(businesstDetails),
@@ -174,7 +175,7 @@ const StepTwo = () => {
             
 
             const postMerchData = async () => {
-                const merchRes = await fetch('http://localhost:8000/api/merchant/register/business-location',{
+                const merchRes = await fetch(`${backend_server}/api/merchant/register/business-location`,{
                     method:'POST',
                     body : JSON.stringify(businessLocation),
                     headers: {
@@ -219,7 +220,7 @@ const StepTwo = () => {
             
 
             const postMerchData = async () => {
-                const merchRes = await fetch('http://localhost:8000/api/merchant/register/business-hours',{
+                const merchRes = await fetch(`${backend_server}/api/merchant/register/business-hours`,{
                     method:'POST',
                     body : JSON.stringify(businessHours),
                     headers: {
@@ -276,7 +277,7 @@ const StepTwo = () => {
             }
 
             const postMerchData = async () => {
-                const merchRes = await fetch('http://localhost:8000/api/merchant/register/business-others',{
+                const merchRes = await fetch(`${backend_server}/api/merchant/register/business-others`,{
                     method:'POST',
                     body : JSON.stringify(postBody),
                     headers: {
@@ -439,8 +440,8 @@ const StepTwo = () => {
         if(newCertsList.length > 1 ){
             // formTwoCertificates[ `cert${cert}`]?.certTitle
             let lastCertTemp = `cert${parseInt(certifications[certifications.length-1])}` ;
-            console.log(`http://localhost:8000/api/merchant/delete/certs/${formTwoCertificates[lastCertTemp]?.certTitle}`)
-            const merchCerty = await fetch(`http://localhost:8000/api/merchant/delete/certs/${formTwoCertificates[lastCertTemp]?.certTitle}`,
+            console.log(`${backend_server}/api/merchant/delete/certs/${formTwoCertificates[lastCertTemp]?.certTitle}`)
+            const merchCerty = await fetch(`${backend_server}/api/merchant/delete/certs/${formTwoCertificates[lastCertTemp]?.certTitle}`,
                     {
                         method: 'DELETE',
                         headers: {
@@ -496,7 +497,7 @@ const StepTwo = () => {
                 "start_time": toBeDeleted.bnStart,
                 "end_time": toBeDeleted.bnEnd
             }
-            const bnHourReq = await fetch(`http://localhost:8000/api/merchant/delete/weekly-hours`,
+            const bnHourReq = await fetch(`${backend_server}/api/merchant/delete/weekly-hours`,
                     {
                         method: 'DELETE',
                         body : JSON.stringify(businesstDetails),
@@ -567,7 +568,7 @@ const StepTwo = () => {
         formData.append('cert_img', formTwoCertificates[ `cert${cert}`]?.certFile)
         formData.append('cert_url', formTwoCertificates[ `cert${cert}`]?.certUrl)
 
-        const merchCerty = await fetch('http://localhost:8000/api/merchant/register/certs-accrdts',
+        const merchCerty = await fetch(`${backend_server}/api/merchant/register/certs-accrdts`,
                 {
                     method: 'POST',
                     body : formData,
@@ -698,11 +699,11 @@ const StepTwo = () => {
                                         <UploadImageInput id={`certificateImage${cert}`}  title='Upload Image' placeholder='Upload Image here' width='w-1/3' onChange={(e)=>onChangeCerti(e,cert)} error={formTwoCertificatesError[ `cert${cert}`]?.certFile} /> 
 
                                         {!certiRO && <div className='mt-6 flex gap-x-4 items-center'>
-                                            <div className='py-3 mt-1 px-5 w-fit bg-blue-500 text-white rounded-sm cursor-pointer' onClick={()=>uploadCerty(cert)}>Save</div>
+                                            <div className='py-3 mt-1 px-5 w-fit bg-blue-500 text-white rounded-sm cursor-pointer' onClick={()=>uploadCerty(cert)}>Upload</div>
                                         </div>}
                                     </div>
                                     {!certiRO && <div className='w-full flex justify-center'>
-                                        <p className={`font-normal text-[10px] italic text-[#6A6A6A] mt-2`}>Please press save if you make any changes to this certificate</p>
+                                        <p className={`font-normal text-[10px] italic text-[#6A6A6A] mt-2`}>Please press Upload if you make any changes to this certificate</p>
                                     </div> }
                                 </>
                             )

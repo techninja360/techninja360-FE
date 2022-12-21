@@ -28,7 +28,7 @@ const UserProfile = () => {
           // setToken(router.query.token)
           // console.log('google')
           localStorage.setItem('userToken',router.query.token)
-          router.push('http://localhost:3000/UserProfile')          
+          router.push(`${frontend_server}/UserProfile`)          
         }
 
     else{

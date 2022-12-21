@@ -35,6 +35,7 @@ import { ToastContainer, toast, Slide } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ChatMerchant from '../../components/merchantDetails/ChatMerchant'
 import { displayReviews } from '../../data/MerchantDetailsReviews'
+import { frontend_server } from '../../config'
 
 const MerchantDetails = () => {
 
@@ -57,7 +58,7 @@ const MerchantDetails = () => {
 
     const router = useRouter()
     const handleShare = () => {
-        let url = 'http://localhost:3000' + router.pathname
+        let url = frontend_server + router.pathname
         navigator.clipboard.writeText(url)
         toast("Copied to clip board",);
         console.log(url)

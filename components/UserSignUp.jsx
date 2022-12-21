@@ -4,7 +4,7 @@ import BackArrow from './svg/signUp/BackArrow'
 import SignUpDivider from './svg/signUp/SignUpDivider'
 import { useSignUpContext } from '../context/signUp_context'
 import {useRouter} from 'next/router'
-import { backend_server } from '../config'
+import { backend_server, frontend_server } from '../config'
 
 const UserSignUp = () => {
 
@@ -68,7 +68,7 @@ const UserSignUp = () => {
                 // console.log('userDetailData',userDetailData);
 
                 localStorage.setItem('userToken',data.user_data.token)
-                Router.push('http://localhost:3000/UserProfile')
+                Router.push(`${frontend_server}/UserProfile`)
             }
 
         }

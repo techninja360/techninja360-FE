@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
-import { backend_server } from '../config'
+import { backend_server, frontend_server } from '../config'
 import { useMerchantProfileContext } from '../context/merchantProfile_context'
 import HidePassword from './svg/HidePassword'
 import ShowPassword from './svg/ShowPassword'
@@ -40,7 +40,7 @@ const MerchantLogIn = () => {
             setMerchantSignInDetails(data.user_details)
             sessionStorage.setItem('merchToken',data.user_details.token)
             setContextMerchToken(data.user_details.token)
-            Router.push('http://localhost:3000/merchantProfile')
+            Router.push(`${frontend_server}/merchantProfile`)
         }
         
         else{

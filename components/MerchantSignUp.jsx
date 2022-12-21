@@ -5,7 +5,7 @@ import SignUpDivider from './svg/signUp/SignUpDivider'
 import { useSignUpContext } from '../context/signUp_context'
 import {useRouter} from 'next/router'
 import { useMerchantProfileContext } from '../context/merchantProfile_context'
-import { backend_server } from '../config'
+import { backend_server, frontend_server } from '../config'
 
 const MerchantSignUp = () => {
 
@@ -70,7 +70,7 @@ const MerchantSignUp = () => {
 
                 sessionStorage.setItem('merchToken',data.merchant_data.token)
                 setContextMerchToken(data.merchant_data.token)
-                Router.push('http://localhost:3000/merchantProfile')
+                Router.push(`${frontend_server}/merchantProfile`)
             }
 
         }

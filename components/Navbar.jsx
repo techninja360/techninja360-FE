@@ -116,7 +116,7 @@ const Navbar = () => {
     <div className='flex justify-center w-full'>
       <nav className='relative flex justify-between items-center gap-x-10 w-full h-24 max-w-[1100px]'>
           <Link href={'/'}>
-              <img src="./assets/images/home/logo.png" alt="logo" className='h-6 cursor-pointer' />
+              <img src="../assets/images/home/logo.png" alt="logo" className='h-6 cursor-pointer' />
           </Link>
           
           <div className='relative min-w-2/5 h-11 drop-shadow-md w-full z-10'>
@@ -179,7 +179,7 @@ const Navbar = () => {
           {authorized ? 
             <div className='flex justify-between items-center gap-x-1 w-fit'>
               <div className='border-4 border-[#D9D9D9] rounded-full w-12 h-12'>
-                <img src="./assets/images/userProfile/userProfile.png" alt="profile" className='h-full w-full object-cover rounded-full'/>
+                <img src="../assets/images/userProfile/userProfile.png" alt="profile" className='h-full w-full object-cover rounded-full'/>
               </div>
               <h1>Johnson</h1>
               <ArrowDown/>

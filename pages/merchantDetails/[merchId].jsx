@@ -35,15 +35,22 @@ import { ToastContainer, toast, Slide } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ChatMerchant from '../../components/merchantDetails/ChatMerchant'
 import { displayReviews } from '../../data/MerchantDetailsReviews'
-import { frontend_server } from '../../config'
+import { backend_server, frontend_server } from '../../config'
+import { businessDays, businessTime } from '../../data/businessHoursVals'
 
-const MerchantDetails = () => {
+const MerchantDetails = ({merchDetails, merchLocation, merchAbout, merchServices}) => {
 
     const {active, setActive, reqCallback, reportError, setReportError, setReqCallback, chatOpen, setChatOpen} = useMerchantDetailsContext()
 
     const [readMore, setReadMore] = useState(false)
     const [latLng, setLatLng] = useState({lat:0,lng:0})
     const [currReview, setCurrReview] = useState(0)
+
+    const [businessOpenStatus, setBusinessOpenStatus] = useState({
+        start_time : '',
+        end_time : '',
+        day : '',
+    })
 
     const [tooltip, setTooltip] = useState({
         bookmark : false,
@@ -63,7 +70,82 @@ const MerchantDetails = () => {
         toast("Copied to clip board",);
         console.log(url)
     }
+
+
+    function phoneFormat(input) {//returns (###) ###-####
+        input = input.replace(/\D/g,'');
+        var size = input.length;
+        if (size>0) {input="("+input}
+        if (size>3) {input=input.slice(0,4)+") "+input.slice(4,11)}
+        if (size>6) {input=input.slice(0,9)+"-" +input.slice(9)}
+        return input;
+    }
     
+
+    function openNowStatus(weekly_hours){
+        
+        let days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+        let d = new Date()
+        let currDay = days[d.getDay()]
+        let currHour = d.getHours();
+
+        let avl_days = weekly_hours.filter((item)=>{
+            if(item.days === currDay){
+                if((Number(item.start_time) <= Number(currHour)) && (Number(currHour) < Number(item.end_time))){
+                    return item
+                }
+            }
+            else if(item.days === 'SatSun' && (currDay === 'Sat' || currDay === 'Sun' )){
+                if((Number(item.start_time) <= Number(currHour)) && (Number(currHour) < Number(item.end_time))){
+                    return item
+                }
+            }
+            else if(item.days === 'MonFri' && (currDay === 'Mon' || currDay === 'Tue' || currDay === 'Wed' || currDay === 'Thu' || currDay === 'Fri' )){
+                if((Number(item.start_time) <= Number(currHour)) && (Number(currHour) < Number(item.end_time))){
+                    return item
+                }
+            }
+        })
+
+        if(avl_days.length > 0){
+
+            let start_time = ''
+            let end_time = ''
+
+            businessTime.every(hour => {
+                if(hour.value === avl_days[0]?.start_time){
+                    start_time = hour.name
+                    return false
+                }
+                else{
+                    return true
+                }
+            });
+
+            businessTime.every(hour => {
+                if(hour.value === avl_days[0]?.end_time){
+                    end_time = hour.name
+                    return false
+                }
+                else{
+                    return true
+                }
+            });
+            setBusinessOpenStatus({
+                start_time : start_time,
+                end_time : end_time,
+                day : currDay,
+            })
+            
+        }
+        else{
+            setBusinessOpenStatus(false)
+        }
+
+    }
+
+
     useEffect(()=>{
         
     
@@ -87,6 +169,10 @@ const MerchantDetails = () => {
         fetchLatLng()
     
       },[])
+
+      useEffect(()=>{
+        openNowStatus(merchAbout?.business_hours?.weekly_hours)
+      },[merchAbout])
 
       useEffect(()=>{
         const interval = setInterval(()=>{
@@ -196,14 +282,14 @@ const MerchantDetails = () => {
         <div className='flex justify-center w-full'>
             <div className='relative max-w-[1100px] w-full flex justify-center flex-wrap mb-10'>
                 
-                <div className='absolute left-0 -top-60 border border-[#e4e4e4]  rounded-sm'>
+                <div className='absolute left-0 -top-60 border border-[#e4e4e4] w-[500px] rounded-sm'>
                     <div className='w-[500px] h-32 bg-white flex justify-center items-center'>
                         <img src="../assets/images/home/reviewBusiness.png" alt="" className='object-contain h-[60%] w-[60%] rounded-t-sm' />
                     </div>
                     <div className='pt-5  bg-[#0079E9] text-white rounded-b-sm'>
                     {/* <div className='pt-5  bg-[#F6F6F6] text-[#464646] border-t border-t-[#e4e4e4] rounded-b-sm'> */}
                         <div className='flex w-full justify-between items-center pl-9 pr-6'>
-                            <h1 className='font-semibold text-[28px]'>247 PC REPAIR </h1>
+                            <h1 className='font-semibold text-[28px]'>{merchDetails?.business_details?.business_name} </h1>
                             {/* <div className='flex items-center py-1 px-3 gap-x-1 bg-white text-[#0079E9]'>
                                 <Direction/> <p className=''> Get Direction</p>
                             </div> */}
@@ -212,7 +298,7 @@ const MerchantDetails = () => {
                         <div className='mt-4 pl-8 pb-8'>
                             <div className='flex gap-x-3 mb-[12px] items-center'>
                                 <MapPin/>
-                                <h3 className='text-lg font-normal'>141 E 62nd Street, New York, NY, 10065 </h3>
+                                <h3 className='text-lg font-normal'>{merchLocation?.address?.street} , {merchLocation?.address?.city} , {merchLocation?.address?.state} , {merchLocation?.address?.zip_code}</h3>
                             </div>
                             {/* <div className='flex gap-x-3 mb-[12px] items-center'>
                                 <GlobeIcon/>
@@ -220,11 +306,19 @@ const MerchantDetails = () => {
                             </div> */}
                             <div className='flex gap-x-3 mb-[12px] items-center'>
                                 <TollFreePhone/>
-                                <h3 className='text-lg font-normal'>1-800-346-8752, (987)-654-3210 </h3>
+                                <h3 className='text-lg font-normal'>{phoneFormat(String(merchDetails?.business_details?.contact?.toll_no))} , {phoneFormat(String(merchDetails?.business_details?.contact?.work_number))} </h3>
                             </div>
                             <div className='flex gap-x-3 items-center'>
                                 <HomeIcon/>
-                                <h3 className='text-lg font-normal'><span className='text-[#FFEF5C] font-semibold'> Open Now </span>(9am - 10pm) Today </h3>
+                                <h3 className='text-lg font-normal'>
+                                    {businessOpenStatus ?
+                                        <>
+                                            <span className='text-[#FFEF5C] font-semibold'> Open Now </span> ({businessOpenStatus.start_time} - {businessOpenStatus.end_time})  {businessOpenStatus.day}
+                                        </>
+                                        : 
+                                        <span className='text-[#ff5c5c] font-semibold'> Closed Now </span>
+                                    }
+                                </h3>
                             </div>
                         </div>
                     </div>
@@ -281,7 +375,15 @@ const MerchantDetails = () => {
                     </div>
 
                     <div className='w-full mt-[80px]'>
-                        <p className='font-normal text-lg text-[#696969]'>{('Technology is all around us—connecting us, entertaining us and helping us run our businesses. My Computer Works is here to keep the technology in your life running smoothly with expert solutions ranging from support to recommendations.is all around us—connecting us, entertaining us and helping us run our businesses. My Computer Works is here to keep the technology in your life running smoothly with expert solutions ranging from support to recommendations.is all around us—connecting us, entertaining us and helping us run our businesses. My Computer Works is here to keep the technology in your life running smoothly with expert solutions ranging from support to recommendations.').slice(0,readMore? undefined : 220)}<span className='text-[#0079E9] font-medium cursor-pointer' onClick={()=>setReadMore(!readMore)}>{readMore ? ' Read less':'...Read more'}</span></p>
+                        <p className='font-normal text-lg text-[#696969]'>{
+                            merchDetails?.business_details?.description?.length > 220 ? 
+                                <>
+                                {(merchDetails?.business_details?.description).slice(0,readMore? undefined : 220)}<span className='text-[#0079E9] font-medium cursor-pointer' onClick={()=>setReadMore(!readMore)}>{readMore ? ' Read less':'...Read more'}</span>
+                                </>
+                                :
+                                merchDetails?.business_details?.description
+                            }
+                        </p>
                     </div>
                     
                     <div>
@@ -290,7 +392,7 @@ const MerchantDetails = () => {
 
                     <div>
                     {
-                        active === 0 && <TabAbout/>   
+                        active === 0 && <TabAbout merchAbout = {merchAbout}/>   
                     }
                     {
                         active === 1 && <TabServices/>   
@@ -321,3 +423,36 @@ const MerchantDetails = () => {
 }
 
 export default MerchantDetails
+
+export async function getServerSideProps({params:{merchId}}){
+    const responseDetails = await fetch(`${backend_server}/api/business/profile/details/${merchId}`)
+    const dataDetails = await responseDetails.json()
+    
+    const responseLocation = await fetch(`${backend_server}/api/business/profile/location/${merchId}`)
+    const dataLocation = await responseLocation.json()
+    
+    const responseServices = await fetch(`${backend_server}/api/business/profile/services/${merchId}`)
+    const dataServices = await responseServices.json()
+    
+    const responseAbout = await fetch(`${backend_server}/api/business/profile/about/${merchId}`)
+    const dataAbout = await responseAbout.json()
+
+    let merchDetails = {}
+    let merchLocation = {}
+    let merchServices = {}
+    let merchAbout = {}
+    if(dataDetails.status === 'ok' && dataLocation.status === 'ok' && dataServices.status === 'ok' && dataAbout.status === 'ok'){
+        merchDetails = dataDetails.result
+        merchLocation = dataLocation.result
+        merchServices = dataServices.result
+        merchAbout = dataAbout.result
+    }
+    return{
+        props : {
+            merchDetails : merchDetails,
+            merchLocation : merchLocation,
+            merchServices : merchServices,
+            merchAbout : merchAbout,
+        }
+    }
+  }

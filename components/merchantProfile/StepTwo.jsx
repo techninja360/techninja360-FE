@@ -13,6 +13,7 @@ import { useMerchantProfileContext } from '../../context/merchantProfile_context
 import TextareaInput from './TextareaInput'
 import StepTwoMap from './StepTwoMap'
 import { backend_server } from '../../config'
+import { empStrength } from '../../data/businessDetailsData'
 
 // const StepTwoMap = dynamic(() => import("./StepTwoMap"), { ssr:false })
 
@@ -662,7 +663,7 @@ const StepTwo = () => {
                     <div className='mt-7 flex w-full gap-x-4 items-start'>
                         <TextInput id='businessWorkNumber' title='Work Number' placeholder='(123)-456-7890' width='w-1/3' required={true} onChange={onChange} error={formTwoErrors.businessWorkNumber} value={businessWorkNumber} limit={15} readOnly={businessDetailsRO}/>
                         <SelectInput id='businessYearsInBusiness' title='Years in business' items={[{name:'1',value:1},{name:'2',value:2},{name:'3',value:3},{name:'4',value:4},{name:'5',value:5},{name:'6',value:6},{name:'7',value:7},{name:'8',value:8},{name:'9',value:9},{name:'10',value:10},{name:'11',value:11},{name:'12',value:12},{name:'13',value:13},{name:'14',value:14},{name:'15',value:15},{name:'16',value:16},{name:'17',value:17},{name:'18',value:18},{name:'19',value:19},{name:'20+',value:20},]} placeholder='Select Years' width='w-1/3' onChange={onChange} error={formTwoErrors.businessYearsInBusiness} value={businessYearsInBusiness} readOnly={businessDetailsRO}/>
-                        <SelectInput id='businessEmployeeStrength' title='Employee strength' items={[{name:'Solo',value:1},{name:'2-5',value:5},{name:'6-10',value:10},{name:'11-20',value:20},{name:'20+',value:25}]} placeholder='Solo' width='w-1/3' onChange={onChange} error={formTwoErrors.businessEmployeeStrength} value={businessEmployeeStrength} readOnly={businessDetailsRO}/>
+                        <SelectInput id='businessEmployeeStrength' title='Employee strength' items={empStrength} placeholder='Solo' width='w-1/3' onChange={onChange} error={formTwoErrors.businessEmployeeStrength} value={businessEmployeeStrength} readOnly={businessDetailsRO}/>
                     </div>
 
                     <div className='mt-7 flex w-full gap-x-4 items-start flex-wrap'>

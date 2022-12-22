@@ -60,7 +60,7 @@ const MerchantDetails = ({merchDetails, merchLocation, merchAbout, merchServices
         callback : false
     })
 
-    const address = 'SCO No. 1003, Sector 17 Chandigarh, Pin Code 160017'
+    const address = `${merchLocation?.address?.street} , ${merchLocation?.address?.city} , ${merchLocation?.address?.state} , ${merchLocation?.address?.zip_code}`
     const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}`
 
     const router = useRouter()
@@ -395,7 +395,7 @@ const MerchantDetails = ({merchDetails, merchLocation, merchAbout, merchServices
                         active === 0 && <TabAbout merchAbout = {merchAbout}/>   
                     }
                     {
-                        active === 1 && <TabServices/>   
+                        active === 1 && <TabServices merchServices = {merchServices}/>   
                     }
                     {
                         active === 2 && <TabReviews/>

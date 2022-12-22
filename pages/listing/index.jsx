@@ -431,7 +431,7 @@ const Listing = () => {
                             {
                                 listingItems.map((item,index)=> {
                                     return(
-                                        <Link href={'/listing'} key={index}>
+                                        <Link href={'/merchantDetails/m-df59175c664b1f91'} key={index}>
                                             <div className='border border-[#E4E4E4] rounded-sm cursor-pointer'>
                                                 <div className='flex items-center gap-x-6 bg-[#F9F9F9] border-b border-b-[#E4E4E4]'>
                                                     <div className='flex justify-center items-center m-3 mr-0 w-[20%] min-w-[196px] h-[90px] bg-white border border-[#EFEFEF] rounded-sm'>

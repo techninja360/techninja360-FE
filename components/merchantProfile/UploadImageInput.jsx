@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react'
 import DocumentUpload from '../svg/merchantSignUp/DocumentUpload'
 import DocumentUploadBg from '../svg/merchantSignUp/DocumentUploadBg'
 
-const UploadImageInput = ({id, required, width, title, placeholder, warning, onChange, value, error, imgSize, sizeRule}) => {
+const UploadImageInput = ({id, required, width, title, placeholder, warning, onChange, value, error, imgSize, sizeRule, readOnly}) => {
 
     const fileUploadRef = useRef()
     const [fileName, setFileName] = useState(placeholder)
@@ -21,7 +21,8 @@ const UploadImageInput = ({id, required, width, title, placeholder, warning, onC
                     onChange(e)
                 }
                 else{
-                    setsizeError(`Uploaded img Size is larger than ${imgSize/1024} kb`)
+                    setsizeError(`Please upload image with size less than ${imgSize/1024} kb.`)
+                    setsizeWarning(`Please upload image with size less than ${imgSize/1024} kb.`)
                 }
             }
             else if(sizeRule === 'gt'){
@@ -32,7 +33,8 @@ const UploadImageInput = ({id, required, width, title, placeholder, warning, onC
                     onChange(e)
                 }
                 else{
-                    setsizeError(`Uploaded img Size is smaller than ${imgSize/1024} kb`)
+                    setsizeError(`Please upload image with size greater than ${imgSize/1024} kb.`)
+                    setsizeWarning(`Please upload image with size greater than ${imgSize/1024} kb.`)
                 }
             }
 
@@ -51,11 +53,11 @@ const UploadImageInput = ({id, required, width, title, placeholder, warning, onC
     <div className={`flex flex-wrap ${width} relative`}>
         {title ? <h3 className='font-semibold text-sm uppercase'>{title} {required?<span className='text-red-500'>*</span>:null}</h3> : null}
 
-        <label htmlFor={id} className={`py-3 px-4 h-auto pl-14 mt-2 w-full font-normal text-base bg-[#F9F9F9] border ${(sizeError === false || sizeError === undefined) && (error === false || error === undefined) ? 'border-[#0079E9]' : 'border-red-500'} rounded-md`} type="file" placeholder={placeholder}>{fileName}</label>
+        <label htmlFor={id} className={`py-3 px-4 h-auto pl-14 mt-2 w-full font-normal text-base ${ readOnly ? 'bg-[#F9F9F9]' : 'bg-white'} border ${(sizeError === false || sizeError === undefined) && (error === false || error === undefined) ? 'border-[#0079E9]' : 'border-red-500'} rounded-md`} type="file" placeholder={placeholder}>{fileName}</label>
 
-        <input ref={fileUploadRef} className='hidden' type="file" id={id} onChange={(e)=>hanldleFileUpload(e)}/>
+        <input disabled={readOnly} ref={fileUploadRef} className='hidden' type="file" id={id} onChange={(e)=>hanldleFileUpload(e)}/>
         
-        <div className='absolute top-9 left-2'>
+        <div className='absolute top-9 left-2' onClick={()=>fileUploadRef.current.click()}>
             <div className='relative'>
                 <div className='absolute top-1 left-2'>
                     <DocumentUpload/>

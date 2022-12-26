@@ -232,6 +232,9 @@ const StepThree = () => {
 
   return (
     <div className='w-full mt-16'>
+        <div className='flex justify-end px-10'>
+            <button  onClick={e => handleBusinessServicesEdit(e)} className='py-3 px-8 bg-blue-500 text-white font-semibold text-base rounded-sm' >{businessServicesRO ? 'Edit' : 'Save'}</button>
+        </div>
         <form className='px-10'>
 
             {
@@ -347,7 +350,8 @@ const StepThree = () => {
 
             <div className='w-full flex justify-end mt-10 gap-x-6'>
                 <button onClick={(e)=>goPrevious(e)} className='py-3 px-8 bg-red-500 text-white font-semibold text-base rounded-sm'>Previous Step</button>
-                <button  onClick={e => handleBusinessServicesEdit(e)} className='py-3 px-8 bg-blue-500 text-white font-semibold text-base rounded-sm' >{businessServicesRO ? 'Edit' : 'Save'}</button>
+                
+                <button  className='py-3 px-8 bg-blue-500 text-white font-semibold text-base rounded-sm' >Submit for Review</button>
             </div>
         </form>
     </div>

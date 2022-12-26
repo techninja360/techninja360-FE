@@ -147,6 +147,9 @@ const StepOne = () => {
                     <h1 className=' absolute px-2 bg-white -top-4 left-7 font-semibold text-xl text-blue-500'>Primary Contact Details</h1>
                 </div>
 
+                <div className='absolute -top-6 right-7 mb-6 bg-white px-2 flex justify-end gap-x-4 '>
+                    <div className='py-3 px-5 w-fit bg-blue-500 text-white rounded-sm cursor-pointer' onClick={handlePrimContactEdit}>{primContactRO ? 'Edit' : 'Save'}</div>
+                </div>
                 <div className='py-7 px-7'>
                     <h3 className='font-semibold text-sm'>PRIMARY CONTACT NAME <span className='text-red-500'>*</span></h3>
                     <div className='mt-2 flex w-full gap-x-4'>
@@ -164,9 +167,7 @@ const StepOne = () => {
                         
                     </div>
 
-                    <div className='mt-6 flex justify-end gap-x-4'>
-                        <div className='py-3 px-5 w-fit bg-blue-500 text-white rounded-sm cursor-pointer' onClick={handlePrimContactEdit}>{primContactRO ? 'Edit' : 'Save'}</div>
-                    </div>
+                    
                 </div>
 
 
@@ -175,6 +176,9 @@ const StepOne = () => {
             <div className='relative border border-[#D4D4D4] mt-14'>
                 <div>
                     <h1 className=' absolute px-2 bg-white -top-4 left-7 font-semibold text-xl text-blue-500'>Alternate Contact Details</h1>
+                </div>
+                <div className='absolute -top-6 right-7 mb-6 bg-white px-2 flex justify-end gap-x-4'>
+                    <div className='py-3 px-5 w-fit bg-blue-500 text-white rounded-sm cursor-pointer' onClick={handleSecContactEdit}>{secContactRO ? 'Edit' : 'Save'}</div>
                 </div>
 
                 <div className='py-7 px-7'>
@@ -192,9 +196,6 @@ const StepOne = () => {
                         <TextInput id='altPhone' placeholder='Enter Phone Number' title='Alternate PHONE' warning='(For us to contact you and will not be made public)' width='w-1/3' onChange={onChange} value={formOneVals.altPhone} error = {formOneErrors.altPhone} readOnly={secContactRO}/>        
                         <TextInput id='altAltPh' placeholder='Enter Phone Number' title='ALTERNATE PHONE' width='w-1/3' onChange={onChange} value={formOneVals.altAltPh} error = {formOneErrors.altAltPh} readOnly={secContactRO}/>
 
-                    </div>
-                    <div className='mt-6 flex justify-end gap-x-4'>
-                        <div className='py-3 px-5 w-fit bg-blue-500 text-white rounded-sm cursor-pointer' onClick={handleSecContactEdit}>{secContactRO ? 'Edit' : 'Save'}</div>
                     </div>
                 </div>
 

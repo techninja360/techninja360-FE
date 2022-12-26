@@ -140,7 +140,8 @@ const StepTwo = () => {
                 }
             }
             if(!formTwoCertificatesStatus){
-                postMerchData()
+                uploadCerty(0)
+                // postMerchData()
             }
         // }
         }
@@ -583,7 +584,7 @@ const StepTwo = () => {
         const merchCertyData = await merchCerty.json()
         console.log(merchCertyData);
         if(merchCertyData.status === 'ok'){
-            // setBusinessDetailsRO(true)
+            setCertiRO(true)
         }
     }
 
@@ -636,12 +637,14 @@ const StepTwo = () => {
                 <div>
                     <h1 className=' absolute px-2 bg-white -top-4 left-7 font-semibold text-xl text-blue-500'>Business Details</h1>
                 </div>
-
+                <div className='absolute -top-6 right-7 mb-6 bg-white px-2 flex justify-end gap-x-4'>
+                    <div className='py-3 px-5 w-fit bg-blue-500 text-white rounded-sm cursor-pointer' onClick={handleBusinessDetailstEdit}>{businessDetailsRO ? 'Edit' : 'Save'}</div>
+                </div>
                 <div className='py-7 px-7'>
 
                     <div className='mt-7 flex w-full gap-x-4 items-start'>
-                        <UploadImageInput id='businessSmallLogo' title='UPLOAD LOGO' placeholder='Upload Image here' warning='Logo should be smaller size not more then 40kb*' width='w-1/2' required={true} onChange={e=>onChange(e)} imgSize={40960} sizeRule='lt' error={formTwoErrors.businessSmallLogo} value={businessSmallLogo}/>
-                        <UploadImageInput id='businessLargeLogo' title='UPLOAD LOGO FOR MERCHANT LANDING PAGE' placeholder='Upload Image here' warning='Logo should be bigger size more then 250kb*' width='w-1/2' required={true} onChange={e=>onChange(e)} imgSize={256000} sizeRule='gt' error={formTwoErrors.businessLargeLogo} value={businessLargeLogo}/>
+                        <UploadImageInput id='businessSmallLogo' title='UPLOAD LOGO' placeholder='Upload Image here' warning='Logo should be smaller size not more then 40kb*' width='w-1/2'  onChange={e=>onChange(e)} imgSize={40960} sizeRule='lt' error={formTwoErrors.businessSmallLogo} value={businessSmallLogo} readOnly={businessDetailsRO}/>
+                        <UploadImageInput id='businessLargeLogo' title='UPLOAD LOGO FOR MERCHANT LANDING PAGE' placeholder='Upload Image here' warning='Logo should be bigger size more then 250kb*' width='w-1/2'  onChange={e=>onChange(e)} imgSize={256000} sizeRule='gt' error={formTwoErrors.businessLargeLogo} value={businessLargeLogo} readOnly={businessDetailsRO}/>
                     </div>
 
                     <div className='mt-7 flex w-full gap-x-4 items-start'>
@@ -672,9 +675,7 @@ const StepTwo = () => {
                         <TextareaInput id='businessDescription' error={formTwoErrors.businessDescription} onChange={onChange} placeholder='Describe About Yourself' required={true} title='Description' value={businessDescription} width='w-full' height='h-36' wordLimit={500} readOnly={businessDetailsRO}/>
                     </div>
 
-                    <div className='mt-6 flex justify-end gap-x-4'>
-                        <div className='py-3 px-5 w-fit bg-blue-500 text-white rounded-sm cursor-pointer' onClick={handleBusinessDetailstEdit}>{businessDetailsRO ? 'Edit' : 'Save'}</div>
-                    </div>
+                    
                 
                 </div>
 
@@ -686,49 +687,52 @@ const StepTwo = () => {
                 <div>
                     <h1 className=' absolute px-2 bg-white -top-4 left-7 font-semibold text-xl text-blue-500'>Certificates and Accrediations</h1>
                 </div>
+                <div className='absolute -top-6 right-7 mb-6 bg-white px-2  flex justify-end gap-x-4'>
+                    <div className='py-3 px-5 w-fit bg-blue-500 text-white rounded-sm cursor-pointer' onClick={handleCertyEdit}>{certiRO ? 'Edit' : 'Save'}</div>
+                </div>
                 <div className='py-7 px-7' >
 
                     {
                         certifications.map((cert,index)=>{
-                            return (
-                                <>
-                                    <div key={index} className='mt-7 flex w-full gap-x-4 items-start'>
-                                        <TextInput id={`certificateTitle${cert}`} width='w-1/3' title={`${parseInt(cert)+1} certificate title`} placeholder='Enter title' value={formTwoCertificates[ `cert${cert}`]?.certTitle} onChange={(e)=>onChangeCerti(e,cert)} error={formTwoCertificatesError[ `cert${cert}`]?.certTitle} readOnly={certiRO}/>
-                                        
-                                        <TextInput id={`certificateURL${cert}`} width='w-1/3' title='certificate url link' placeholder='Enter Website Address' value={formTwoCertificates[ `cert${cert}`]?.certUrl} onChange={(e)=>onChangeCerti(e,cert)} error={formTwoCertificatesError[ `cert${cert}`]?.certUrl} readOnly={certiRO}/>
-                                        
-                                        <UploadImageInput id={`certificateImage${cert}`}  title='Upload Image' placeholder='Upload Image here' width='w-1/3' onChange={(e)=>onChangeCerti(e,cert)} error={formTwoCertificatesError[ `cert${cert}`]?.certFile} /> 
+                            if(index === 0){
+                                return (
+                                    <>
+                                        <div key={index} className='mt-7 flex w-full gap-x-4 items-start'>
+                                            <TextInput id={`certificateTitle${cert}`} width='w-1/3' title={`${parseInt(cert)+1} certificate title`} placeholder='Enter title' value={formTwoCertificates[ `cert${cert}`]?.certTitle} onChange={(e)=>onChangeCerti(e,cert)} error={formTwoCertificatesError[ `cert${cert}`]?.certTitle} readOnly={certiRO}/>
+                                            
+                                            <TextInput id={`certificateURL${cert}`} width='w-1/3' title='certificate url link' placeholder='Enter Website Address' value={formTwoCertificates[ `cert${cert}`]?.certUrl} onChange={(e)=>onChangeCerti(e,cert)} error={formTwoCertificatesError[ `cert${cert}`]?.certUrl} readOnly={certiRO}/>
+                                            
+                                            <UploadImageInput id={`certificateImage${cert}`}  title='Upload Image' placeholder='Upload Image here' width='w-1/3' onChange={(e)=>onChangeCerti(e,cert)} error={formTwoCertificatesError[ `cert${cert}`]?.certFile} readOnly={certiRO}/> 
 
-                                        {!certiRO && <div className='mt-6 flex gap-x-4 items-center'>
-                                            <div className='py-3 mt-1 px-5 w-fit bg-blue-500 text-white rounded-sm cursor-pointer' onClick={()=>uploadCerty(cert)}>Upload</div>
-                                        </div>}
-                                    </div>
-                                    {!certiRO && <div className='w-full flex justify-center'>
-                                        <p className={`font-normal text-[10px] italic text-[#6A6A6A] mt-2`}>Please press Upload if you make any changes to this certificate</p>
-                                    </div> }
-                                </>
-                            )
+                                            {/* {!certiRO && <div className='mt-6 flex gap-x-4 items-center'>
+                                                <div className='py-3 mt-1 px-5 w-fit bg-blue-500 text-white rounded-sm cursor-pointer' onClick={()=>uploadCerty(cert)}>Upload</div>
+                                            </div>} */}
+                                        </div>
+                                        {!certiRO && <div className='w-full flex justify-center'>
+                                            <p className={`font-normal text-[10px] italic text-[#6A6A6A] mt-2`}>Please press Upload if you make any changes to this certificate</p>
+                                        </div> }
+                                    </>
+                                )
+                            }
                         })
                     }
                     
-                    {!certiRO && <div className='mt-6 flex gap-x-4'>
+                    {/* {!certiRO && <div className='mt-6 flex gap-x-4'>
                         <div className='py-3 px-5 w-fit bg-blue-500 text-white rounded-sm cursor-pointer' onClick={()=>addCertificate()}>Add New</div>
                         <div className='py-3 px-5 w-fit bg-red-500 text-white rounded-sm cursor-pointer' onClick={()=>removeCertificate()}>Remove</div>
-                    </div>}
+                    </div>} */}
                     
 
-                    <div className='mt-7 flex w-full gap-x-4 items-start flex-wrap'>
+                    {/* <div className='mt-7 flex w-full gap-x-4 items-start flex-wrap'>
                         <SelectInput id='listingCertificate' title='Choose Which Certificate Yiu wants to add in Listing Page' items={
                             certifications.map((cert)=>{
                                 return {name:  `certificate ${cert+1}`, value : `cert${cert}`}
                             })
                         }
                          placeholder='Select Certificate' width='w-1/2' onChange={onChange} value={listingCertificate} readOnly={certiRO}/>
-                    </div>
+                    </div> */}
 
-                    <div className='mt-6 flex justify-end gap-x-4'>
-                        <div className='py-3 px-5 w-fit bg-blue-500 text-white rounded-sm cursor-pointer' onClick={handleCertyEdit}>{certiRO ? 'Edit' : 'Save'}</div>
-                    </div>
+                   
                 </div>
             </div>
 
@@ -738,12 +742,17 @@ const StepTwo = () => {
                 <div>
                     <h1 className=' absolute px-2 bg-white -top-4 left-7 font-semibold text-xl text-blue-500'>Business Location</h1>
                 </div>
+                <div className='absolute -top-6 right-7 mb-6 bg-white px-2 flex justify-end gap-x-4'>
+                        <div className='py-3 px-5 w-fit bg-blue-500 text-white rounded-sm cursor-pointer' onClick={handleBusinessLocationEdit}>{businessLocationRO ? 'Edit' : 'Save'}</div>
+                    </div>
                 <div className='py-7 px-7'>
                     
                     <div className='mt-7 flex w-full gap-x-4 items-start'>
                         <RadioInput id='businessLocationAddressType' items={[{value:'businessAdd',name:'Business Address'},{value:'residentialAdd',name:'Residential Address'}]} required={true} title='What type of address you have ?' width='w-3/5' onChange={onChange} error={formTwoErrors.businessLocationAddressType} value={businessLocationAddressType} readOnly={businessLocationRO}/>
                     </div>
 
+                    <StepTwoMap latLng={latLng} address={fullAdd} readOnly={businessLocationRO}/>
+                    
                     <div className='mt-7 flex w-full gap-x-4 items-start'>
                         <TextInput id='businessLocationStreetName' placeholder='Enter Street Address' title='street' width='w-3/4' onChange={onChange} error={formTwoErrors.businessLocationStreetName} value={businessLocationStreetName} onBlur={handleAddress} readOnly={businessLocationRO}/>
                         <TextInput id='businessLocationCityName' placeholder='Enter City Name' title='City' width='w-1/4' onChange={onChange} error={formTwoErrors.businessLocationCityName} value={businessLocationCityName} onBlur={handleAddress} readOnly={businessLocationRO}/>
@@ -756,7 +765,6 @@ const StepTwo = () => {
                     </div>
                     
                     
-                    <StepTwoMap latLng={latLng} address={fullAdd} readOnly={businessLocationRO}/>
                     
                     {/* <div className='mt-7 flex w-full gap-x-4 items-start'>
                         <div className={`flex flex-wrap w-1/3 relative`}>
@@ -777,9 +785,7 @@ const StepTwo = () => {
 
                         <TextInput id='businessLocationZipCoverd' placeholder='Enter Covered Area' required={true} title='Zip Codes Covered' width='w-1/3' onChange={onChange} error={formTwoErrors.businessLocationZipCoverd} value={businessLocationZipCoverd} readOnly={businessLocationRO}/>
                     </div> */}
-                    <div className='mt-6 flex justify-end gap-x-4'>
-                        <div className='py-3 px-5 w-fit bg-blue-500 text-white rounded-sm cursor-pointer' onClick={handleBusinessLocationEdit}>{businessLocationRO ? 'Edit' : 'Save'}</div>
-                    </div>
+                    
                 </div>
 
             </div>
@@ -788,6 +794,9 @@ const StepTwo = () => {
             <div className='relative border border-[#D4D4D4] mt-12'>
                 <div>
                     <h1 className=' absolute px-2 bg-white -top-4 left-7 font-semibold text-xl text-blue-500'>Business Hours</h1>
+                </div>
+                <div className='absolute -top-6 right-7 mb-6 bg-white px-2 flex justify-end gap-x-4'>
+                    <div className='py-3 px-5 w-fit bg-blue-500 text-white rounded-sm cursor-pointer' onClick={handleBusinessHoursEdit}>{businessHoursRO ? 'Edit' : 'Save'}</div>
                 </div>
                 <div className='py-7 px-7'>
                     
@@ -829,9 +838,7 @@ const StepTwo = () => {
                         
                     </div> */}
 
-                    <div className='mt-6 flex justify-end gap-x-4'>
-                        <div className='py-3 px-5 w-fit bg-blue-500 text-white rounded-sm cursor-pointer' onClick={handleBusinessHoursEdit}>{businessHoursRO ? 'Edit' : 'Save'}</div>
-                    </div>
+                    
 
                 </div>
             </div>
@@ -842,7 +849,9 @@ const StepTwo = () => {
                 <div>
                     <h1 className=' absolute px-2 bg-white -top-4 left-7 font-semibold text-xl text-blue-500'>Other information</h1>
                 </div>
-
+                <div className='absolute -top-6 right-7 mb-6 bg-white px-2 flex justify-end gap-x-4'>
+                    <div className='py-3 px-5 w-fit bg-blue-500 text-white rounded-sm cursor-pointer' onClick={handleBusinessOtherEdit}>{businessOtherRO ? 'Edit' : 'Save'}</div>
+                </div>
                 <div className='py-7 px-7'>
                 
                     <div className='mt-7 flex w-full gap-x-10 items-start'>
@@ -874,9 +883,7 @@ const StepTwo = () => {
                         <RadioInput id='otherInfoMonthlyPlan' title='Monthly' items={[{value:'yes',name:'Yes'},{value:'no',name:'No'}]}  width='w-1/3' onChange={onChange} value={otherInfoMonthlyPlan} required={true} error={formTwoErrors.otherInfoMonthlyPlan} readOnly={businessOtherRO}/>
                         <RadioInput id='otherInfoYearlyPlan' title='Yearly' items={[{value:'yes',name:'Yes'},{value:'no',name:'No'}]}  width='w-1/3' onChange={onChange} value={otherInfoYearlyPlan} required={true} error={formTwoErrors.otherInfoYearlyPlan} readOnly={businessOtherRO}/>
                     </div>
-                    <div className='mt-6 flex justify-end gap-x-4'>
-                        <div className='py-3 px-5 w-fit bg-blue-500 text-white rounded-sm cursor-pointer' onClick={handleBusinessOtherEdit}>{businessOtherRO ? 'Edit' : 'Save'}</div>
-                    </div>
+                    
                 </div>
             </div>
 

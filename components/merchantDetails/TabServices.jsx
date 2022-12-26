@@ -62,9 +62,9 @@ const TabServices = ({merchServices}) => {
       <div className='w-3/4'>
           <div>
             {
-              selectedServices?.map((item)=>{
+              selectedServices?.map((item, index)=>{
                 return (
-                  <div className='flex gap-x-4 p-3 mb-5 bg-[#F6F6F6]'>
+                  <div key={index} className='flex gap-x-4 p-3 mb-5 bg-[#F6F6F6]'>
                     <div className='p-[14px] bg-[#0079E9] rounded-sm'>
                       <CheckCircle/>
                     </div>
